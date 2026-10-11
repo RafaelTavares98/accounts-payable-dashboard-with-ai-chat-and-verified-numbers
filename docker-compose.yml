@@ -1,0 +1,9 @@
+services:
+  dashboard:
+    build: .
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      PAYABLES_DATA: /app/data
+      PAYABLES_TODAY: "2026-06-01"

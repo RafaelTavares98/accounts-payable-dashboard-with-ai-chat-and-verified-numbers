@@ -1,0 +1,10 @@
+Há alguns dias, vi aqui na rede um dashboard integrado com IA voltado para RH e achei a ideia muito interessante. Na hora pensei: “Isso seria sensacional aplicado à minha rotina de Contas a Pagar.”
+Foi daí que surgiu a ideia de desenvolver minha própria versão, focada em análise financeira e gestão de contas a pagar.
+
+O principal diferencial é o botão “Perguntar aos dados", posso perguntar sobre saldo em aberto, contas vencidas, encargos, fornecedores ou qualquer outro indicador, e a IA local identifica o que precisa ser mostrado: troca de guia, gera graficos e apresenta apenas as análises relacionadas à pergunta, em segundos e sem nenhuma chamada externa.
+
+O projeto trabalha com uma base de 15.000 contas a pagar, de 2024 a 2027, com filtros por categoria, centro de custo, status, filial e período, distribuídos em 4 visões
+
+E o mais interessante está nos bastidores: todo o processamento acontece localmente no navegador. As respostas são construídas com base na interpletação dos dados sob o comando do Phi-3.5, um modelo de IA local executado diretamente no navegador por meio de WebGPU.
+
+Curtiu a ideia? Deixe seu like e compartilhe com sua rede. Qual ferramenta ou dashboard você gostaria de ver no próximo projeto?

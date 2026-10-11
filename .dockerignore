@@ -1,0 +1,7 @@
+reference/
+docs/
+tests/
+*.md
+.pytest_cache
+__pycache__
+log_deepseek.md

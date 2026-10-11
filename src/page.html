@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Accounts payable</title>
+<script src="/static/echarts.min.js"></script>
+<style>
+:root {
+  --bg:            #061C28;
+  --rail:          #021A26;
+  --topbar:        #091F2D;
+  --surface:       #0A2432;
+  --surface-2:     #0E2C3D;
+  --border:        #14384C;
+  --text:          #E6F0F6;
+  /* The sampled #6B8296 sits at 3.0:1 on this surface. Legible in a
+     video at full size, too faint for a label somebody has to read. */
+  --muted:         #9FB7C9;
+  --dim:           #7892A6;
+  --accent:        #75D6FF;
+  --accent-strong: #007BBC;
+  --bar:           #225A7F;
+  --good:          #2E9E6B;
+  --warn:          #C9A227;
+  --bad:           #D1495B;
+  --glass:         rgba(0, 60, 91, 0.55);
+  --glass-edge:    rgba(79, 195, 247, 0.35);
+  --backdrop:      rgba(3, 16, 25, 0.72);
+  --line:          #4FC3F7;
+  --glow:          rgba(79, 195, 247, 0.22);
+  --minibar:       #1D99D5;
+  --bubble:        #23343E;
+  --mine:          #0481C3;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 13px;
+  overflow-x: hidden;
+}
+
+.rail {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 56px;
+  background: var(--rail);
+  border-right: 1px solid var(--border);
+  padding-top: 14px;
+  z-index: 3;
+}
+
+.rail-item {
+  width: 56px;
+  height: 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  color: var(--muted);
+  font-size: 8px;
+  letter-spacing: 0;
+  text-align: center;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  overflow: hidden;
+}
+
+.rail-item.on {
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+
+.rail-glyph { font-size: 15px; line-height: 1; }
+
+.main {
+  margin-left: 56px;
+  margin-right: 380px;
+  min-height: 100%;
+}
+
+body.no-chat .main { margin-right: 0; }
+body.no-chat .chat { display: none; }
+
+.topbar {
+  height: 76px;
+  background: var(--topbar);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 20px;
+}
+
+/* The biggest type on the page. It names what everything else is
+   about, so nothing else outgrows it. */
+.brand { min-width: 240px; }
+.brand .name { font-size: 26px; font-weight: 700; letter-spacing: -0.02em;
+               line-height: 1.1; }
+.brand .sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+.topbar select {
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 12px;
+  max-width: 190px;
+}
+
+.spacer { flex: 1; }
+
+/* A filter set by clicking a chart is invisible otherwise, and an
+   invisible filter is how a reader ends up trusting the wrong number. */
+.active { display: flex; gap: 6px; flex-wrap: wrap; max-width: 420px; }
+.crumb {
+  background: rgba(117, 214, 255, 0.14);
+  border: 1px solid var(--glass-edge);
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  white-space: nowrap;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.crumb:hover { background: rgba(117, 214, 255, 0.24); }
+
+.ask {
+  background: var(--accent);
+  color: var(--rail);
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.ask svg { width: 15px; height: 15px; display: block; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 180px;
+  gap: 16px;
+  padding: 24px;
+}
+
+.card {
+  background: linear-gradient(160deg, var(--surface-2), var(--surface));
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 var(--glow), 0 2px 14px rgba(0, 0, 0, 0.35);
+}
+
+.card h3 {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  flex: none;
+}
+
+.body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.scroll { height: 100%; overflow-y: auto; overflow-x: hidden; }
+
+.tiles { display: flex; gap: 10px; height: 100%; }
+.tiles.wrap { flex-wrap: wrap; }
+
+.tile {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.tile .value {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* A name is not a figure. Truncating "Hanil Cosmetic Vessels Co., Ltd."
+   to "Hanil Cosmetic Vess..." hides the one thing the tile is for, so
+   it wraps to two lines instead. */
+.tile .value.ref {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: normal;
+  line-height: 1.25;
+  max-height: 2.5em;
+  overflow: hidden;
+}
+
+.tile .label {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chart { width: 100%; height: 100%; }
+
+table { border-collapse: collapse; width: 100%; font-size: 12px; }
+th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--muted);
+  font-size: 10px;
+  text-transform: uppercase;
+  padding: 0 8px 6px 0;
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+}
+td { padding: 5px 8px 5px 0; border-bottom: 1px solid var(--border);
+     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+     max-width: 0; }
+td.right { text-align: right; font-variant-numeric: tabular-nums; }
+.meter { height: 6px; background: var(--bar); border-radius: 3px; }
+
+tr.clickable { cursor: pointer; }
+tr.clickable:hover td { background: var(--surface-2); }
+
+.badge {
+  display: inline-block;
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.badge.open { background: rgba(46, 158, 107, 0.18); color: var(--good); }
+.badge.overdue { background: rgba(209, 73, 91, 0.18); color: var(--bad); }
+.badge.credit { background: rgba(201, 162, 39, 0.18); color: var(--warn); }
+
+.reads { font-size: 12px; line-height: 1.6; }
+.reads li { margin-bottom: 7px; color: var(--muted); }
+.reads b { color: var(--text); font-weight: 600; }
+.reads ul { margin: 0; padding-left: 16px; }
+
+.chat {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 380px;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  z-index: 3;
+}
+
+/* The same 76px as the top bar, so the two headings sit on one line
+   across the whole window instead of one floating above the other. */
+.chat-head {
+  height: 76px;
+  background: var(--topbar);
+  border-bottom: 1px solid var(--border);
+  padding: 0 16px;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.chat-head .title { font-size: 16px; font-weight: 700; }
+.chat-head .sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.chat-head .state { font-size: 11px; color: var(--warn); margin-top: 3px; }
+
+.chips { padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 6px;
+         flex: none; }
+
+.chip {
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 11px;
+  font-size: 11px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.thread { flex: 1 1 auto; min-height: 0; overflow-y: auto;
+          padding: 4px 16px 16px 16px; }
+
+.bubble {
+  background: var(--bubble);
+  border: 1px solid var(--border);
+  border-radius: 12px 12px 12px 4px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  line-height: 1.45;
+  max-width: 86%;
+  width: fit-content;
+}
+.bubble.mine {
+  background: var(--mine);
+  border-color: var(--mine);
+  border-radius: 12px 12px 4px 12px;
+  margin-left: auto;
+}
+.bubble.no { color: var(--warn); }
+.bubble.waiting { color: var(--muted); }
+.bubble.waiting span {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 3px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: blink 1.2s infinite;
+}
+.bubble.waiting span:nth-child(2) { animation-delay: 0.2s; }
+.bubble.waiting span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink {
+  0%, 80%, 100% { opacity: 0.2; }
+  40% { opacity: 1; }
+}
+.compose button:disabled { opacity: 0.45; cursor: default; }
+.bubble .slice { color: var(--muted); font-size: 10px; margin-top: 6px; }
+.bubble b { color: var(--accent); font-weight: 600; }
+
+/* A figure in the answer is the handle on a panel. Clicking it opens
+   the panel that figure came out of, and the line is drawn from the
+   word itself rather than from the corner of the chat. */
+.bubble .key {
+  color: var(--accent);
+  font-weight: 700;
+  cursor: pointer;
+  border-bottom: 1px dashed var(--glass-edge);
+}
+.bubble .key:hover { background: rgba(117, 214, 255, 0.16); }
+.bubble .key.lit { background: rgba(117, 214, 255, 0.24); }
+.bubble .also { margin-top: 7px; font-size: 11px; color: var(--muted); }
+
+.compose { flex: none; padding: 12px 16px; border-top: 1px solid var(--border);
+           display: flex; gap: 8px; }
+.compose input {
+  flex: 1;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  padding: 8px 10px;
+  font-size: 12px;
+}
+.compose button {
+  background: var(--accent-strong);
+  color: var(--text);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.overlay {
+  position: fixed;
+  left: 56px;
+  right: 380px;
+  top: 0;
+  bottom: 0;
+  background: var(--backdrop);
+  backdrop-filter: blur(3px);
+  z-index: 10;
+}
+
+.overlay svg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.glass {
+  position: absolute;
+  width: 340px;
+  height: 280px;
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-edge);
+  border-radius: 12px;
+  padding: 10px 12px 12px 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 0 1px rgba(79, 195, 247, 0.12),
+              0 0 24px var(--glow),
+              0 8px 26px rgba(0, 0, 0, 0.45);
+}
+
+.glass.hot { box-shadow: 0 0 0 2px var(--accent), 0 0 30px var(--glow); }
+
+/* The header is the drag handle. Grabbing the body would fight the
+   chart underneath it. */
+.glass .tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  flex: none;
+  cursor: move;
+  user-select: none;
+}
+.glass .pill {
+  background: var(--accent-strong);
+  color: var(--text);
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 2px 6px;
+}
+.glass .where { font-size: 10px; color: var(--muted);
+                text-transform: uppercase; letter-spacing: 0.06em; }
+
+.glass h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  flex: none;
+  cursor: move;
+  user-select: none;
+}
+
+.glass .inner { flex: 1 1 auto; min-height: 0; overflow: hidden; }
+.glass .plot { width: 100%; height: 100%; }
+
+.glass .rows { height: 100%; overflow-y: auto; font-size: 13px; }
+.glass .line { display: grid; grid-template-columns: 1fr auto;
+               align-items: center; gap: 10px; padding: 5px 0;
+               border-bottom: 1px solid rgba(79, 195, 247, 0.12); }
+.glass .line span.k { color: var(--muted); overflow: hidden;
+                      text-overflow: ellipsis; white-space: nowrap; }
+.glass .line span.v { color: var(--text); font-weight: 700;
+                      font-size: 15px;
+                      white-space: nowrap; text-align: right; }
+
+/* The corner you pull to make it bigger. */
+.glass .grip {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+  border-right: 2px solid var(--glass-edge);
+  border-bottom: 2px solid var(--glass-edge);
+  border-bottom-right-radius: 10px;
+}
+
+.headline {
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  right: 190px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.close-panels {
+  position: absolute;
+  right: 24px;
+  top: 24px;
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 12px;
+}
+</style>
+</head>
+<body>
+
+<!-- The rail is empty on purpose. Five buttons that went nowhere said
+     less than no buttons at all. -->
+<nav class="rail"></nav>
+
+<div class="main">
+  <div class="topbar">
+    <div class="brand">
+      <div class="name">Accounts payable</div>
+      <div class="sub" id="brandsub">&nbsp;</div>
+    </div>
+    <select id="supplier"></select>
+    <select id="state"></select>
+    <div class="active" id="active"></div>
+    <div class="spacer"></div>
+    <!-- A speech bubble with a rising line inside it: a conversation
+         about the numbers, which is what the button opens. -->
+    <button class="ask" onclick="toggleChat()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round"
+           stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12a8 8 0 0 1-8 8H8l-5 3 1.4-4.2A8 8 0 1 1 21 12z"/>
+        <path d="M7.5 14.2l3-3.4 2.2 2 3.8-4.6"/>
+      </svg>
+      <span class="ask-label">Hide</span>
+    </button>
+  </div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<aside class="chat">
+  <div class="chat-head">
+    <div class="title">Data assistant</div>
+    <div class="sub">Every figure computed over the filtered rows</div>
+    <div class="state" id="modelstate">&nbsp;</div>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="thread" id="thread"></div>
+  <div class="compose">
+    <input id="question" placeholder="Ask about the payables">
+    <button onclick="ask()">Send</button>
+  </div>
+</aside>
+
+<script>
+const AXIS = '#9FB7C9';
+const SPLIT = '#14384C';
+const BAR = '#225A7F';
+const HOT = '#75D6FF';
+
+/* The four ageing bands, newest to oldest. They are ordered categories,
+   so they take an ordinal ramp: one hue, light to dark. The four hues
+   sampled off the video failed the colour-blindness check outright: its
+   sand and its green are 2.4 apart under protanopia, which is no gap at
+   all. These four pass every check. */
+const AGEING = ['#A9E6FF', '#5FC4EE', '#2E8FC4', '#15567F'];
+
+/* The second line on the weekly chart. Warm against the cool primary,
+   so the two read as different things rather than two shades of one. */
+const WARM = '#C9A227';
+
+let filters = {};
+let overview = null;
+let papers = [];
+const charts = [];
+
+function num(text) {
+  return parseFloat(String(text).replace(/,/g, '')) || 0;
+}
+
+function money(value) {
+  return value.toLocaleString('en-US',
+    {minimumFractionDigits: 2, maximumFractionDigits: 2});
+}
+
+/* Hover is not decoration. Without it the only way to read a value is
+   whatever happens to be printed, and an axis tick is not a value. */
+const TOOLTIP = {
+  trigger: 'item',
+  backgroundColor: '#0E2C3D',
+  borderColor: '#14384C',
+  borderWidth: 1,
+  textStyle: {color: '#E6F0F6', fontSize: 11},
+  extraCssText: 'box-shadow: 0 6px 18px rgba(0,0,0,0.45);'
+};
+
+async function get(path, params) {
+  const url = new URL(path, location.href);
+  for (const key in params) {
+    if (params[key]) url.searchParams.set(key, params[key]);
+  }
+  const reply = await fetch(url);
+  if (!reply.ok) throw new Error(await reply.text());
+  return reply.json();
+}
+
+async function post(path, body) {
+  const reply = await fetch(path, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(body)
+  });
+  if (!reply.ok) throw new Error(await reply.text());
+  return reply.json();
+}
+
+function el(tag, cls, text) {
+  const node = document.createElement(tag);
+  if (cls) node.className = cls;
+  if (text !== undefined) node.textContent = text;
+  return node;
+}
+
+function card(panel, cols, rows, title) {
+  const box = el('div', 'card');
+  box.style.gridColumn = 'span ' + cols;
+  box.style.gridRow = 'span ' + rows;
+  box.dataset.panel = panel;
+  box.appendChild(el('h3', null, title));
+  const body = el('div', 'body');
+  box.appendChild(body);
+  return {box: box, body: body};
+}
+
+function tile(value, label, cls) {
+  const box = el('div', 'tile');
+  const top = el('div', 'value ' + (cls || ''), value === null ? '-' : value);
+  if (cls === 'ref') {
+    box.style.flex = '1.2 1 0';
+    top.title = String(value === null ? '' : value);
+  }
+  box.appendChild(top);
+  box.appendChild(el('div', 'label', label));
+  return box;
+}
+
+/* Every mark on the page is a filter nobody has pressed yet. Clicking
+   a supplier, an item or a category narrows the whole dashboard to it,
+   the way a reader expects after using any other panel. */
+function crossFilter(chart, pairs, key) {
+  if (!key) return;
+  chart.getZr().on('click', () => {});
+  chart.on('click', event => {
+    const label = event.name || (pairs[event.dataIndex] || [])[0];
+    if (!label) return;
+    filters[key] = filters[key] === label ? '' : label;
+    refresh();
+  });
+}
+
+function barChart(node, pairs, horizontal, key) {
+  const chart = echarts.init(node, null, {renderer: 'canvas'});
+  const labels = pairs.map(p => p[0]);
+  const values = pairs.map(p => num(p[p.length - 1]));
+  const top = Math.max.apply(null, values.concat([0]));
+  /* One series, one colour. Painting the tallest bar a different hue
+     encodes the length twice and, worse, moves the highlight to a
+     different supplier the moment somebody changes a filter. */
+  const series = {
+    type: 'bar',
+    data: values,
+    itemStyle: {
+      color: BAR,
+      borderRadius: horizontal ? [0, 4, 4, 0] : [4, 4, 0, 0]
+    },
+    barMaxWidth: 14,
+    label: {
+      show: horizontal,
+      position: 'right',
+      color: AXIS,
+      fontSize: 12,
+      formatter: p => money(p.value)
+    }
+  };
+  const category = {
+    type: 'category',
+    data: labels,
+    axisLabel: {color: AXIS, fontSize: 12, width: 150, overflow: 'truncate'},
+    axisLine: {lineStyle: {color: SPLIT}},
+    axisTick: {show: false}
+  };
+  /* A labelled bar carries its own value, so the axis under it would
+     say the same thing twice. */
+  const value = horizontal ? {type: 'value', show: false,
+                              axisLabel: {show: false},
+                              axisLine: {show: false},
+                              splitLine: {show: false}}
+                           : {type: 'value',
+                              axisLabel: {color: AXIS, fontSize: 12},
+                              splitLine: {lineStyle: {color: SPLIT}}};
+  chart.setOption({
+    backgroundColor: 'transparent',
+    animationDuration: 500,
+    tooltip: Object.assign({}, TOOLTIP, {
+      formatter: p => p.name + '<br/><b>' + money(p.value) + '</b>'
+    }),
+    grid: {left: 8, right: horizontal ? 84 : 16, top: 12, bottom: 8,
+           containLabel: true},
+    xAxis: horizontal ? value : category,
+    yAxis: horizontal ? Object.assign({inverse: true}, category) : value,
+    series: [series]
+  });
+  node.style.cursor = key ? 'pointer' : 'default';
+  crossFilter(chart, pairs, key);
+  node._chart = chart;
+  charts.push(chart);
+}
+
+function donutChart(node, pairs, colours, key) {
+  /* A thin ring with the legend beside it, as the reference draws the
+     status of the accounts. The slices carry no labels: the legend
+     names them and the panel is too small for both. */
+  const chart = echarts.init(node, null, {renderer: 'canvas'});
+  const data = pairs.map((pair, index) => ({
+    name: pair[0],
+    value: num(pair[pair.length - 1]),
+    itemStyle: {color: colours[index % colours.length]}
+  }));
+  chart.setOption({
+    backgroundColor: 'transparent',
+    animationDuration: 500,
+    legend: {
+      orient: 'vertical',
+      right: 6,
+      top: 'middle',
+      icon: 'rect',
+      itemWidth: 10,
+      itemHeight: 10,
+      itemGap: 10,
+      textStyle: {color: AXIS, fontSize: 12}
+    },
+    series: [{
+      type: 'pie',
+      radius: ['62%', '78%'],
+      center: ['34%', '50%'],
+      avoidLabelOverlap: false,
+      label: {show: false},
+      labelLine: {show: false},
+      emphasis: {scale: false},
+      data: data
+    }]
+  });
+  node.style.cursor = key ? 'pointer' : 'default';
+  crossFilter(chart, pairs, key);
+  node._chart = chart;
+  charts.push(chart);
+}
+
+function short(value) {
+  /* A label on every point only works if the label is small. */
+  const size = Math.abs(value);
+  if (size >= 1000000) return (value / 1000000).toFixed(2) + 'M';
+  if (size >= 1000) return Math.round(value / 1000) + 'k';
+  return Math.round(value);
+}
+
+function lineChart(node, pairs, second) {
+  const chart = echarts.init(node, null, {renderer: 'canvas'});
+  chart.setOption({
+    backgroundColor: 'transparent',
+    animationDuration: 500,
+    tooltip: Object.assign({}, TOOLTIP, {
+      trigger: 'axis',
+      axisPointer: {type: 'line', lineStyle: {color: SPLIT}},
+      formatter: rows => rows[0].axisValue + '<br/>' + rows.map(
+        r => r.marker + r.seriesName + ' <b>' + money(r.value) + '</b>'
+      ).join('<br/>')
+    }),
+    legend: {
+      top: 0,
+      right: 4,
+      icon: 'rect',
+      itemWidth: 10,
+      itemHeight: 10,
+      textStyle: {color: AXIS, fontSize: 12}
+    },
+    grid: {left: 8, right: 16, top: 26, bottom: 8, containLabel: true},
+    xAxis: {
+      type: 'category',
+      data: pairs.map(p => p[0]),
+      boundaryGap: false,
+      axisLabel: {color: AXIS, fontSize: 12},
+      axisLine: {lineStyle: {color: SPLIT}},
+      axisTick: {show: false}
+    },
+    yAxis: {
+      type: 'value',
+      axisLabel: {color: AXIS, fontSize: 12},
+      splitLine: {lineStyle: {color: SPLIT, type: 'dashed'}}
+    },
+    series: [
+      {
+        name: 'Falling due',
+        type: 'line',
+        smooth: true,
+        symbolSize: 6,
+        z: 3,
+        data: pairs.map(p => num(p[1])),
+        label: {show: true, position: 'top', color: AXIS, fontSize: 11,
+                formatter: p => short(p.value)},
+        lineStyle: {color: HOT, width: 2,
+                    shadowColor: 'rgba(79, 195, 247, 0.6)', shadowBlur: 10},
+        itemStyle: {color: HOT},
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {offset: 0, color: 'rgba(79, 195, 247, 0.45)'},
+            {offset: 1, color: 'rgba(79, 195, 247, 0.02)'}
+          ])
+        }
+      },
+      /* What arrived that week, behind and quieter. A week that bills
+         heavily is the week that falls due later, so the two lines
+         belong on one axis: both are money, both are weekly. */
+      {
+        name: 'Arrived',
+        type: 'line',
+        smooth: true,
+        symbolSize: 0,
+        z: 1,
+        data: (second || []).map(p => num(p[1])),
+        lineStyle: {color: WARM, width: 2, type: 'dotted', opacity: 0.75},
+        itemStyle: {color: WARM},
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {offset: 0, color: 'rgba(201, 162, 39, 0.22)'},
+            {offset: 1, color: 'rgba(201, 162, 39, 0.01)'}
+          ])
+        }
+      }
+    ]
+  });
+  node._chart = chart;
+  charts.push(chart);
+}
+
+function documentTable(body, rows) {
+  /* The bills themselves. Every figure above is a sum over this. */
+  const scroll = el('div', 'scroll');
+  const table = document.createElement('table');
+  const head = document.createElement('tr');
+  for (const label of ['Document', 'Supplier', 'Issued', 'Due',
+                       'Amount', 'State']) {
+    const cell = el('th', null, label);
+    if (label === 'Amount') cell.className = 'right';
+    head.appendChild(cell);
+  }
+  table.appendChild(head);
+  for (const row of rows) {
+    const line = document.createElement('tr');
+    if (row.paper) {
+      line.className = 'clickable';
+      line.title = 'Open ' + row.paper;
+      line.onclick = () => window.open('/paper/' + row.paper, '_blank');
+    }
+    line.appendChild(el('td', null, row.number));
+    line.appendChild(el('td', null, row.supplier));
+    line.appendChild(el('td', null, row.issued));
+    line.appendChild(el('td', null, row.due));
+    line.appendChild(el('td', 'right money', row.total));
+    const state = el('td');
+    const badge = el('span', 'badge ' + row.state,
+                     row.state === 'overdue' && row.days
+                       ? row.days + ' days late' : row.state);
+    state.appendChild(badge);
+    line.appendChild(state);
+    table.appendChild(line);
+  }
+  scroll.appendChild(table);
+  body.appendChild(scroll);
+}
+
+function readings(body, data, rows) {
+  /* What a person would say after looking at the panel. Written by
+     code over the same figures, so it cannot drift from the charts. */
+  const list = document.createElement('ul');
+  const says = [];
+  const supplier = (data.by_supplier || [])[0];
+  if (supplier) {
+    says.push(['The largest balance is ', supplier[0], ', at ',
+               supplier[1], '.']);
+  }
+  if (data.overdue_count) {
+    says.push([data.overdue_count + ' of ' + data.count +
+               ' documents are overdue, ', data.overdue_total,
+               ' in all, ', data.average_days_overdue, ' late on average.']);
+  }
+  const worst = (data.overdue_buckets || [])
+    .filter(b => num(b[2]) > 0).pop();
+  if (worst) {
+    says.push(['The oldest money sits in the ', worst[0],
+               ' band, ', worst[2], '.']);
+  }
+  const week = (data.by_due_week || [])
+    .reduce((top, w) => num(w[1]) > num(top[1]) ? w : top,
+            ['', '0']);
+  if (week[0]) {
+    says.push(['The heaviest week starts ', week[0], ', with ',
+               week[1], ' falling due.']);
+  }
+  const credits = rows.filter(r => r.state === 'credit').length;
+  if (credits) {
+    says.push([credits + ' credit note' + (credits > 1 ? 's' : '') +
+               ' lower the balance.']);
+  }
+  for (const parts of says) {
+    const item = document.createElement('li');
+    parts.forEach((part, index) => {
+      if (index % 2 === 1) item.appendChild(el('b', null, part));
+      else item.appendChild(document.createTextNode(part));
+    });
+    list.appendChild(item);
+  }
+  const box = el('div', 'reads');
+  box.appendChild(list);
+  body.appendChild(box);
+}
+
+function orderTable(body, pairs) {
+  const scroll = el('div', 'scroll');
+  const table = document.createElement('table');
+  const head = document.createElement('tr');
+  head.innerHTML = '<th>Order</th><th>Share</th>';
+  const amount = document.createElement('th');
+  amount.textContent = 'Amount';
+  head.appendChild(amount);
+  table.appendChild(head);
+  const top = Math.max.apply(null, pairs.map(p => num(p[1])).concat([1]));
+  for (const pair of pairs) {
+    const row = document.createElement('tr');
+    row.appendChild(el('td', null, pair[0]));
+    const meterCell = el('td');
+    const meter = el('div', 'meter');
+    meter.style.width = Math.round(num(pair[1]) / top * 100) + '%';
+    meterCell.appendChild(meter);
+    row.appendChild(meterCell);
+    const value = el('td', 'right money', pair[1]);
+    row.appendChild(value);
+    table.appendChild(row);
+  }
+  scroll.appendChild(table);
+  body.appendChild(scroll);
+}
+
+function drawGrid() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  while (charts.length) charts.pop().dispose();
+
+  const balance = card('balance', 6, 1, 'The period');
+  const tilesA = el('div', 'tiles');
+  tilesA.appendChild(tile(overview.total_owed, 'Total owed', 'money'));
+  tilesA.appendChild(tile(String(overview.count), 'Documents'));
+  tilesA.appendChild(tile(overview.ticket_average, 'Average document',
+                          'money'));
+  balance.body.appendChild(tilesA);
+  grid.appendChild(balance.box);
+
+  /* The oldest overdue document belongs here, beside the rest of what
+     is late, not in the period card. */
+  const overdue = card('overdue', 6, 1, 'Overdue');
+  const tilesB = el('div', 'tiles');
+  tilesB.appendChild(tile(overview.overdue_total, 'Overdue', 'money'));
+  tilesB.appendChild(tile(overview.overdue_rate, 'Share', 'share'));
+  tilesB.appendChild(tile(overview.average_days_overdue, 'Average late'));
+  tilesB.appendChild(tile(overview.oldest_overdue, 'Oldest overdue',
+                          'ref'));
+  overdue.body.appendChild(tilesB);
+  grid.appendChild(overdue.box);
+
+  const week = card('by_month', 8, 2, 'Falling due by week');
+  const weekNode = el('div', 'chart');
+  week.body.appendChild(weekNode);
+  grid.appendChild(week.box);
+
+  const band = card('by_band', 4, 2, 'Overdue by band');
+  const bandNode = el('div', 'chart');
+  band.body.appendChild(bandNode);
+  grid.appendChild(band.box);
+
+  /* The same stat row as the top, one level down: who, and what. The
+     figures are read off the charts below them, so the two can never
+     disagree. */
+  const names = overview.by_supplier || [];
+  const things = overview.by_item || [];
+  const whole = num(overview.total_owed);
+
+  const whoCard = card('suppliers', 6, 1, 'Suppliers');
+  const whoTiles = el('div', 'tiles');
+  whoTiles.appendChild(tile(String(names.length), 'Suppliers billing'));
+  whoTiles.appendChild(tile(names.length ? names[0][0] : '-',
+                            'Largest balance', 'ref'));
+  whoTiles.appendChild(tile(
+    names.length ? names[0][1] : '-',
+    names.length && whole
+      ? 'Owed, ' + (num(names[0][1]) / whole * 100).toFixed(1) +
+        '% of the total'
+      : 'What they are owed',
+    'money'));
+  whoCard.body.appendChild(whoTiles);
+  grid.appendChild(whoCard.box);
+
+  const whatCard = card('items', 6, 1, 'Items');
+  const whatTiles = el('div', 'tiles');
+  whatTiles.appendChild(tile(String(things.length), 'Distinct items'));
+  whatTiles.appendChild(tile(things.length ? things[0][0] : '-',
+                             'Most bought', 'ref'));
+  whatTiles.appendChild(tile(
+    things.length ? things[0][1] : '-',
+    things.length && whole
+      ? 'Spent, ' + (num(things[0][1]) / whole * 100).toFixed(1) +
+        '% of the total'
+      : 'What it cost',
+    'money'));
+  whatCard.body.appendChild(whatTiles);
+  grid.appendChild(whatCard.box);
+
+  const supplier = card('by_supplier', 6, 2, 'Owed by supplier');
+  const supplierNode = el('div', 'chart');
+  supplier.body.appendChild(supplierNode);
+  grid.appendChild(supplier.box);
+
+  const item = card('by_item', 6, 2, 'Owed by item');
+  const itemNode = el('div', 'chart');
+  item.body.appendChild(itemNode);
+  grid.appendChild(item.box);
+
+  const docs = card('documents', 12, 3, 'Documents');
+  documentTable(docs.body, papers);
+  grid.appendChild(docs.box);
+
+  const order = card('by_order', 12, 2, 'Owed by order');
+  orderTable(order.body, overview.by_order || []);
+  grid.appendChild(order.box);
+
+  /* Both lines read off one x axis, so the second is mapped onto the
+     first one's weeks. Two series on two sets of labels is two charts
+     drawn on top of each other. */
+  const due = overview.by_due_week || [];
+  const arrived = new Map(overview.by_issue_week || []);
+  lineChart(weekNode, due,
+            due.map(w => [w[0], arrived.get(w[0]) || '0']));
+  donutChart(bandNode, (overview.overdue_buckets || [])
+             .map(b => [b[0], b[2]]), AGEING, 'band');
+  barChart(supplierNode, (overview.by_supplier || []).slice(0, 8), true,
+           'supplier');
+  barChart(itemNode, (overview.by_item || []).slice(0, 8), true, 'item');
+}
+
+const CRUMB_NAMES = {
+  supplier: 'Supplier', item: 'Item', band: 'Band', category: 'Category',
+  state: 'State', order: 'Order', shipment: 'Shipment'
+};
+
+function drawCrumbs() {
+  const box = document.getElementById('active');
+  box.innerHTML = '';
+  const live = Object.keys(filters).filter(key => filters[key]);
+  for (const key of live) {
+    const crumb = el('button', 'crumb',
+                     (CRUMB_NAMES[key] || key) + ': ' + filters[key] +
+                     '  ×');
+    crumb.title = 'Remove this filter';
+    crumb.onclick = () => { filters[key] = ''; refresh(); };
+    box.appendChild(crumb);
+  }
+  if (live.length > 1) {
+    const all = el('button', 'crumb', 'Clear all');
+    all.onclick = () => { filters = {}; refresh(); };
+    box.appendChild(all);
+  }
+}
+
+async function refresh() {
+  overview = await get('/api/overview', filters);
+  papers = (await get('/api/documents', filters)).documents;
+  document.getElementById('brandsub').textContent =
+    overview.count + ' documents in the current filter';
+  const supplier = document.getElementById('supplier');
+  if (supplier) supplier.value = filters.supplier || '';
+  drawCrumbs();
+  drawGrid();
+}
+
+async function buildFilters() {
+  const available = await get('/api/filters', {});
+  const supplier = document.getElementById('supplier');
+  supplier.innerHTML = '';
+  supplier.appendChild(new Option('all suppliers', ''));
+  for (const name of available.suppliers) {
+    supplier.appendChild(new Option(name, name));
+  }
+  supplier.onchange = () => {
+    filters.supplier = supplier.value;
+    refresh();
+  };
+
+  const state = document.getElementById('state');
+  state.innerHTML = '';
+  state.appendChild(new Option('any state', ''));
+  for (const name of available.states) {
+    state.appendChild(new Option(name, name));
+  }
+  state.onchange = () => {
+    filters.state = state.value;
+    refresh();
+  };
+
+  document.getElementById('modelstate').textContent =
+    available.model_connected
+      ? 'Model connected. Type a question.'
+      : 'No key configured. The ready questions work without one.';
+}
+
+async function buildChips() {
+  const found = await get('/api/suggestions', {});
+  const bar = document.getElementById('chips');
+  bar.innerHTML = '';
+  found.chips.forEach((chip, index) => {
+    const button = el('button', 'chip', chip.question);
+    button.onclick = () => clickChip(index, chip.question);
+    bar.appendChild(button);
+  });
+}
+
+function say(text, cls, names) {
+  const thread = document.getElementById('thread');
+  const bubble = el('div', 'bubble ' + (cls || ''));
+  if (cls === 'mine' || cls === 'no') {
+    bubble.textContent = text;
+  } else {
+    bubble._keys = highlight(bubble, text, names);
+  }
+  thread.appendChild(bubble);
+  thread.scrollTop = thread.scrollHeight;
+  return bubble;
+}
+
+function highlight(node, text, names) {
+  /* Every figure in the answer becomes a handle. Clicking one opens
+     the panel it came out of, and the connecting line is drawn from
+     the word itself. Returns the handles, in order. */
+  const figure =
+    /-?\d{1,3}(?:,\d{3})*\.\d{1,2}%?|\d+(?:\.\d)? days|\b\d{2,}\b/g;
+  const made = [];
+  let at = 0;
+  let found;
+  while ((found = figure.exec(text)) !== null) {
+    if (found.index > at) {
+      node.appendChild(document.createTextNode(
+        text.slice(at, found.index)));
+    }
+    const key = el('span', 'key', found[0]);
+    if (names && names[made.length]) {
+      key.dataset.panel = names[made.length];
+    }
+    node.appendChild(key);
+    made.push(key);
+    at = found.index + found[0].length;
+  }
+  if (at < text.length) {
+    node.appendChild(document.createTextNode(text.slice(at)));
+  }
+  return made;
+}
+
+function closePanels() {
+  const open = document.querySelector('.overlay');
+  if (open) open.remove();
+}
+
+/* One shape per panel. A ranking is bars, a series is a line, a
+   part-to-whole is a ring, a handful of figures is tiles. Drawing all
+   of them as the same list of rows is what made the panels say
+   nothing. */
+const PANEL_SHAPE = {
+  balance: 'tiles',
+  overdue: 'tiles',
+  by_band: 'pie',
+  by_month: 'line',
+  by_due_week: 'line',
+  by_issue_week: 'line',
+  by_category: 'pie',
+  by_supplier: 'bar',
+  by_item: 'bar',
+  by_order: 'column'
+};
+
+let lines = [];
+
+function fillPanel(box, panel) {
+  const inner = el('div', 'inner');
+  box.appendChild(inner);
+  const shape = PANEL_SHAPE[panel.name] || 'bar';
+  const pairs = panel.rows.map(r => [r[0], r[1]]);
+
+  if (shape === 'tiles') {
+    const rows = el('div', 'rows');
+    for (const row of pairs) {
+      const line = el('div', 'line');
+      line.appendChild(el('span', 'k', row[0]));
+      line.appendChild(el('span', 'v', String(row[1])));
+      rows.appendChild(line);
+    }
+    inner.appendChild(rows);
+    return;
+  }
+
+  const plot = el('div', 'plot');
+  inner.appendChild(plot);
+  box._plot = plot;
+  /* Two frames, not one: the first lets the panel take its size, the
+     second lets ECharts measure it. Drawing into a box of zero height
+     is why a panel came out as a bare list. */
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      if (!plot.clientHeight) return;
+      if (shape === 'pie') donutChart(plot, pairs, AGEING);
+      else if (shape === 'line') lineChart(plot, pairs);
+      else barChart(plot, pairs.slice(0, 8), shape !== 'column');
+    });
+  });
+}
+
+function dragAndResize(box, overlay) {
+  let from = null;
+  const start = (event, mode) => {
+    from = {
+      mode: mode,
+      x: event.clientX,
+      y: event.clientY,
+      left: box.offsetLeft,
+      top: box.offsetTop,
+      width: box.offsetWidth,
+      height: box.offsetHeight
+    };
+    event.preventDefault();
+  };
+  const move = event => {
+    if (!from) return;
+    const dx = event.clientX - from.x;
+    const dy = event.clientY - from.y;
+    if (from.mode === 'move') {
+      box.style.left = Math.max(8, from.left + dx) + 'px';
+      box.style.top = Math.max(8, from.top + dy) + 'px';
+    } else {
+      box.style.width = Math.max(220, from.width + dx) + 'px';
+      box.style.height = Math.max(160, from.height + dy) + 'px';
+      if (box._plot && box._plot._chart) box._plot._chart.resize();
+    }
+    redrawLines(overlay);
+  };
+  const stop = () => { from = null; };
+
+  box.querySelector('.tag').addEventListener('mousedown',
+    e => start(e, 'move'));
+  box.querySelector('h4').addEventListener('mousedown',
+    e => start(e, 'move'));
+  box.querySelector('.grip').addEventListener('mousedown',
+    e => start(e, 'size'));
+  window.addEventListener('mousemove', move);
+  window.addEventListener('mouseup', stop);
+}
+
+function openPanels(answer, anchors) {
+  closePanels();
+  if (!answer.panels || !answer.panels.length) return;
+
+  const overlay = el('div', 'overlay');
+  const close = el('button', 'close-panels', 'Close panels');
+  close.onclick = closePanels;
+  overlay.appendChild(close);
+
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  overlay.appendChild(svg);
+  overlay._svg = svg;
+
+  /* Spread across the width rather than huddled at one end, and
+     staggered down the page so no two sit on the same line. Still one
+     group: a reader should take them in together, not hunt for them. */
+  const wide = 340;
+  const tall = 280;
+  const edge = 28;
+  const room = overlay.clientWidth || (window.innerWidth - 436);
+  const perRow = Math.min(3, Math.max(1, answer.panels.length));
+  const span = Math.max(0, room - 2 * edge - wide);
+  const step = perRow > 1 ? span / (perRow - 1) : 0;
+  const dip = 130;
+  lines = [];
+
+  answer.panels.forEach((panel, index) => {
+    const box = el('div', 'glass');
+    box.dataset.panel = panel.name;
+    const tag = el('div', 'tag');
+    tag.appendChild(el('span', 'pill', 'AI'));
+    tag.appendChild(el('span', 'where', 'current filter'));
+    box.appendChild(tag);
+    box.appendChild(el('h4', null, panel.title));
+    fillPanel(box, panel);
+    box.appendChild(el('div', 'grip'));
+
+    const column = index % perRow;
+    const row = Math.floor(index / perRow);
+    box.style.left = Math.round(edge + column * step) + 'px';
+    /* A sawtooth down the page: no two side by side sit on the same
+       line, and the eye has somewhere to travel between them. */
+    box.style.top = Math.round(72 + row * (tall + 150)
+                               + (column % 2 ? dip : 0)) + 'px';
+    overlay.appendChild(box);
+    dragAndResize(box, overlay);
+
+    /* Each panel is tied to a word in the answer. The line starts at
+       that word, not at the corner of the chat. */
+    const word = (anchors || []).find(a => a.dataset.panel === panel.name)
+              || (anchors || [])[index]
+              || (anchors || [])[0];
+    lines.push({box: box, word: word});
+    if (word) {
+      word.onclick = () => {
+        box.classList.add('hot');
+        setTimeout(() => box.classList.remove('hot'), 900);
+      };
+    }
+  });
+
+  document.body.appendChild(overlay);
+  redrawLines(overlay);
+}
+
+function redrawLines(overlay) {
+  /* Each line runs from its own word in the answer to the nearest
+     edge of its own panel, and is redrawn whenever a panel moves or
+     grows, so the two never come apart. */
+  const svg = overlay._svg;
+  if (!svg) return;
+  svg.innerHTML = '';
+
+  lines.forEach(pair => {
+    const box = pair.box;
+    const word = pair.word;
+    if (!word) return;
+    const tip = word.getBoundingClientRect();
+    const rect = box.getBoundingClientRect();
+    const from = {x: tip.left, y: Math.round(tip.top + tip.height / 2)};
+    const to = {
+      x: rect.right <= from.x ? rect.right : rect.left,
+      y: Math.round(rect.top + 22)
+    };
+    const bend = (from.x + to.x) / 2;
+    const path = document.createElementNS(
+      'http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d',
+      'M ' + from.x + ' ' + from.y +
+      ' C ' + bend + ' ' + from.y + ', ' + bend + ' ' + to.y +
+      ', ' + to.x + ' ' + to.y);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', '#4FC3F7');
+    path.setAttribute('stroke-width', '2');
+    path.setAttribute('opacity', '0.85');
+    path.style.filter = 'drop-shadow(0 0 4px rgba(79, 195, 247, 0.9))';
+    svg.appendChild(path);
+    for (const end of [from, to]) {
+      const dot = document.createElementNS(
+        'http://www.w3.org/2000/svg', 'rect');
+      dot.setAttribute('x', end.x - 3);
+      dot.setAttribute('y', end.y - 3);
+      dot.setAttribute('width', '6');
+      dot.setAttribute('height', '6');
+      dot.setAttribute('fill', '#9CCCE0');
+      dot.style.filter = 'drop-shadow(0 0 4px rgba(79, 195, 247, 0.9))';
+      svg.appendChild(dot);
+    }
+    const length = path.getTotalLength();
+    path.style.strokeDasharray = length;
+    path.style.strokeDashoffset = length;
+    path.animate([{strokeDashoffset: length}, {strokeDashoffset: 0}],
+                 {duration: 600, easing: 'ease-out', fill: 'forwards'});
+  });
+}
+
+window.addEventListener('scroll', () => {
+  const open = document.querySelector('.overlay');
+  if (open) redrawLines(open);
+}, true);
+
+function showAnswer(answer) {
+  if (answer.refusal) {
+    say(answer.refusal, 'no');
+    closePanels();
+    return;
+  }
+  const names = (answer.panels || []).map(p => p.name);
+  const bubble = say(answer.sentence, '', names);
+
+  /* One handle per panel. When the sentence names fewer figures than
+     there are panels, the titles of the ones left over are added as
+     handles, so every line leaves its own word. */
+  const spare = (answer.panels || []).slice((bubble._keys || []).length);
+  if (spare.length) {
+    const tail = el('div', 'also');
+    tail.appendChild(document.createTextNode('Also showing '));
+    spare.forEach((panel, index) => {
+      if (index) tail.appendChild(document.createTextNode(', '));
+      const key = el('span', 'key', panel.title.toLowerCase());
+      key.dataset.panel = panel.name;
+      tail.appendChild(key);
+      bubble._keys.push(key);
+    });
+    tail.appendChild(document.createTextNode('.'));
+    bubble.appendChild(tail);
+  }
+
+  if (answer.rows_used) {
+    const slice = el('div', 'slice',
+                     answer.rows_used + ' documents, as of ' + answer.as_of);
+    bubble.appendChild(slice);
+  }
+  openPanels(answer, bubble._keys || []);
+}
+
+function waiting(text) {
+  /* Twenty seconds of a blank panel reads as a broken button. It is
+     the single thing that made the agent look like it never answered. */
+  const bubble = el('div', 'bubble waiting');
+  for (let dot = 0; dot < 3; dot += 1) bubble.appendChild(el('span'));
+  bubble.appendChild(document.createTextNode(' ' + text));
+  const thread = document.getElementById('thread');
+  thread.appendChild(bubble);
+  thread.scrollTop = thread.scrollHeight;
+  return bubble;
+}
+
+function busy(on) {
+  document.querySelector('.compose button').disabled = on;
+  document.getElementById('question').disabled = on;
+}
+
+async function clickChip(index, question) {
+  say(question, 'mine');
+  const pending = waiting('working it out');
+  busy(true);
+  try {
+    const answer = await post('/api/chip',
+                              {chip: index, filters: filters});
+    pending.remove();
+    showAnswer(answer);
+  } catch (error) {
+    pending.remove();
+    say(String(error), 'no');
+  } finally {
+    busy(false);
+  }
+}
+
+/* One button, two jobs: it opens the assistant and it puts it away.
+   Hiding it hands the whole window back to the charts. */
+function toggleChat() {
+  const shut = document.body.classList.toggle('no-chat');
+  document.querySelector('.ask-label').textContent = shut ? 'Ask the data'
+                                                          : 'Hide';
+  charts.forEach(chart => chart.resize());
+  if (!shut) document.getElementById('question').focus();
+}
+
+function focusAsk() {
+  if (document.body.classList.contains('no-chat')) {
+    toggleChat();
+    return;
+  }
+  document.getElementById('question').focus();
+}
+
+async function ask() {
+  const box = document.getElementById('question');
+  const question = box.value.trim();
+  if (!question) return;
+  say(question, 'mine');
+  box.value = '';
+  const pending = waiting('reading the question');
+  busy(true);
+  try {
+    const answer = await post('/api/ask',
+                              {question: question, filters: filters});
+    pending.remove();
+    showAnswer(answer);
+  } catch (error) {
+    pending.remove();
+    say(String(error), 'no');
+  } finally {
+    busy(false);
+    box.focus();
+  }
+}
+
+document.getElementById('question').addEventListener('keydown', event => {
+  if (event.key === 'Enter') ask();
+});
+
+/* Escape clears everything. A reader three clicks deep into a cross
+   filter needs one key to get back, not a hunt for the crumb they set
+   first. It closes the panels too, because they belong to a filter. */
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Escape') return;
+  const open = document.querySelector('.overlay');
+  if (open) {
+    open.remove();
+    return;
+  }
+  if (Object.keys(filters).some(key => filters[key])) {
+    filters = {};
+    refresh();
+  }
+});
+
+window.addEventListener('resize', () => {
+  charts.forEach(chart => chart.resize());
+  const overlay = document.querySelector('.overlay');
+  if (overlay) {
+    const svg = overlay.querySelector('svg');
+    svg.innerHTML = '';
+    drawLines(overlay, svg);
+  }
+});
+
+(async function start() {
+  await buildFilters();
+  await buildChips();
+  await refresh();
+})();
+</script>
+</body>
+</html>
