@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Accounts payable</title>
+<title>Cost Management - Invoice Processing</title>
 <script src="/static/echarts.min.js"></script>
+<!-- The 24 ready-made answer plots. The version keeps a browser from
+     serving yesterday's copy; bump it whenever the file changes. -->
+<script src="/static/plot-templates.js?v=4"></script>
 <style>
 :root {
   --bg:            #061C28;
@@ -20,9 +23,9 @@
   --accent:        #75D6FF;
   --accent-strong: #007BBC;
   --bar:           #225A7F;
-  --good:          #2E9E6B;
-  --warn:          #C9A227;
-  --bad:           #D1495B;
+  --good:          #2EF2B0;
+  --warn:          #FFC547;
+  --bad:           #FF4F7B;
   --glass:         rgba(0, 60, 91, 0.55);
   --glass-edge:    rgba(79, 195, 247, 0.35);
   --backdrop:      rgba(3, 16, 25, 0.72);
@@ -42,7 +45,7 @@ html, body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Segoe UI', Arial, sans-serif;
-  font-size: 13px;
+  font-size: 17px;
   overflow-x: hidden;
 }
 
@@ -51,23 +54,32 @@ html, body {
   left: 0;
   top: 0;
   bottom: 0;
-  width: 56px;
+  width: 55px;
   background: var(--rail);
   border-right: 1px solid var(--border);
-  padding-top: 14px;
+  padding-top: 0;
   z-index: 3;
 }
 
+/* Sandbox: the rail is 55px, 65% of 84px; the logo shrinks to fit it. */
+/* Sandbox: the top bar is as tall as the rail is wide, so the logo sits
+   in a 55px square where the two bars meet; the top bar's bottom line
+   runs on across the rail under it. */
+.rail .company-logo { margin: 5.5px auto 13.5px auto; width: 44px; height: 44px; }
+.rail::before { content: ''; position: absolute; left: 0; right: 0;
+                top: 54px; height: 1px; background: var(--border); }
+.rail .company-logo svg { width: 30.25px; transform: translate(1px, 0.6px); }
+
 .rail-item {
-  width: 56px;
-  height: 52px;
+  width: 55px;
+  height: 68px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 3px;
   color: var(--muted);
-  font-size: 8px;
+  font-size: 10.2px;
   letter-spacing: 0;
   text-align: center;
   cursor: pointer;
@@ -80,19 +92,103 @@ html, body {
   border-left-color: var(--accent);
 }
 
-.rail-glyph { font-size: 15px; line-height: 1; }
+.rail-glyph { font-size: 18.7px; line-height: 1; }
+.rail-item svg { width: 26px; height: 26px; display: block; }
+.rail-item:hover { color: var(--text); }
+
+/* A view that is not on screen keeps its own grid and its own thread,
+   so going back finds it as it was left. */
+.view-off { display: none !important; }
+
+/* The About view: one card about the person, three about the work. */
+/* Like every other view: one screen, no scrolling, the same 8px frame.
+   The person on top, the three projects side by side underneath. */
+.about { padding: 8px; display: flex; flex-direction: column; gap: 8px;
+         height: calc(100vh - 55px); box-sizing: border-box; }
+.about .card { padding: 18px 22px; }
+.about p { font-size: 15px; line-height: 1.5; color: var(--muted);
+           margin: 8px 0 0 0; max-width: 900px; }
+.about .about-me { flex-direction: row; gap: 28px; align-items: center; }
+.about-me .photo { width: 128px; height: 128px; border-radius: 50%;
+                   object-fit: cover; border: 3px solid var(--accent);
+                   flex: none; }
+.about-me .person { font-size: 28px; font-weight: 700;
+                    letter-spacing: -0.02em; }
+.about-me .role { font-size: 16.5px; color: var(--accent); margin-top: 4px; }
+.about .links { display: flex; gap: 10px; margin-top: 12px; }
+.about .link {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--rail);
+  border-radius: 999px;
+  padding: 9px 20px;
+  font-size: 15.3px;
+  font-weight: 600;
+  text-decoration: none;
+  align-self: flex-start;
+}
+.about .link:hover { background: var(--text); }
+.about .link.off { background: var(--surface-2); color: var(--muted);
+                   border: 1px solid var(--border); }
+.about .flow { font-size: 15px; color: var(--text); padding: 4px 4px;
+               text-align: center; }
+.about .projects { display: grid; grid-template-columns: repeat(3, 1fr);
+                   gap: 8px; flex: 1 1 auto; min-height: 0; }
+.about .project { min-height: 0; overflow-y: auto; }
+.about .project h3 { font-size: 19px; text-transform: none;
+                     letter-spacing: -0.01em; margin: 2px 0 0 0; }
+.about .project .number { font-size: 15.3px; color: var(--accent);
+                          font-weight: 700; letter-spacing: 0.08em; }
+.about .project ul { font-size: 14.5px; color: var(--muted);
+                     line-height: 1.55; margin: 12px 0; padding-left: 22px; }
+.about .project b { color: var(--text); }
+.about .project .stack { font-size: 15.3px; color: var(--dim);
+                         margin-bottom: 14px; }
+
+.badge.flag { background: rgba(209, 73, 91, 0.18); color: var(--bad); }
+.badge.calm { background: rgba(120, 146, 166, 0.16); color: var(--muted); }
+.score { display: flex; align-items: center; gap: 6px; }
+.score .meter { flex: 1; min-width: 30px; }
+.score .meter.hot { background: var(--bad); }
+
+/* Sandbox: the assistant's width lives in one variable, so the drag
+   handle on its left edge can change it. */
+/* Opens at 264px, 40% narrower than the first 440px. At that width the
+   question box must be allowed to shrink, or it pushes Send out. */
+:root { --chat-w: 264px; }
+.compose input { min-width: 0; }
+.compose button { flex: none; }
 
 .main {
-  margin-left: 56px;
-  margin-right: 380px;
+  margin-left: 55px;
+  margin-right: var(--chat-w);
   min-height: 100%;
 }
 
 body.no-chat .main { margin-right: 0; }
 body.no-chat .chat { display: none; }
+/* About holds no figures, so there is nothing to ask about and nothing
+   to filter. The assistant and the funnel go away, and the page takes
+   the whole window. This is apart from no-chat, which is the reader's
+   own choice and has to survive a trip through About. */
+body.about-view .chat { display: none; }
+body.about-view .filter-button, body.about-view .filter-panel {
+  display: none; }
+
+.chat-drag {
+  position: absolute;
+  left: -4px;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  cursor: col-resize;
+  z-index: 4;
+}
+.chat-drag:hover, body.dragging .chat-drag { background: var(--accent); opacity: 0.5; }
+body.dragging { cursor: col-resize; user-select: none; }
 
 .topbar {
-  height: 76px;
+  height: 55px;
   background: var(--topbar);
   border-bottom: 1px solid var(--border);
   display: flex;
@@ -103,10 +199,86 @@ body.no-chat .chat { display: none; }
 
 /* The biggest type on the page. It names what everything else is
    about, so nothing else outgrows it. */
-.brand { min-width: 240px; }
-.brand .name { font-size: 26px; font-weight: 700; letter-spacing: -0.02em;
+/* The company's logo, the wordmark "moty.", left of the title. */
+/* A white circle with the wordmark centred in it. The svg's viewBox is
+   cropped to the ink, so flex centring centres the letters themselves. */
+.company-logo { width: 57.6px; height: 57.6px; flex: none; box-sizing: border-box;
+                border: 1px solid var(--text); border-radius: 50%;
+                display: flex; align-items: center; justify-content: center; }
+/* Centred on the eye, not on the box: the middle of the lowercase
+   letters sits on the circle's middle, and the dot's weight on the
+   right is balanced by a small shift the other way. */
+.company-logo svg { width: 39.6px; height: auto; display: block;
+                    transform: translate(1.35px, 0.77px); }
+.company-logo text { fill: var(--text); }
+.company-logo circle { fill: var(--accent); }
+
+.brand { min-width: 300px; }
+
+/* Sandbox: the period filter. A funnel button in the top bar shows the
+   chosen period; the panel opens over the chart. */
+.filter-button { display: flex; align-items: center; gap: 6px; height: 24px;
+  padding: 0 10px; border-radius: 12px; border: 1px solid var(--border);
+  background: var(--surface-2); color: var(--text); font-size: 12px;
+  font-weight: 600; cursor: pointer; font-family: inherit; }
+.filter-button:hover { border-color: var(--accent); }
+/* Sandbox: the filter at the top bar's right end. */
+.topbar > .filter-button { order: 10; margin-left: auto; }
+.filter-button svg { width: 14px; height: 14px; color: var(--accent); }
+.filter-panel { display: none; position: fixed; z-index: 20; width: 640px;
+  padding: 14px 16px 12px; border-radius: 10px;
+  background: var(--surface-2); border: 1px solid var(--glass-edge);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45); }
+.filter-panel.open { display: block; }
+.fp-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.fp-name { width: 44px; font-size: 12px; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.04em; }
+.fp-dim { font-size: 12px; color: var(--dim); }
+.topbar .filter-panel select { height: 26px; padding: 0 8px; font-size: 13px;
+  line-height: 24px;
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--border); border-radius: 6px; font-family: inherit; }
+.steps { display: flex; border: 1px solid var(--border); border-radius: 6px;
+  overflow: hidden; }
+.step { height: 26px; padding: 0 12px; font-size: 12px; font-family: inherit;
+  background: var(--surface); color: var(--muted); border: 0;
+  border-right: 1px solid var(--border); cursor: pointer; }
+.step:last-child { border-right: 0; }
+.step.on { background: var(--accent-strong); color: var(--text);
+  font-weight: 700; }
+.ruler { position: relative; height: 54px; margin: 4px 7px 6px; }
+.ruler-track { position: absolute; left: 0; right: 0; top: 22px; height: 4px;
+  border-radius: 2px; background: var(--border); }
+.ruler-fill { position: absolute; top: 22px; height: 4px; border-radius: 2px;
+  background: var(--accent); }
+.ruler-marks { position: absolute; inset: 0; pointer-events: none; }
+.ruler-marks .tick { position: absolute; top: 30px; width: 1px; height: 4px;
+  background: var(--dim); transform: translateX(-0.5px); }
+.ruler-marks .tick.m { height: 7px; background: var(--muted); }
+.ruler-marks .tick.q, .ruler-marks .tick.y { top: 14px; height: 22px;
+  background: var(--muted); }
+.ruler-marks .tick.y { background: var(--text); }
+.ruler-marks .qname { position: absolute; top: 0; font-size: 11px;
+  font-weight: 700; color: var(--text); transform: translateX(-50%); }
+.ruler-marks .mname { position: absolute; top: 39px; font-size: 10px;
+  color: var(--muted); transform: translateX(-50%); }
+.ruler input[type=range] { position: absolute; left: -7px; top: 17px;
+  width: calc(100% + 14px); height: 14px; margin: 0; background: none;
+  pointer-events: none; -webkit-appearance: none; appearance: none; }
+.ruler input[type=range]::-webkit-slider-runnable-track { background: none; }
+.ruler input[type=range]::-webkit-slider-thumb { -webkit-appearance: none;
+  pointer-events: auto; width: 14px; height: 14px; border-radius: 50%;
+  background: var(--text); border: 3px solid var(--accent); cursor: grab;
+  box-shadow: 0 0 0 3px rgba(117, 214, 255, 0.18); }
+.ruler input[type=range]::-moz-range-thumb { pointer-events: auto;
+  width: 10px; height: 10px; border-radius: 50%; background: var(--text);
+  border: 3px solid var(--accent); cursor: grab; }
+.fp-foot { display: flex; align-items: baseline; gap: 8px;
+  border-top: 1px solid var(--border); padding-top: 8px; }
+.period-label { font-size: 14px; color: var(--accent); font-weight: 700; }
+.brand .name { font-size: 22.11px; font-weight: 700; letter-spacing: -0.02em;
                line-height: 1.1; }
-.brand .sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+.brand .sub { font-size: 15.3px; color: var(--muted); margin-top: 3px; }
 
 .topbar select {
   background: var(--surface-2);
@@ -114,7 +286,7 @@ body.no-chat .chat { display: none; }
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 5px 8px;
-  font-size: 12px;
+  font-size: 15.3px;
   max-width: 190px;
 }
 
@@ -129,7 +301,7 @@ body.no-chat .chat { display: none; }
   color: var(--accent);
   border-radius: 999px;
   padding: 4px 10px;
-  font-size: 11px;
+  font-size: 13.6px;
   cursor: pointer;
   white-space: nowrap;
   max-width: 200px;
@@ -144,7 +316,7 @@ body.no-chat .chat { display: none; }
   border: none;
   border-radius: 999px;
   padding: 8px 16px 8px 12px;
-  font-size: 12px;
+  font-size: 15.3px;
   font-weight: 600;
   cursor: pointer;
   display: flex;
@@ -156,9 +328,10 @@ body.no-chat .chat { display: none; }
 .grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-auto-rows: 180px;
-  gap: 16px;
-  padding: 24px;
+  grid-auto-rows: minmax(110px, auto);
+  /* Sandbox: one 8px space everywhere, between panels and at the edges. */
+  gap: 8px;
+  padding: 8px;
 }
 
 .card {
@@ -174,7 +347,7 @@ body.no-chat .chat { display: none; }
 
 .card h3 {
   margin: 0 0 10px 0;
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--text);
   letter-spacing: 0.02em;
@@ -206,7 +379,7 @@ body.no-chat .chat { display: none; }
 }
 
 .tile .value {
-  font-size: 19px;
+  font-size: 23.8px;
   font-weight: 700;
   letter-spacing: -0.01em;
   white-space: nowrap;
@@ -218,7 +391,7 @@ body.no-chat .chat { display: none; }
    to "Hanil Cosmetic Vess..." hides the one thing the tile is for, so
    it wraps to two lines instead. */
 .tile .value.ref {
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 600;
   white-space: normal;
   line-height: 1.25;
@@ -227,7 +400,7 @@ body.no-chat .chat { display: none; }
 }
 
 .tile .label {
-  font-size: 11px;
+  font-size: 13.6px;
   color: var(--muted);
   margin-top: 5px;
   white-space: nowrap;
@@ -235,14 +408,172 @@ body.no-chat .chat { display: none; }
   text-overflow: ellipsis;
 }
 
+/* Sandbox: the label reads first, then the number. */
+.tile .label { order: -1; margin-top: 0; margin-bottom: 5px;
+               color: var(--text); }
+/* Sandbox: the labels in white, the numbers in the Hide button's blue. */
+.tile .value { color: var(--accent); }
+.card[data-panel="targets"] .tile .label { font-weight: 700; }
+/* Sandbox: one title type for tiles and panels: 14px bold, page font. */
+.panel-head { display: flex; align-items: center; gap: 10px; flex: none;
+              margin-bottom: 2px; }
+.card.float-head { position: relative; }
+/* Sandbox: the Top issuers rows. */
+/* Four columns: name, share, change against w-1 and m-1. The bar runs
+   under the row, with room above it for the target arrow. */
+[data-panel="region-left"] .body { display: flex; flex-direction: column; }
+.iss-list { flex: 1 1 auto; min-height: 0; display: flex;
+            flex-direction: column; justify-content: space-between; }
+/* Spreading works while the list is long. The flags come from a handful
+   of suppliers, and eight rows spread over the panel leave a hole in the
+   middle, so this list stacks from the top and scrolls if it ever grows. */
+.iss-list.packed { justify-content: flex-start; gap: 12px;
+                   overflow-y: auto; overflow-x: hidden; padding-top: 6px;
+                   /* Room for the scrollbar, so it never sits over the
+                      last column. */
+                   padding-right: 10px; }
+/* A part's name is long, so the name gives way and the three number
+   columns keep their width. Nothing runs off the right edge. */
+.iss-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+            min-width: 0; }
+.iss-head { display: grid; grid-template-columns: 1fr 40px 54px 60px;
+            align-items: baseline; column-gap: 4px; min-width: 0;
+            font-size: 11px; line-height: 1.2; }
+.iss-cols { color: var(--muted); font-size: 10px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.04em;
+            padding-bottom: 4px; border-bottom: 1px solid var(--border);
+            margin-bottom: 4px; }
+.iss-cols span:not(:first-child), .iss-share, .iss-cmp { text-align: right; }
+.iss-name { color: var(--text); white-space: nowrap; overflow: hidden;
+            text-overflow: ellipsis; }
+.iss-share { font-weight: 700; color: var(--text); }
+.iss-cmp { color: var(--muted); font-size: 10.5px; white-space: nowrap; }
+.iss-cmp .up { color: var(--good); }
+.iss-cmp .down { color: var(--bad); }
+.iss-cmp .flat { color: var(--dim); }
+/* Quieter bars: thin, softer colours, no track behind them. */
+.iss-track { position: relative; height: 3px; margin-top: 7px;
+             border-radius: 2px; }
+.iss-bar { height: 100%; border-radius: 2px; }
+.iss-bar.met { background: rgba(46, 242, 176, 0.75); }
+.iss-bar.missed { background: rgba(255, 79, 123, 0.7); }
+.iss-target { position: absolute; top: -7px; font-size: 6px; line-height: 1;
+              color: var(--muted); transform: translateX(-50%); }
+/* Sandbox: a thin scrollbar in the page's colours. */
+.inv-scroll, .thread, .glass .rows { scrollbar-width: thin;
+              scrollbar-color: var(--border) transparent; }
+.inv-scroll::-webkit-scrollbar, .thread::-webkit-scrollbar,
+.glass .rows::-webkit-scrollbar { width: 6px; }
+.inv-scroll::-webkit-scrollbar-track, .thread::-webkit-scrollbar-track,
+.glass .rows::-webkit-scrollbar-track { background: transparent; }
+.inv-scroll::-webkit-scrollbar-thumb, .thread::-webkit-scrollbar-thumb,
+.glass .rows::-webkit-scrollbar-thumb { background: var(--border);
+                                        border-radius: 3px; }
+.inv-scroll::-webkit-scrollbar-thumb:hover,
+.thread::-webkit-scrollbar-thumb:hover { background: var(--dim); }
+/* Sandbox: the invoice table. Small type, fits the panel's width,
+   scrolls down; the header stays put. */
+.inv-scroll { height: 100%; overflow-y: auto; overflow-x: hidden; }
+table.inv { width: 100%; border-collapse: collapse; table-layout: fixed;
+            font-size: 11px; }
+table.inv th { position: sticky; top: 0; z-index: 1; text-align: left;
+  background: var(--surface-2); color: var(--muted); font-weight: 700;
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em;
+  padding: 4px 6px; border-bottom: 1px solid var(--border); }
+table.inv td { padding: 3px 6px; border-bottom: 1px solid var(--border);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+table.inv th:nth-child(1) { width: 30%; }
+table.inv th:nth-child(2) { width: 26%; }
+table.inv th:nth-child(3) { width: 20%; }
+table.inv th:nth-child(4) { width: 16%; }
+table.inv th:nth-child(5) { width: 8%; }
+.inv-row { cursor: pointer; }
+.inv-row:hover td { background: rgba(117, 214, 255, 0.07); }
+.inv-num { color: var(--accent); font-weight: 600; }
+.inv-get { text-align: center; }
+.inv-get img { width: 15px; height: 15px; display: inline-block;
+               vertical-align: middle; opacity: 0.85; }
+.inv-get a:hover img { opacity: 1; }
+.inv-empty { color: var(--muted); text-align: center; }
+.chip { display: inline-block; padding: 0 6px; border-radius: 4px;
+        font-size: 10px; font-weight: 700; }
+.chip.new { color: var(--accent); background: rgba(117, 214, 255, 0.12); }
+.chip.revised { color: var(--warn); background: rgba(255, 197, 71, 0.14); }
+.chip.superseded { color: var(--muted); background: rgba(159, 183, 201, 0.12); }
+.chip.problem { color: #FF9F43; background: rgba(255, 159, 67, 0.14); }
+/* What the analyst answered, in the colours the donut beside it uses:
+   coral for a confirmed error, amber while it waits, slate once it was
+   thrown out. An invoice the model never raised carries no colour. */
+.chip.confirmed { color: #FF4F7B; background: rgba(255, 79, 123, 0.14); }
+.chip.pending { color: #FFC547; background: rgba(255, 197, 71, 0.14); }
+.chip.dismissed { color: #5B7C93; background: rgba(91, 124, 147, 0.16); }
+.chip.not-flagged { color: var(--muted);
+                    background: rgba(159, 183, 201, 0.08); }
+.card.float-head .panel-head { position: absolute; left: 6px; top: 6px;
+                               z-index: 1; pointer-events: none; }
+.panel-title, .card[data-panel="targets"] .kpi-head .label {
+  font-size: 15.4px; font-weight: 700; color: var(--text); }
+/* Chart panel titles 15% larger than the tile titles. */
+.panel-title { font-size: 17.7px; }
+/* Sandbox: the same small frame on every side of the desk tiles. */
+.card[data-panel="targets"] { padding: 6px; }
+/* Sandbox: region 1 uses the same small frame. */
+.card[data-panel="region-time"] { padding: 6px 6px 4px 6px; }
+/* Sandbox: a white icon on the left, about 1.5 times the number's height. */
+.tile.kpi-tile { flex-direction: row; align-items: center;
+                 justify-content: flex-start; gap: 10px; }
+.kpi-icon { height: 21.4px; width: 21.4px; flex: none; }
+.kpi-text { display: flex; flex-direction: column; min-width: 0; }
+.kpi-head { display: flex; align-items: center; gap: 10px; min-width: 0;
+            margin-bottom: 6px; }
+.kpi-head .label { margin: 0; order: 0; font-size: 17px; }
+.kpi-words { display: flex; flex-direction: column; min-width: 0; }
+.kpi-words .kpi-target { margin: 1px 0 0 0; }
+.kpi-row .value { flex: none; overflow: visible; }
+/* Sandbox: the Cost view fits the window, no scrolling. The tiles take
+   what they need; the six rows below share the rest. */
+/* The anomaly grid is the invoice grid with another subject, so the two
+   share every rule about size: one screen, no scrollbar, the assistant's
+   column kept free on the right. */
+#grid, #agrid, #rgrid { height: calc(100vh - 55px); box-sizing: border-box;
+        /* Region 1's two rows are 2fr, the four below 3fr: region 1 is
+           25% shorter than with six equal rows. */
+        grid-template-rows: auto repeat(2, minmax(0, 2fr))
+                            repeat(4, minmax(0, 3fr));
+        grid-auto-rows: minmax(0, 1fr); }
+#grid .card, #agrid .card, #rgrid .card { min-height: 0; overflow: hidden; }
+/* The scored table carries five columns of its own. The supplier name is
+   the only long one, so it gives way and the score keeps its width. */
+.inv.scored { table-layout: fixed; width: 100%; }
+.inv.scored th:nth-child(2), .inv.scored td:nth-child(2) {
+  max-width: 0; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap; }
+.inv.scored th:last-child, .inv.scored td:last-child {
+  width: 58px; text-align: right; }
+.inv.scored th:nth-child(3), .inv.scored td:nth-child(3) { width: 92px; }
+.inv.scored th:nth-child(4), .inv.scored td:nth-child(4) { width: 96px; }
+/* The anomaly table ends in a score, 0.003 wide. The shipment table ends
+   in money, 1,142,660.34 wide, and 58px cut it to 1,142,66... A figure
+   the column is too narrow for is worse than no column. */
+.inv.scored.money th:last-child, .inv.scored.money td:last-child {
+  width: 112px; }
+.kpi-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.kpi-changes { display: flex; flex-direction: column; min-width: 0;
+               line-height: 1.25; }
+.kpi-change { font-size: 12px; color: var(--muted); white-space: nowrap;
+              overflow: hidden; text-overflow: ellipsis; }
+.kpi-change .up { color: var(--good); }
+.kpi-change .down { color: var(--bad); }
+.kpi-target { font-size: 12px; color: var(--muted); margin-bottom: 3px; }
+
 .chart { width: 100%; height: 100%; }
 
-table { border-collapse: collapse; width: 100%; font-size: 12px; }
+table { border-collapse: collapse; width: 100%; font-size: 15.3px; }
 th {
   text-align: left;
   font-weight: 500;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12.8px;
   text-transform: uppercase;
   padding: 0 8px 6px 0;
   position: sticky;
@@ -262,15 +593,17 @@ tr.clickable:hover td { background: var(--surface-2); }
   display: inline-block;
   border-radius: 4px;
   padding: 1px 6px;
-  font-size: 10px;
+  font-size: 12.8px;
   font-weight: 600;
   letter-spacing: 0.02em;
 }
-.badge.open { background: rgba(46, 158, 107, 0.18); color: var(--good); }
-.badge.overdue { background: rgba(209, 73, 91, 0.18); color: var(--bad); }
-.badge.credit { background: rgba(201, 162, 39, 0.18); color: var(--warn); }
+.badge.final { background: rgba(46, 158, 107, 0.18); color: var(--good); }
+.badge.provisional { background: rgba(201, 162, 39, 0.18); color: var(--warn); }
+.badge.confirmed { background: rgba(209, 73, 91, 0.18); color: var(--bad); }
+.badge.pending { background: rgba(201, 162, 39, 0.18); color: var(--warn); }
+.badge.dismissed { background: rgba(120, 146, 166, 0.16); color: var(--muted); }
 
-.reads { font-size: 12px; line-height: 1.6; }
+.reads { font-size: 15.3px; line-height: 1.6; }
 .reads li { margin-bottom: 7px; color: var(--muted); }
 .reads b { color: var(--text); font-weight: 600; }
 .reads ul { margin: 0; padding-left: 16px; }
@@ -280,7 +613,7 @@ tr.clickable:hover td { background: var(--surface-2); }
   right: 0;
   top: 0;
   bottom: 0;
-  width: 380px;
+  width: var(--chat-w);
   background: var(--surface);
   border-left: 1px solid var(--border);
   display: flex;
@@ -288,10 +621,10 @@ tr.clickable:hover td { background: var(--surface-2); }
   z-index: 3;
 }
 
-/* The same 76px as the top bar, so the two headings sit on one line
+/* The same 96px as the top bar, so the two headings sit on one line
    across the whole window instead of one floating above the other. */
 .chat-head {
-  height: 76px;
+  height: 96px;
   background: var(--topbar);
   border-bottom: 1px solid var(--border);
   padding: 0 16px;
@@ -300,9 +633,100 @@ tr.clickable:hover td { background: var(--surface-2); }
   flex-direction: column;
   justify-content: center;
 }
-.chat-head .title { font-size: 16px; font-weight: 700; }
-.chat-head .sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
-.chat-head .state { font-size: 11px; color: var(--warn); margin-top: 3px; }
+.chat-head .title { font-size: 20.4px; font-weight: 700; }
+.chat-head .sub { font-size: 13.6px; color: var(--muted); margin-top: 2px; }
+.chat-head .state { font-size: 13.6px; color: var(--warn); margin-top: 3px; }
+
+/* Sandbox: the assistant is a panel like the others, under the top bar,
+   with the same 8px around it. The top bar runs over the whole width;
+   the grid keeps the assistant's column free on the right. */
+.main { margin-right: 0; }
+#grid, #agrid, #rgrid { padding-right: calc(var(--chat-w) + 16px); }
+body.no-chat #grid, body.no-chat #agrid, body.no-chat #rgrid { padding-right: 8px; }
+.chat { top: 63px; right: 8px; bottom: 8px; border-left: 0;
+        border: 1px solid var(--border); border-radius: 10px;
+        background: linear-gradient(160deg, var(--surface-2), var(--surface));
+        box-shadow: inset 0 1px 0 var(--glow), 0 2px 14px rgba(0, 0, 0, 0.35);
+        overflow: hidden; z-index: 2; }
+/* The assistant sits above the answer panels (z-index 10): when the
+   window is too narrow for them, a panel slides under the chat, never
+   over it. */
+.chat { z-index: 11; }
+.chat-head { height: auto; background: transparent; padding: 10px 12px 8px; }
+.chat-head .title { font-size: 17.7px; }
+.chat-head .sub, .chat-head .state { font-size: 11px; }
+
+/* Sandbox: the palette's glass. Panels are translucent and blurred over
+   a navy with soft cyan and violet halos, edged in thin cyan. One colour,
+   one meaning: cyan is volume, mint met a target, coral missed it, amber
+   asks for attention, white dashed is the target, hot cyan is clickable. */
+body { background:
+  radial-gradient(1200px 600px at 15% -10%, rgba(63, 208, 255, 0.16), transparent 60%),
+  radial-gradient(900px 500px at 110% 110%, rgba(124, 108, 255, 0.12), transparent 60%),
+  var(--bg); background-attachment: fixed; }
+.card, .chat { background: rgba(14, 44, 61, 0.55);
+  border: 1px solid rgba(117, 214, 255, 0.24);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07),
+              0 10px 30px rgba(0, 0, 0, 0.35); }
+.tile { background: rgba(14, 44, 61, 0.45);
+        border-color: rgba(117, 214, 255, 0.16); }
+.tile .value { text-shadow: 0 0 14px rgba(117, 214, 255, 0.45); }
+.inv-num { color: #3FD0FF;
+           border-bottom: 1px solid rgba(63, 208, 255, 0.4); }
+.filter-button { border-color: rgba(63, 208, 255, 0.45); }
+
+/* Sandbox: the assistant in the dashboard's type and palette. Page font
+   everywhere, small sizes like the panels, glass bubbles with a thin cyan
+   edge, the person's own bubble in hot cyan, Send as the one clickable
+   accent. The status line is neutral: amber stays for attention. */
+.chat, .chat button, .chat input { font-family: inherit; }
+.chat-head .state { color: var(--muted); }
+.chips { padding: 8px 12px; gap: 6px; }
+.chips .chip { background: rgba(117, 214, 255, 0.06);
+  border: 1px solid rgba(117, 214, 255, 0.26); color: var(--text);
+  border-radius: 8px; padding: 5px 10px; font-size: 12px; font-weight: 500;
+  line-height: 1.3; }
+.chips .chip:hover { border-color: rgba(63, 208, 255, 0.7);
+  box-shadow: 0 0 10px rgba(63, 208, 255, 0.2); }
+.thread { padding: 4px 12px 12px; }
+.bubble { background: rgba(14, 44, 61, 0.6);
+  border: 1px solid rgba(117, 214, 255, 0.2); font-size: 12.5px;
+  border-radius: 10px 10px 10px 3px; }
+.bubble.mine { background: rgba(63, 208, 255, 0.16);
+  border-color: rgba(63, 208, 255, 0.45);
+  border-radius: 10px 10px 3px 10px; }
+.bubble .slice { font-size: 11px; }
+.bubble .also { font-size: 11.5px; }
+.compose { padding: 10px 12px; border-top: 1px solid rgba(117, 214, 255, 0.16); }
+.compose input { background: rgba(14, 44, 61, 0.6);
+  border: 1px solid rgba(117, 214, 255, 0.26); border-radius: 8px;
+  font-size: 12.5px; padding: 7px 10px; }
+.compose input:focus { outline: none; border-color: rgba(63, 208, 255, 0.7);
+  box-shadow: 0 0 10px rgba(63, 208, 255, 0.2); }
+.compose button { background: #3FD0FF; color: #061C28; font-weight: 700;
+  font-size: 12.5px; padding: 7px 14px;
+  box-shadow: 0 0 12px rgba(63, 208, 255, 0.35); }
+
+/* Sandbox: a subtle neon in the four lower panels. Each mark glows in its
+   own colour, and a faint cyan light rises from the panel's floor, like
+   the shade under the time chart. */
+.iss-bar.met { box-shadow: 0 0 6px rgba(46, 242, 176, 0.55); }
+.iss-bar.missed { box-shadow: 0 0 6px rgba(255, 79, 123, 0.5); }
+.inv-num { text-shadow: 0 0 8px rgba(63, 208, 255, 0.45); }
+.chip.new { box-shadow: 0 0 8px rgba(117, 214, 255, 0.25); }
+.chip.revised { box-shadow: 0 0 8px rgba(255, 197, 71, 0.25); }
+.chip.problem { box-shadow: 0 0 8px rgba(255, 159, 67, 0.25); }
+.inv-row:hover td { background: rgba(117, 214, 255, 0.07);
+                    box-shadow: inset 0 -1px 0 rgba(117, 214, 255, 0.35); }
+.card[data-panel="region-left"], .card[data-panel="region-center"],
+.card[data-panel="region-right-top"], .card[data-panel="region-right-bottom"] {
+  background:
+    linear-gradient(to top, rgba(117, 214, 255, 0.10), rgba(117, 214, 255, 0) 38%),
+    rgba(14, 44, 61, 0.55);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07),
+              inset 0 -1px 0 rgba(117, 214, 255, 0.35),
+              0 10px 30px rgba(0, 0, 0, 0.35); }
 
 .chips { padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 6px;
          flex: none; }
@@ -313,7 +737,7 @@ tr.clickable:hover td { background: var(--surface-2); }
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 6px 11px;
-  font-size: 11px;
+  font-size: 13.6px;
   cursor: pointer;
   text-align: left;
 }
@@ -355,7 +779,7 @@ tr.clickable:hover td { background: var(--surface-2); }
   40% { opacity: 1; }
 }
 .compose button:disabled { opacity: 0.45; cursor: default; }
-.bubble .slice { color: var(--muted); font-size: 10px; margin-top: 6px; }
+.bubble .slice { color: var(--muted); font-size: 12.8px; margin-top: 6px; }
 .bubble b { color: var(--accent); font-weight: 600; }
 
 /* A figure in the answer is the handle on a panel. Clicking it opens
@@ -369,7 +793,7 @@ tr.clickable:hover td { background: var(--surface-2); }
 }
 .bubble .key:hover { background: rgba(117, 214, 255, 0.16); }
 .bubble .key.lit { background: rgba(117, 214, 255, 0.24); }
-.bubble .also { margin-top: 7px; font-size: 11px; color: var(--muted); }
+.bubble .also { margin-top: 7px; font-size: 13.6px; color: var(--muted); }
 
 .compose { flex: none; padding: 12px 16px; border-top: 1px solid var(--border);
            display: flex; gap: 8px; }
@@ -380,7 +804,7 @@ tr.clickable:hover td { background: var(--surface-2); }
   border-radius: 8px;
   color: var(--text);
   padding: 8px 10px;
-  font-size: 12px;
+  font-size: 15.3px;
 }
 .compose button {
   background: var(--accent-strong);
@@ -389,13 +813,13 @@ tr.clickable:hover td { background: var(--surface-2); }
   border-radius: 8px;
   padding: 8px 14px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 15.3px;
 }
 
 .overlay {
   position: fixed;
-  left: 56px;
-  right: 380px;
+  left: 55px;
+  right: var(--chat-w);
   top: 0;
   bottom: 0;
   background: var(--backdrop);
@@ -409,12 +833,17 @@ tr.clickable:hover td { background: var(--surface-2); }
   width: 100%;
   height: 100%;
   pointer-events: none;
+  /* Sandbox: the line may run past the overlay's edge, and it passes
+     under the panels, never over them. */
+  overflow: visible;
+  z-index: 0;
 }
+.overlay .glass { z-index: 2; }
 
 .glass {
   position: absolute;
-  width: 340px;
-  height: 280px;
+  width: 440px;
+  height: 360px;
   background: var(--glass);
   backdrop-filter: blur(10px);
   border: 1px solid var(--glass-edge);
@@ -445,17 +874,17 @@ tr.clickable:hover td { background: var(--surface-2); }
   background: var(--accent-strong);
   color: var(--text);
   border-radius: 4px;
-  font-size: 9px;
+  font-size: 11.9px;
   font-weight: 700;
   letter-spacing: 0.08em;
   padding: 2px 6px;
 }
-.glass .where { font-size: 10px; color: var(--muted);
+.glass .where { font-size: 12.8px; color: var(--muted);
                 text-transform: uppercase; letter-spacing: 0.06em; }
 
 .glass h4 {
   margin: 0 0 8px 0;
-  font-size: 14px;
+  font-size: 17.8px;
   font-weight: 700;
   color: var(--text);
   flex: none;
@@ -466,14 +895,14 @@ tr.clickable:hover td { background: var(--surface-2); }
 .glass .inner { flex: 1 1 auto; min-height: 0; overflow: hidden; }
 .glass .plot { width: 100%; height: 100%; }
 
-.glass .rows { height: 100%; overflow-y: auto; font-size: 13px; }
+.glass .rows { height: 100%; overflow-y: auto; font-size: 17px; }
 .glass .line { display: grid; grid-template-columns: 1fr auto;
                align-items: center; gap: 10px; padding: 5px 0;
                border-bottom: 1px solid rgba(79, 195, 247, 0.12); }
 .glass .line span.k { color: var(--muted); overflow: hidden;
                       text-overflow: ellipsis; white-space: nowrap; }
 .glass .line span.v { color: var(--text); font-weight: 700;
-                      font-size: 15px;
+                      font-size: 18.7px;
                       white-space: nowrap; text-align: right; }
 
 /* The corner you pull to make it bigger. */
@@ -494,7 +923,7 @@ tr.clickable:hover td { background: var(--surface-2); }
   left: 24px;
   top: 24px;
   right: 190px;
-  font-size: 17px;
+  font-size: 22.1px;
   font-weight: 600;
 }
 
@@ -508,29 +937,167 @@ tr.clickable:hover td { background: var(--surface-2); }
   border-radius: 999px;
   padding: 8px 16px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 15.3px;
 }
+
+/* Sandbox: the numbered list of panels under an answer. Each item's line
+   of light leaves from the assistant's left edge, level with it. */
+.bubble .refs { margin: 8px 0 0 0; padding-left: 18px; font-size: 12px;
+                color: var(--muted); }
+.bubble .refs li { padding: 2px 0; cursor: pointer; }
+.bubble .refs li::marker { color: var(--accent); font-weight: 700; }
+.bubble .refs li:hover { color: var(--text); }
+
+/* Sandbox: the answer's panels in the dashboard's look. They cover the
+   whole dashboard and stop 8px short of the assistant, which stays clear
+   and readable beside them. */
+.overlay { right: calc(var(--chat-w) + 16px); left: 55px;
+  background: rgba(3, 16, 25, 0.62); backdrop-filter: blur(4px); }
+.glass { background: rgba(14, 44, 61, 0.94);
+  border: 1px solid rgba(117, 214, 255, 0.32);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08),
+              0 0 18px rgba(117, 214, 255, 0.12), 0 14px 34px rgba(0, 0, 0, 0.5); }
+.glass .pill { background: rgba(63, 208, 255, 0.18); color: #3FD0FF;
+  border: 1px solid rgba(63, 208, 255, 0.45); font-size: 10px; }
+.glass .where { font-size: 10.5px; }
+.glass h4 { font-size: 15.4px; }
+.glass .rows { font-size: 12.5px; }
+.glass .line { border-bottom-color: rgba(117, 214, 255, 0.12); }
+.glass .line span.v { font-size: 13.5px; color: var(--accent);
+  text-shadow: 0 0 10px rgba(117, 214, 255, 0.35); }
+.glass .line span.v.tone-met { color: var(--good);
+  text-shadow: 0 0 10px rgba(46, 242, 176, 0.4); }
+.glass .line span.v.tone-missed { color: var(--bad);
+  text-shadow: 0 0 10px rgba(255, 79, 123, 0.4); }
+.glass .line span.v.tone-new { color: var(--accent); }
+.glass .line span.v.tone-warn { color: var(--warn);
+  text-shadow: 0 0 10px rgba(255, 197, 71, 0.35); }
+.glass .line span.v.tone-problem { color: #FF9F43; }
+.glass .line span.v.tone-dim { color: #8FA9BC; text-shadow: none; }
+.close-panels { background: rgba(14, 44, 61, 0.8); font-family: inherit;
+  border: 1px solid rgba(63, 208, 255, 0.45); color: #3FD0FF;
+  font-size: 12px; padding: 6px 14px;
+  box-shadow: 0 0 10px rgba(63, 208, 255, 0.2); }
 </style>
 </head>
 <body>
 
-<!-- The rail is empty on purpose. Five buttons that went nowhere said
-     less than no buttons at all. -->
-<nav class="rail"></nav>
+<!-- One button per view, and nothing else: a button that goes nowhere
+     says less than no button at all. -->
+<nav class="rail">
+  <!-- Sandbox: the company logo at the top of the side rail. -->
+  <div class="company-logo">
+    <svg viewBox="11.25 12.75 137.5 46.5" role="img" aria-label="Moty">
+      <g transform="translate(3.875 -7.25)">
+        <text x="4" y="54" font-family="Segoe UI, Helvetica, Arial, sans-serif"
+              font-size="52" font-weight="700" letter-spacing="-1">moty</text>
+        <circle cx="139.94" cy="50" r="5"/>
+      </g>
+    </svg>
+  </div>
+  <div class="rail-item on" id="go-cost" title="Invoice processing"
+       onclick="switchView('cost')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         aria-hidden="true">
+      <rect x="3" y="3" width="7" height="9" rx="1"/>
+      <rect x="14" y="3" width="7" height="5" rx="1"/>
+      <rect x="14" y="12" width="7" height="9" rx="1"/>
+      <rect x="3" y="16" width="7" height="5" rx="1"/>
+    </svg>
+    <span>Invoices</span>
+  </div>
+  <div class="rail-item" id="go-anomalies" title="Anomalies"
+       onclick="switchView('anomalies')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         aria-hidden="true">
+      <circle cx="10.5" cy="10.5" r="6.5"/>
+      <path d="M15.5 15.5L21 21"/>
+      <path d="M10.5 7.5v3.5"/>
+      <path d="M10.5 13.6v.1"/>
+    </svg>
+    <span>Anomalies</span>
+  </div>
+  <!-- Sandbox: Reports becomes the financial report: what the parts cost
+       to land, in reais. -->
+  <div class="rail-item" id="go-reports" title="Financial report"
+       onclick="switchView('reports')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         aria-hidden="true">
+      <path d="M3 3v18h18"/>
+      <path d="M7 15l4-4 3 3 5-6"/>
+      <path d="M16 8h3v3"/>
+    </svg>
+    <span>Finance</span>
+  </div>
+  <div class="rail-item" id="go-about" title="About"
+       onclick="switchView('about')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         aria-hidden="true">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>
+    </svg>
+    <span>About</span>
+  </div>
+</nav>
 
 <div class="main">
   <div class="topbar">
     <div class="brand">
-      <div class="name">Accounts payable</div>
-      <div class="sub" id="brandsub">&nbsp;</div>
+      <div class="name" id="brandname">Cost Management - Invoice Processing</div>
+      <!-- Sandbox: hidden, not deleted, because the script still fills it. -->
+      <div class="sub" id="brandsub" style="display: none">&nbsp;</div>
     </div>
-    <select id="supplier"></select>
-    <select id="state"></select>
+    <!-- Sandbox: the two filters are hidden, not deleted, because the
+         script still reads them. -->
+    <select id="first" style="display: none"></select>
+    <select id="second" style="display: none"></select>
+    <!-- Sandbox: a funnel opens the period filter over the chart. -->
+    <button class="filter-button" id="filter-button" title="Filter">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true">
+        <path d="M3 4h18l-7 8.5V19l-4 2v-8.5z"/>
+      </svg>
+      <span id="filter-label"></span>
+    </button>
+    <div class="filter-panel" id="filter-panel">
+      <div class="fp-row">
+        <span class="fp-name">Years</span>
+        <select id="year-from"></select>
+        <span class="fp-dim">to</span>
+        <select id="year-to"></select>
+      </div>
+      <div class="fp-row">
+        <span class="fp-name">Step</span>
+        <div class="steps">
+          <button class="step" data-unit="week">Week</button>
+          <button class="step" data-unit="month">Month</button>
+          <button class="step" data-unit="quarter">Quarter</button>
+          <button class="step" data-unit="year">Year</button>
+        </div>
+      </div>
+      <div class="ruler">
+        <div class="ruler-track"></div>
+        <div class="ruler-fill" id="ruler-fill"></div>
+        <div class="ruler-marks" id="ruler-marks"></div>
+        <input type="range" id="rfrom" min="0" max="52" step="1">
+        <input type="range" id="rto" min="0" max="52" step="1">
+      </div>
+      <div class="fp-foot">
+        <span class="fp-dim">Selected</span>
+        <span class="period-label" id="period-label"></span>
+      </div>
+    </div>
     <div class="active" id="active"></div>
     <div class="spacer"></div>
     <!-- A speech bubble with a rising line inside it: a conversation
          about the numbers, which is what the button opens. -->
-    <button class="ask" onclick="toggleChat()">
+    <!-- Sandbox: the Hide button is hidden, not deleted. -->
+    <button class="ask" onclick="toggleChat()" style="display: none">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
            stroke-width="2" stroke-linecap="round"
            stroke-linejoin="round" aria-hidden="true">
@@ -541,18 +1108,114 @@ tr.clickable:hover td { background: var(--surface-2); }
     </button>
   </div>
   <div class="grid" id="grid"></div>
+  <div class="grid view-off" id="agrid"></div>
+  <div class="grid view-off" id="rgrid"></div>
+  <!-- Written in the page, not fetched: who built this does not change
+       with a filter, and it must read the same with the server down. -->
+  <div class="about view-off" id="bgrid">
+    <section class="card about-me">
+      <img src="/static/profile.jpg" alt="Rafael Tavares" class="photo">
+      <div class="who">
+        <div class="person">Rafael Tavares</div>
+        <div class="role">Data analyst and infrastructure technician</div>
+        <p>I build data pipelines and the checks around them: invoices
+           read off PDF files, the landed cost of every imported part,
+           errors found by a model, and a dashboard where every number is
+           computed by code, never guessed.</p>
+        <div class="links">
+          <a class="link" href="https://github.com/RafaelTavares98"
+             target="_blank" rel="noopener">GitHub</a>
+          <a class="link" href="https://www.linkedin.com/in/rafaeltavares1998"
+             target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="flow">01 reads the invoices and costs every part &rarr; 02
+      scores every invoice &rarr; 03 shows all of it, with an assistant
+      beside it.</div>
+
+    <div class="projects">
+      <section class="card project">
+        <div class="number">01</div>
+        <h3>Invoice pipeline</h3>
+        <p>Simulates the suppliers, carriers and customs broker of a
+           cosmetics packaging importer: about a hundred invoices a week
+           from abroad, as PDF files, a quarter of them scanned, plus the
+           Brazilian duty statements, broker bills and trucks. It reads
+           them back into two CSV files and costs every part landed at the
+           Moty plant, in reais.</p>
+        <ul>
+          <li><b>981 of 1,003</b> invoices read with nothing left open;
+              22 went to a person.</li>
+          <li>II, AFRMM and Siscomex in the cost; IPI, PIS, COFINS and
+              ICMS kept apart as credits.</li>
+          <li>Ten kinds of process error planted, each with an honest
+              look-alike.</li>
+        </ul>
+        <div class="stack">Python &middot; pdfplumber &middot; Tesseract
+          &middot; Prometheus &middot; Grafana &middot; Docker</div>
+        <a class="link" href="https://github.com/RafaelTavares98/invoice-pipeline"
+           target="_blank" rel="noopener">Repository</a>
+      </section>
+
+      <section class="card project">
+        <div class="number">02</div>
+        <h3>Invoice anomalies</h3>
+        <p>Learns to find errors at each stage of the process: a price
+           above the contract, more billed than received, the same bill
+           twice, a freight charge not on the rate card, a vendor with no
+           order, an account the vendor master does not hold, a duty at a
+           rate not in force, a broker fee above its contract.</p>
+        <ul>
+          <li>Rules, Isolation Forest, ECOD and LightGBM compared; every
+              run recorded in MLflow.</li>
+          <li>On invoices it never saw, the clerk's checks lead at
+              <b>0.53</b> average precision, LightGBM at 0.03. Every
+              interval overlaps, so the gap is not proven.</li>
+          <li>The honest result was published, not the flattering one.</li>
+        </ul>
+        <div class="stack">pandas &middot; LightGBM &middot; PyOD &middot;
+          MLflow</div>
+        <a class="link" href="https://github.com/RafaelTavares98/invoice-anomalies"
+           target="_blank" rel="noopener">Repository</a>
+      </section>
+
+      <section class="card project">
+        <div class="number">03</div>
+        <h3>Landed cost dashboard</h3>
+        <p>This dashboard, on the real run of the other two. Invoices
+           shows the week the desk is working; Anomalies shows the scores
+           from project 02, our errors apart from the client's; Finance
+           shows the month being closed, final apart from provisional.
+           The assistant names the panel to open, code fills it, and a
+           sentence carrying a number nobody computed is thrown away.</p>
+        <ul>
+          <li>Three views, the same layout and the same guard on each.</li>
+          <li>Every figure traces back to the lines it came from.</li>
+        </ul>
+        <div class="stack">FastAPI &middot; ECharts &middot; DeepSeek
+          &middot; Docker</div>
+        <a class="link"
+           href="https://github.com/RafaelTavares98/accounts-payable-dashboard-with-ai-chat-and-verified-numbers"
+           target="_blank" rel="noopener">Repository</a>
+      </section>
+    </div>
+  </div>
 </div>
 
 <aside class="chat">
+  <div class="chat-drag" id="chatdrag" title="Drag to resize"></div>
   <div class="chat-head">
-    <div class="title">Data assistant</div>
-    <div class="sub">Every figure computed over the filtered rows</div>
+    <div class="title" id="chattitle">Cost assistant</div>
+    <div class="sub" id="chatsub">Answers from the desk's own figures</div>
     <div class="state" id="modelstate">&nbsp;</div>
   </div>
   <div class="chips" id="chips"></div>
   <div class="thread" id="thread"></div>
+  <div class="thread view-off" id="athread"></div>
   <div class="compose">
-    <input id="question" placeholder="Ask about the payables">
+    <input id="question" placeholder="Ask about the invoices">
     <button onclick="ask()">Send</button>
   </div>
 </aside>
@@ -560,24 +1223,59 @@ tr.clickable:hover td { background: var(--surface-2); }
 <script>
 const AXIS = '#9FB7C9';
 const SPLIT = '#14384C';
-const BAR = '#225A7F';
+const BAR = '#75D6FF';
 const HOT = '#75D6FF';
 
-/* The four ageing bands, newest to oldest. They are ordered categories,
-   so they take an ordinal ramp: one hue, light to dark. The four hues
-   sampled off the video failed the colour-blindness check outright: its
-   sand and its green are 2.4 apart under protanopia, which is no gap at
-   all. These four pass every check. */
-const AGEING = ['#A9E6FF', '#5FC4EE', '#2E8FC4', '#15567F'];
+/* An ordinal ramp, one hue light to dark, for anything with an order.
+   The four hues sampled off the video failed the colour-blindness check
+   outright; these pass every check. */
+const RAMP = ['#A9E6FF', '#5FC4EE', '#2E8FC4', '#15567F'];
 
-/* The second line on the weekly chart. Warm against the cool primary,
-   so the two read as different things rather than two shades of one. */
+/* The second series: provisional cost on top of final. Warm against the
+   cool primary, so the two read as different things rather than two
+   shades of one. */
 const WARM = '#C9A227';
+
+/* The seven parts of a landed cost are names, not an order, so they take
+   distinct hues. */
+const PARTS = ['#75D6FF', '#C9A227', '#2E9E6B', '#D1495B', '#9C7AE0',
+               '#7892A6', '#E08A4F'];
 
 let filters = {};
 let overview = null;
-let papers = [];
+let trips = [];
 const charts = [];
+
+/* Throwing the panels away disposes every chart in them. The two donuts
+   are also held by name, in `pies`, and a disposed chart answers nothing:
+   asking a dropped one for its width stops the redraw half way and the
+   panel below it is never built. So the names are let go here too. */
+function dropCharts() {
+  while (charts.length) charts.pop().dispose();
+  pies.kind = null;
+  pies.status = null;
+}
+
+/* The anomaly view keeps its own filters, figures and rows. Switching
+   views never carries a carrier picked on one over to the other. */
+let view = 'cost';
+let afilters = {};
+let aoverview = null;
+let flagged = [];
+
+function active() {
+  return view === 'anomalies' ? afilters : filters;
+}
+
+function clearFilters() {
+  if (view === 'anomalies') afilters = {};
+  else filters = {};
+}
+
+/* Stages are names, not an order, so they take distinct hues rather
+   than one ramp. */
+const STAGES = ['#75D6FF', '#C9A227', '#2E9E6B', '#D1495B', '#9C7AE0',
+                '#7892A6'];
 
 function num(text) {
   return parseFloat(String(text).replace(/,/g, '')) || 0;
@@ -595,7 +1293,7 @@ const TOOLTIP = {
   backgroundColor: '#0E2C3D',
   borderColor: '#14384C',
   borderWidth: 1,
-  textStyle: {color: '#E6F0F6', fontSize: 11},
+  textStyle: {color: '#E6F0F6', fontSize: 12},
   extraCssText: 'box-shadow: 0 6px 18px rgba(0,0,0,0.45);'
 };
 
@@ -658,12 +1356,15 @@ function crossFilter(chart, pairs, key) {
   chart.on('click', event => {
     const label = event.name || (pairs[event.dataIndex] || [])[0];
     if (!label) return;
-    filters[key] = filters[key] === label ? '' : label;
+    const chosen = active();
+    chosen[key] = chosen[key] === label ? '' : label;
     refresh();
   });
 }
 
-function barChart(node, pairs, horizontal, key) {
+function barChart(node, pairs, horizontal, key, count) {
+  /* A count is a whole number: 4 flags, not 4.00. */
+  const shown = v => count ? String(Math.round(v)) : money(v);
   const chart = echarts.init(node, null, {renderer: 'canvas'});
   const labels = pairs.map(p => p[0]);
   const values = pairs.map(p => num(p[p.length - 1]));
@@ -683,14 +1384,14 @@ function barChart(node, pairs, horizontal, key) {
       show: horizontal,
       position: 'right',
       color: AXIS,
-      fontSize: 12,
-      formatter: p => money(p.value)
+      fontSize: 11,
+      formatter: p => shown(p.value)
     }
   };
   const category = {
     type: 'category',
     data: labels,
-    axisLabel: {color: AXIS, fontSize: 12, width: 150, overflow: 'truncate'},
+    axisLabel: {color: AXIS, fontSize: 11, width: 230, overflow: 'truncate'},
     axisLine: {lineStyle: {color: SPLIT}},
     axisTick: {show: false}
   };
@@ -701,15 +1402,16 @@ function barChart(node, pairs, horizontal, key) {
                               axisLine: {show: false},
                               splitLine: {show: false}}
                            : {type: 'value',
-                              axisLabel: {color: AXIS, fontSize: 12},
+                              axisLabel: {color: AXIS, fontSize: 11},
                               splitLine: {lineStyle: {color: SPLIT}}};
   chart.setOption({
     backgroundColor: 'transparent',
     animationDuration: 500,
     tooltip: Object.assign({}, TOOLTIP, {
-      formatter: p => p.name + '<br/><b>' + money(p.value) + '</b>'
+      formatter: p => p.name + '<br/><b>' + shown(p.value) + '</b>'
     }),
-    grid: {left: 8, right: horizontal ? 84 : 16, top: 12, bottom: 8,
+    grid: {left: 8, right: horizontal ? (count ? 40 : 140) : 16, top: 12,
+           bottom: 8,
            containLabel: true},
     xAxis: horizontal ? value : category,
     yAxis: horizontal ? Object.assign({inverse: true}, category) : value,
@@ -721,7 +1423,10 @@ function barChart(node, pairs, horizontal, key) {
   charts.push(chart);
 }
 
-function donutChart(node, pairs, colours, key) {
+function donutChart(node, pairs, colours, key, opts) {
+  /* Long names, such as the stages, do not fit beside a ring in a
+     narrow card; they go under it instead. */
+  const below = !(opts && opts.legendBeside);
   /* A thin ring with the legend beside it, as the reference draws the
      status of the accounts. The slices carry no labels: the legend
      names them and the panel is too small for both. */
@@ -734,7 +1439,20 @@ function donutChart(node, pairs, colours, key) {
   chart.setOption({
     backgroundColor: 'transparent',
     animationDuration: 500,
-    legend: {
+    tooltip: Object.assign({}, TOOLTIP, {
+      formatter: p => p.name + '<br/><b>' + p.value + '</b> (' +
+                      p.percent + '%)'
+    }),
+    legend: below ? {
+      orient: 'horizontal',
+      left: 'center',
+      bottom: 0,
+      icon: 'rect',
+      itemWidth: 10,
+      itemHeight: 10,
+      itemGap: 12,
+      textStyle: {color: AXIS, fontSize: 11}
+    } : {
       orient: 'vertical',
       right: 6,
       top: 'middle',
@@ -742,12 +1460,12 @@ function donutChart(node, pairs, colours, key) {
       itemWidth: 10,
       itemHeight: 10,
       itemGap: 10,
-      textStyle: {color: AXIS, fontSize: 12}
+      textStyle: {color: AXIS, fontSize: 11}
     },
     series: [{
       type: 'pie',
-      radius: ['62%', '78%'],
-      center: ['34%', '50%'],
+      radius: below ? ['46%', '60%'] : ['62%', '78%'],
+      center: below ? ['50%', '38%'] : ['34%', '50%'],
       avoidLabelOverlap: false,
       label: {show: false},
       labelLine: {show: false},
@@ -769,7 +1487,51 @@ function short(value) {
   return Math.round(value);
 }
 
-function lineChart(node, pairs, second) {
+function stackChart(node, rows, names) {
+  /* Columns by month, final at the bottom and provisional on top, so the
+     height of a column is the month's whole cost and the yellow cap is
+     what may still move. Two months is two columns, not a straight line
+     that tells nobody anything. */
+  const chart = echarts.init(node, null, {renderer: 'canvas'});
+  const colours = [BAR, WARM];
+  chart.setOption({
+    backgroundColor: 'transparent',
+    animationDuration: 500,
+    tooltip: Object.assign({}, TOOLTIP, {
+      trigger: 'axis',
+      axisPointer: {type: 'shadow'},
+      formatter: rows => rows[0].axisValue + '<br/>' + rows.map(
+        r => r.marker + r.seriesName + ' <b>' + money(r.value) + '</b>'
+      ).join('<br/>')
+    }),
+    legend: {top: 0, right: 4, icon: 'rect', itemWidth: 10, itemHeight: 10,
+             textStyle: {color: AXIS, fontSize: 11}},
+    grid: {left: 8, right: 16, top: 30, bottom: 8, containLabel: true},
+    xAxis: {type: 'category', data: rows.map(r => r[0]),
+            axisLabel: {color: AXIS, fontSize: 11},
+            axisLine: {lineStyle: {color: SPLIT}}, axisTick: {show: false}},
+    yAxis: {type: 'value', axisLabel: {color: AXIS, fontSize: 11,
+                                       formatter: v => short(v)},
+            splitLine: {lineStyle: {color: SPLIT, type: 'dashed'}}},
+    series: names.map((name, index) => ({
+      name: name,
+      type: 'bar',
+      stack: 'cost',
+      barMaxWidth: 64,
+      data: rows.map(r => num(r[index + 1])),
+      itemStyle: {color: colours[index]}
+    }))
+  });
+  node._chart = chart;
+  charts.push(chart);
+}
+
+function lineChart(node, pairs, second, opts) {
+  /* Money by default. The anomaly view passes its own series names, and
+     counts instead of money. */
+  const o = Object.assign({names: ['Money', ''], count: false},
+                          opts || {});
+  const shown = v => o.count ? String(Math.round(v)) : money(v);
   const chart = echarts.init(node, null, {renderer: 'canvas'});
   chart.setOption({
     backgroundColor: 'transparent',
@@ -778,7 +1540,7 @@ function lineChart(node, pairs, second) {
       trigger: 'axis',
       axisPointer: {type: 'line', lineStyle: {color: SPLIT}},
       formatter: rows => rows[0].axisValue + '<br/>' + rows.map(
-        r => r.marker + r.seriesName + ' <b>' + money(r.value) + '</b>'
+        r => r.marker + r.seriesName + ' <b>' + shown(r.value) + '</b>'
       ).join('<br/>')
     }),
     legend: {
@@ -787,32 +1549,32 @@ function lineChart(node, pairs, second) {
       icon: 'rect',
       itemWidth: 10,
       itemHeight: 10,
-      textStyle: {color: AXIS, fontSize: 12}
+      textStyle: {color: AXIS, fontSize: 11}
     },
     grid: {left: 8, right: 16, top: 26, bottom: 8, containLabel: true},
     xAxis: {
       type: 'category',
       data: pairs.map(p => p[0]),
       boundaryGap: false,
-      axisLabel: {color: AXIS, fontSize: 12},
+      axisLabel: {color: AXIS, fontSize: 11},
       axisLine: {lineStyle: {color: SPLIT}},
       axisTick: {show: false}
     },
     yAxis: {
       type: 'value',
-      axisLabel: {color: AXIS, fontSize: 12},
+      axisLabel: {color: AXIS, fontSize: 11},
       splitLine: {lineStyle: {color: SPLIT, type: 'dashed'}}
     },
     series: [
       {
-        name: 'Falling due',
+        name: o.names[0],
         type: 'line',
         smooth: true,
         symbolSize: 6,
         z: 3,
         data: pairs.map(p => num(p[1])),
         label: {show: true, position: 'top', color: AXIS, fontSize: 11,
-                formatter: p => short(p.value)},
+                formatter: p => o.count ? String(p.value) : short(p.value)},
         lineStyle: {color: HOT, width: 2,
                     shadowColor: 'rgba(79, 195, 247, 0.6)', shadowBlur: 10},
         itemStyle: {color: HOT},
@@ -827,7 +1589,7 @@ function lineChart(node, pairs, second) {
          heavily is the week that falls due later, so the two lines
          belong on one axis: both are money, both are weekly. */
       {
-        name: 'Arrived',
+        name: o.names[1],
         type: 'line',
         smooth: true,
         symbolSize: 0,
@@ -842,41 +1604,34 @@ function lineChart(node, pairs, second) {
           ])
         }
       }
-    ]
+    ].filter((line, index) => index === 0 || (second && second.length))
   });
   node._chart = chart;
   charts.push(chart);
 }
 
-function documentTable(body, rows) {
-  /* The bills themselves. Every figure above is a sum over this. */
+function shipmentTable(body, rows) {
+  /* The shipments themselves. Every figure above is a sum over their
+     lines. */
   const scroll = el('div', 'scroll');
   const table = document.createElement('table');
   const head = document.createElement('tr');
-  for (const label of ['Document', 'Supplier', 'Issued', 'Due',
-                       'Amount', 'State']) {
+  for (const label of ['Shipment', 'Carrier', 'Operation', 'Month',
+                       'Landed cost', 'Status']) {
     const cell = el('th', null, label);
-    if (label === 'Amount') cell.className = 'right';
+    if (label === 'Landed cost') cell.className = 'right';
     head.appendChild(cell);
   }
   table.appendChild(head);
   for (const row of rows) {
     const line = document.createElement('tr');
-    if (row.paper) {
-      line.className = 'clickable';
-      line.title = 'Open ' + row.paper;
-      line.onclick = () => window.open('/paper/' + row.paper, '_blank');
-    }
-    line.appendChild(el('td', null, row.number));
-    line.appendChild(el('td', null, row.supplier));
-    line.appendChild(el('td', null, row.issued));
-    line.appendChild(el('td', null, row.due));
-    line.appendChild(el('td', 'right money', row.total));
+    line.appendChild(el('td', null, row.shipment));
+    line.appendChild(el('td', null, row.carrier));
+    line.appendChild(el('td', null, row.mode));
+    line.appendChild(el('td', null, row.month));
+    line.appendChild(el('td', 'right money', row.landed));
     const state = el('td');
-    const badge = el('span', 'badge ' + row.state,
-                     row.state === 'overdue' && row.days
-                       ? row.days + ' days late' : row.state);
-    state.appendChild(badge);
+    state.appendChild(el('span', 'badge ' + row.status, row.status));
     line.appendChild(state);
     table.appendChild(line);
   }
@@ -884,60 +1639,15 @@ function documentTable(body, rows) {
   body.appendChild(scroll);
 }
 
-function readings(body, data, rows) {
-  /* What a person would say after looking at the panel. Written by
-     code over the same figures, so it cannot drift from the charts. */
-  const list = document.createElement('ul');
-  const says = [];
-  const supplier = (data.by_supplier || [])[0];
-  if (supplier) {
-    says.push(['The largest balance is ', supplier[0], ', at ',
-               supplier[1], '.']);
-  }
-  if (data.overdue_count) {
-    says.push([data.overdue_count + ' of ' + data.count +
-               ' documents are overdue, ', data.overdue_total,
-               ' in all, ', data.average_days_overdue, ' late on average.']);
-  }
-  const worst = (data.overdue_buckets || [])
-    .filter(b => num(b[2]) > 0).pop();
-  if (worst) {
-    says.push(['The oldest money sits in the ', worst[0],
-               ' band, ', worst[2], '.']);
-  }
-  const week = (data.by_due_week || [])
-    .reduce((top, w) => num(w[1]) > num(top[1]) ? w : top,
-            ['', '0']);
-  if (week[0]) {
-    says.push(['The heaviest week starts ', week[0], ', with ',
-               week[1], ' falling due.']);
-  }
-  const credits = rows.filter(r => r.state === 'credit').length;
-  if (credits) {
-    says.push([credits + ' credit note' + (credits > 1 ? 's' : '') +
-               ' lower the balance.']);
-  }
-  for (const parts of says) {
-    const item = document.createElement('li');
-    parts.forEach((part, index) => {
-      if (index % 2 === 1) item.appendChild(el('b', null, part));
-      else item.appendChild(document.createTextNode(part));
-    });
-    list.appendChild(item);
-  }
-  const box = el('div', 'reads');
-  box.appendChild(list);
-  body.appendChild(box);
-}
-
-function orderTable(body, pairs) {
+function rankTable(body, pairs, labels, cls) {
+  /* A ranking too long or too fine for bars: a name, a small bar for its
+     share of the top, and the figure. */
   const scroll = el('div', 'scroll');
   const table = document.createElement('table');
   const head = document.createElement('tr');
-  head.innerHTML = '<th>Order</th><th>Share</th>';
-  const amount = document.createElement('th');
-  amount.textContent = 'Amount';
-  head.appendChild(amount);
+  head.appendChild(el('th', null, labels[0]));
+  head.appendChild(el('th', null, ''));
+  head.appendChild(el('th', 'right', labels[1]));
   table.appendChild(head);
   const top = Math.max.apply(null, pairs.map(p => num(p[1])).concat([1]));
   for (const pair of pairs) {
@@ -948,7 +1658,7 @@ function orderTable(body, pairs) {
     meter.style.width = Math.round(num(pair[1]) / top * 100) + '%';
     meterCell.appendChild(meter);
     row.appendChild(meterCell);
-    const value = el('td', 'right money', pair[1]);
+    const value = el('td', 'right ' + (cls || 'money'), pair[1]);
     row.appendChild(value);
     table.appendChild(row);
   }
@@ -956,167 +1666,1688 @@ function orderTable(body, pairs) {
   body.appendChild(scroll);
 }
 
+/* Sandbox: the weeks between two years, each by its Monday. A week
+   belongs to the year, month and quarter of its Thursday, as ISO weeks
+   do. */
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November',
+                'December'];
+const YEARS = [2024, 2025, 2026];
+
+function weeksFor(fromYear, toYear) {
+  const out = [];
+  /* The Monday of ISO week 1: the week that holds 4 January. */
+  const jan4 = new Date(fromYear, 0, 4);
+  let start = new Date(fromYear, 0, 4 - ((jan4.getDay() + 6) % 7));
+  for (;;) {
+    const thursday = new Date(start.getFullYear(), start.getMonth(),
+                              start.getDate() + 3);
+    if (thursday.getFullYear() > toYear) break;
+    out.push({
+      label: String(start.getDate()).padStart(2, '0') + '/' +
+             String(start.getMonth() + 1).padStart(2, '0'),
+      year: thursday.getFullYear(),
+      month: thursday.getMonth(),
+      quarter: Math.floor(thursday.getMonth() / 3),
+      /* Weeks since a fixed Monday, so a week keeps its sample numbers
+         whatever the year range. */
+      serial: Math.round((start - new Date(2023, 11, 25)) / (7 * 864e5))
+    });
+    start = new Date(start.getFullYear(), start.getMonth(),
+                     start.getDate() + 7);
+  }
+  return out;
+}
+
+/* Sample counts, not the project's data. */
+function sampleReceived(w) {
+  return Math.round(18 + 9 * Math.sin(w.serial / 3.2) + (w.serial * 7) % 5);
+}
+function sampleProcessed(w) {
+  const v = sampleReceived(w);
+  return w.serial % 3 === 0 ? v - Math.ceil(v * 0.15)
+       : w.serial % 4 === 0 ? v : v - Math.ceil(v * 0.05);
+}
+
+/* The chosen period: a year range, a step, and the weeks from (first)
+   to (one past the last) inside that range. Q2 2026 by default. */
+const period = {fromYear: 2026, toYear: 2026, unit: 'quarter',
+                weeks: weeksFor(2026, 2026), from: 0, to: 0};
+(() => {
+  const q2 = period.weeks.map((w, i) => w.quarter === 1 ? i : -1)
+                         .filter(i => i >= 0);
+  period.from = q2[0];
+  period.to = q2[q2.length - 1] + 1;
+})();
+
+/* Where the handles may stop: every week, or the first week of each
+   month, quarter or year, plus the end. */
+function periodStops(unit) {
+  const ws = period.weeks;
+  if (unit === 'week') return ws.map((w, i) => i).concat([ws.length]);
+  const key = unit === 'month' ? 'month' : unit === 'quarter' ? 'quarter'
+            : 'year';
+  const stops = [0];
+  ws.forEach((w, i) => {
+    if (i > 0 && (w[key] !== ws[i - 1][key] || w.year !== ws[i - 1].year))
+      stops.push(i);
+  });
+  return stops.concat([ws.length]);
+}
+
+function nearestStop(value, stops) {
+  return stops.reduce((best, s) =>
+    Math.abs(s - value) < Math.abs(best - value) ? s : best, stops[0]);
+}
+
+function periodText() {
+  const ws = period.weeks;
+  const first = ws[period.from], last = ws[period.to - 1];
+  const at = unit => {
+    const s = periodStops(unit);
+    return s.includes(period.from) && s.includes(period.to);
+  };
+  if (at('year')) return first.year === last.year ? String(first.year)
+                         : first.year + '–' + last.year;
+  if (at('quarter') && first.quarter === last.quarter &&
+      first.year === last.year)
+    return 'Q' + (first.quarter + 1) + ' ' + first.year;
+  if (at('month') && first.month === last.month && first.year === last.year)
+    return MONTHS[first.month] + ' ' + first.year;
+  return first.label + '/' + first.year + ' – ' + last.label + '/' +
+         last.year;
+}
+
+let timeChart = null;
+let issuerChart = null;
+let issuerRows = null;
+
+/* The short name each issuer goes by; any other keeps its first word. */
+const ISSUER_SHORT = {
+  'Keuhne & Nager Logistics AG': 'Keuhne+Nager',
+  'Marsk Line Agencies B.V.': 'Marsk',
+  'COSMO Shipping Lines Co., Ltd.': 'COSMO',
+  'Guangzhou Verrelia Glassworks Ltd.': 'Verrelia',
+  'Hanil Cosmetic Vessels Co., Ltd.': 'Hanil',
+  'Aravalli Labelworks Pvt. Ltd.': 'Aravalli',
+  'Binh Duong Tubeworks JSC': 'Binh Duong',
+  'Shantou Brightpack Packaging Co., Ltd.': 'Brightpack',
+  'Ningbo Caplink Industrial Co., Ltd.': 'Caplink',
+  'DHI Global Forwarding (HK) Ltd.': 'DHI',
+  'Santos Comissaria Aduaneira Ltda.': 'Santos Comissaria',
+  'Terminal Valongo Alfandegado Ltda.': 'Valongo',
+  'Transportes Lima Vieira Ltda.': 'Lima Vieira',
+  'Quantum Pack Solutions Ltd.': 'Quantum Pack',
+  'Taizhou Primepack Plastics Co., Ltd.': 'Primepack',
+  'Vinacap Closures Joint Stock Co.': 'Vinacap',
+  'Kyungbo Pump Systems Co., Ltd.': 'Kyungbo'
+};
+
+/* Sandbox: the period filter is the whole page's. Every chart that
+   follows it redraws here. */
+function renderPeriod() {
+  renderTimeDraft();
+  renderIssuers();
+  renderInvoiceTable();
+  renderPies();
+  /* The anomaly view follows the same funnel, so its five panels redraw
+     here too. Only the view on screen is redrawn: the other one's panels
+     are gone from the page and would be written to nowhere. */
+  if (view !== 'anomalies') return;
+  renderFlagTime();
+  renderFlagSuppliers();
+  renderScoredTable();
+  renderAnomalyPies();
+}
+
+/* Sandbox: two donuts for the right-hand panels, both following the
+   period. Invoice types from project 01's year run (the same invoices
+   as Top issuers); invoice status from this folder's invoices (the same
+   as the table in the middle). */
+const pies = {kind: null, status: null};
+const DONUT_COLOURS = ['#75D6FF', '#3A8FD9', '#7C6CFF', '#4FB3C9', '#5B7C93',
+                     '#A9C6D8', '#2E4F66'];
+const STATUS_COLOURS = {new: '#75D6FF', revised: '#FFC547',
+                        superseded: '#5B7C93', problem: '#FF9F43'};
+
+function drawPie(body, which) {
+  const node = el('div', 'chart');
+  body.appendChild(node);
+  pies[which] = echarts.init(node, null, {renderer: 'canvas'});
+  charts.push(pies[which]);
+  renderPies();
+}
+
+function periodSerials() {
+  return new Set(period.weeks.slice(period.from, period.to)
+                             .map(w => w.serial));
+}
+
+function serialOf(day) {
+  const [y, m, d] = day.split('-').map(Number);
+  const date = new Date(y, m - 1, d);
+  const monday = new Date(y, m - 1, d - ((date.getDay() + 6) % 7));
+  return Math.round((monday - new Date(2023, 11, 25)) / (7 * 864e5));
+}
+
+function pieOption(chart, entries, colours) {
+  const total = entries.reduce((s, e) => s + e[1], 0);
+  /* The legend keeps 130px on the right; the donut fills the rest, up to
+     the panel's height. The legend starts just right of the donut. */
+  const w = chart.getWidth(), h = chart.getHeight();
+  /* The legend's column is as wide as its longest line needs, not a
+     fixed 130: "International freight 5.5%" is half again as long as
+     "new 86.9%", and a column cut to fit the short one loses the %. */
+  const longest = entries.reduce((most, e) =>
+    Math.max(most, (e[0] + '  100.0%').length), 8);
+  const reserve = Math.min(w * 0.66, Math.max(110, longest * 6.3 + 22));
+  const R = Math.max(30, Math.min(h * 0.47, (w - reserve - 24) / 2));
+  const data = entries.map(([name, n], i) => ({
+    name: name, value: n,
+    itemStyle: {color: colours[name] || DONUT_COLOURS[i % DONUT_COLOURS.length]}
+  }));
+  return {
+    backgroundColor: 'transparent',
+    animationDuration: 300,
+    graphic: total ? [] : [{type: 'text', left: 'center', top: 'middle',
+      style: {text: 'No invoices in this period', fill: '#9FB7C9',
+              fontSize: 12}}],
+    tooltip: Object.assign({}, TOOLTIP, {
+      formatter: p => p.name + '<br/><b>' + p.percent.toFixed(1) +
+                      '%</b> (' + p.value + ' of ' + total + ')'}),
+    legend: {data: entries.map(e => e[0]),
+             /* The donut has a floor it will not shrink below. In a narrow
+                panel that floor would push the legend past the right edge
+                and cut the last character off every line, so the legend
+                keeps its 130px and sits closer to the ring instead. */
+             orient: 'vertical',
+             left: Math.min(2 * R + 20, Math.max(0, w - reserve)),
+             top: 'middle', icon: 'circle',
+             itemWidth: 8, itemHeight: 8, itemGap: 9,
+             textStyle: {color: '#E6F0F6', fontSize: 12},
+             formatter: name => {
+               const e = entries.find(x => x[0] === name);
+               return name + '  ' + (100 * e[1] / total).toFixed(1) + '%';
+             }},
+    /* No outline: the hairlines read as coarse. A clean ring, with a
+       hairline seam between slices. */
+    series: [{type: 'pie', radius: [R * 0.6, R], center: [R + 4, '50%'],
+              avoidLabelOverlap: true, label: {show: false},
+              itemStyle: {borderColor: 'rgba(6, 28, 40, 0.9)', borderWidth: 0.5},
+              data: data}]
+  };
+}
+
+function renderPies() {
+  const inside = periodSerials();
+  if (pies.kind && !pies.kind.isDisposed() && issuerRows) {
+    const counts = {};
+    issuerRows.forEach(r => {
+      if (inside.has(r.serial) && r.kind)
+        counts[r.kind] = (counts[r.kind] || 0) + 1;
+    });
+    pies.kind.setOption(pieOption(pies.kind,
+      Object.entries(counts).sort((a, b) => b[1] - a[1]), {}), true);
+  }
+  if (pies.status && !pies.status.isDisposed() && invoiceList) {
+    const counts = {};
+    invoiceList.forEach(r => {
+      if (!inside.has(serialOf(r.date))) return;
+      const k = r.problem ? 'problem' : r.status;
+      counts[k] = (counts[k] || 0) + 1;
+    });
+    pies.status.setOption(pieOption(pies.status,
+      Object.entries(counts).sort((a, b) => b[1] - a[1]), STATUS_COLOURS),
+      true);
+  }
+}
+
+/* The donuts are sized in pixels from their panel, so a new window size
+   sizes them again. */
+window.addEventListener('resize', () => setTimeout(renderPies, 50));
+
+let invoiceList = null;
+let invoiceBody = null;
+
+/* Sandbox: the invoices of the chosen weeks, newest first. A click on a
+   row opens the PDF; the button at the row's end downloads it. */
+async function drawInvoiceTable(body) {
+  invoiceBody = body;
+  if (!invoiceList)
+    invoiceList = (await get('/api/cost/invoice-list', {})).invoices;
+  renderInvoiceTable();
+  renderPies();
+}
+
+function renderInvoiceTable() {
+  if (!invoiceBody || !invoiceList) return;
+  const epoch = new Date(2023, 11, 25);
+  const inside = new Set(period.weeks.slice(period.from, period.to)
+                                     .map(w => w.serial));
+  const rows = invoiceList.filter(r => {
+    const [y, m, d] = r.date.split('-').map(Number);
+    const date = new Date(y, m - 1, d);
+    const monday = new Date(y, m - 1, d - ((date.getDay() + 6) % 7));
+    return inside.has(Math.round((monday - epoch) / (7 * 864e5)));
+  }).sort((a, b) => b.date.localeCompare(a.date) ||
+                    b.number.localeCompare(a.number));
+  invoiceBody.innerHTML = '';
+  const scroll = el('div', 'inv-scroll');
+  const table = el('table', 'inv');
+  const head = el('tr');
+  ['Invoice', 'Issuer', 'Date', 'Status', ''].forEach(t =>
+    head.appendChild(el('th', null, t)));
+  const thead = el('thead');
+  thead.appendChild(head);
+  table.appendChild(thead);
+  const tbody = el('tbody');
+  if (!rows.length) {
+    const tr = el('tr');
+    const td = el('td', 'inv-empty', 'No invoices in this period');
+    td.colSpan = 5;
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+  }
+  const pdf = (r, down) => '/api/cost/invoice-pdf/' +
+    encodeURIComponent(r.pdf) + (down ? '?download=true' : '');
+  rows.forEach(r => {
+    const tr = el('tr', 'inv-row');
+    tr.title = 'Open ' + r.number;
+    tr.addEventListener('click', () => window.open(pdf(r, false), '_blank'));
+    tr.appendChild(el('td', 'inv-num', r.number));
+    const short = ISSUER_SHORT[r.issuer] || r.issuer.split(' ')[0];
+    const who = el('td', 'inv-who', short);
+    who.title = r.issuer;
+    tr.appendChild(who);
+    const [y, m, d] = r.date.split('-');
+    tr.appendChild(el('td', 'inv-date', d + '/' + m + '/' + y));
+    const kind = r.problem ? 'problem' : r.status;
+    const st = el('td');
+    st.appendChild(el('span', 'chip ' + kind, kind));
+    tr.appendChild(st);
+    const cell = el('td', 'inv-get');
+    const link = el('a');
+    link.href = pdf(r, true);
+    link.title = 'Download ' + r.number;
+    link.addEventListener('click', e => e.stopPropagation());
+    const img = el('img');
+    img.src = '/static/icon-download.png';
+    img.alt = 'Download';
+    link.appendChild(img);
+    cell.appendChild(link);
+    tr.appendChild(cell);
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  scroll.appendChild(table);
+  invoiceBody.appendChild(scroll);
+}
+
+/* Sandbox: who issued the invoices in the chosen weeks, each issuer's
+   share of them, from project 01's year run. Each row: the name, the
+   share, its change against the same weeks one week and one month back,
+   and a bar with a small arrow at the issuer's target. The target is the
+   issuer's share over the whole year run, a sample rule for now. The bar
+   is green when the share reaches the target, red when not. */
+let issuerBody = null;
+
+async function drawIssuers(body) {
+  issuerBody = body;
+  if (!issuerRows) {
+    const epoch = new Date(2023, 11, 25);
+    issuerRows = (await get('/api/cost/invoices', {})).invoices.map(
+      ([issuer, day, kind]) => {
+        const [y, m, d] = day.split('-').map(Number);
+        const date = new Date(y, m - 1, d);
+        const monday = new Date(y, m - 1, d - ((date.getDay() + 6) % 7));
+        return {issuer: issuer, kind: kind,
+                serial: Math.round((monday - epoch) / (7 * 864e5))};
+      });
+  }
+  renderIssuers();
+  renderPies();
+}
+
+function issuerShares(serials) {
+  const inside = new Set(serials);
+  const counts = {};
+  let total = 0;
+  issuerRows.forEach(r => {
+    if (!inside.has(r.serial)) return;
+    counts[r.issuer] = (counts[r.issuer] || 0) + 1;
+    total += 1;
+  });
+  const shares = {};
+  for (const k in counts) shares[k] = 100 * counts[k] / total;
+  return {shares: shares, total: total};
+}
+
+/* One comparison cell: the arrow and the change in points. The column
+   header says against what. */
+function changeCell(now, then) {
+  const cell = el('span', 'iss-cmp');
+  if (then === undefined) {
+    cell.textContent = '–';
+    return cell;
+  }
+  const diff = Math.round(10 * (now - then)) / 10;
+  /* No change shows as a faint dash, so only real moves catch the eye. */
+  if (diff === 0) {
+    cell.appendChild(el('span', 'flat', '–'));
+    return cell;
+  }
+  cell.appendChild(el('span', diff > 0 ? 'up' : 'down', diff > 0 ? '▲' : '▼'));
+  cell.appendChild(document.createTextNode(' ' + Math.abs(diff).toFixed(1)));
+  return cell;
+}
+
+function renderIssuers() {
+  if (!issuerBody || !issuerRows) return;
+  const serials = period.weeks.slice(period.from, period.to)
+                              .map(w => w.serial);
+  const now = issuerShares(serials);
+  const week = issuerShares(serials.map(s => s - 1));
+  const month = issuerShares(serials.map(s => s - 4));
+  const year = issuerShares(issuerRows.map(r => r.serial));
+  /* The 15 largest, largest first. */
+  const top = Object.keys(now.shares)
+    .sort((a, b) => now.shares[b] - now.shares[a]).slice(0, 15);
+  const scale = Math.max.apply(null, top.map(k =>
+    Math.max(now.shares[k], year.shares[k] || 0)).concat([1]));
+  issuerBody.innerHTML = '';
+  /* One header line names the columns, so each row holds only values. */
+  const cols = el('div', 'iss-head iss-cols');
+  ['Issuer', 'Share', 'Last week', 'Last month'].forEach(t =>
+    cols.appendChild(el('span', null, t)));
+  issuerBody.appendChild(cols);
+  const list = el('div', 'iss-list');
+  if (!top.length) list.appendChild(el('div', 'inv-empty',
+                                       'No invoices in this period'));
+  top.forEach(k => {
+    const share = now.shares[k];
+    const goal = year.shares[k] || 0;
+    const row = el('div', 'iss-row');
+    row.title = k + ': ' + share.toFixed(1) + '% of ' + now.total +
+                ' invoices';
+    const head = el('div', 'iss-head');
+    head.appendChild(el('span', 'iss-name', ISSUER_SHORT[k] || k.split(' ')[0]));
+    head.appendChild(el('span', 'iss-share', share.toFixed(1) + '%'));
+    head.appendChild(changeCell(share, week.total ? week.shares[k] || 0
+                                                  : undefined));
+    head.appendChild(changeCell(share, month.total ? month.shares[k] || 0
+                                                   : undefined));
+    row.appendChild(head);
+    const track = el('div', 'iss-track');
+    const bar = el('div', 'iss-bar ' + (share >= goal ? 'met' : 'missed'));
+    bar.style.width = (100 * share / scale) + '%';
+    track.appendChild(bar);
+    const mark = el('div', 'iss-target', '▼');
+    mark.style.left = (100 * goal / scale) + '%';
+    track.appendChild(mark);
+    row.appendChild(track);
+    list.appendChild(row);
+  });
+  issuerBody.appendChild(list);
+}
+
+/* Sandbox: a style draft for region 1. Received in blue, processed in
+   yellow, the target a thin red line, over the chosen weeks. The month
+   sits under its weeks, a bracket with the name in the middle. */
+function drawTimeDraft(body) {
+  const node = el('div', 'chart');
+  body.appendChild(node);
+  timeChart = echarts.init(node, null, {renderer: 'canvas'});
+  charts.push(timeChart);
+  renderTimeDraft();
+}
+
+function renderTimeDraft() {
+  if (!timeChart) return;
+  const span = period.weeks.slice(period.from, period.to);
+  /* Each week named by its month and its place in it: "May - Week 3". */
+  const all = period.weeks;
+  const weeks = span.map((w, i) => {
+    let k = period.from + i, n = 1;
+    while (k > 0 && all[k - 1].month === w.month &&
+           all[k - 1].year === w.year) { k--; n++; }
+    return MONTHS[w.month].slice(0, 3) + ' - Week ' + n;
+  });
+  const first = span.map(sampleReceived);
+  const second = span.map(sampleProcessed);
+  const TARGET = 90;
+  const goal = first.map(v => Math.round(v * TARGET) / 100);
+  const share = second.map((v, i) => Math.round(1000 * v / first[i]) / 10);
+  const monthEdge = [0];
+  span.forEach((w, i) => {
+    if (i > 0 && w.month !== span[i - 1].month) monthEdge.push(i);
+  });
+  monthEdge.push(span.length);
+  const monthAreas = [];
+  for (let k = 0; k < monthEdge.length - 1; k++) {
+    const a = monthEdge[k], b = monthEdge[k + 1] - 1;
+    const name = span.length > 30 ? MONTHS[span[a].month].slice(0, 3)
+                                  : MONTHS[span[a].month];
+    monthAreas.push([{name: name, xAxis: a}, {xAxis: b}]);
+  }
+  /* Past a quarter the point labels would crowd; the tooltip has them. */
+  const labels = span.length <= 14;
+  timeChart.setOption({
+    backgroundColor: 'transparent',
+    animationDuration: 300,
+    legend: {right: 8, top: 10, icon: 'roundRect', itemWidth: 16,
+             itemHeight: 3, textStyle: {color: '#9FB7C9', fontSize: 12}},
+    tooltip: Object.assign({}, TOOLTIP, {
+      trigger: 'axis',
+      formatter: ps => {
+        const i = ps[0].dataIndex;
+        return weeks[i] + ' ' + span[i].year + ' (from ' + span[i].label +
+               ')' +
+               '<br/>Received: <b>' + first[i] + '</b>' +
+               '<br/>Processed: <b>' + second[i] + '</b> (' + share[i] +
+               '%)<br/>Target: <b>' + goal[i] + '</b> (' + TARGET + '%)';
+      }}),
+    grid: {left: 38, right: 8, top: 44, bottom: 34},
+    xAxis: [
+      {type: 'category', data: weeks, boundaryGap: true,
+       axisLine: {lineStyle: {color: '#14384C'}},
+       axisTick: {show: true, alignWithLabel: false,
+                  lineStyle: {color: '#7892A6'}},
+       axisLabel: {color: '#9FB7C9', fontSize: 11}},
+      {type: 'category', data: weeks.map(() => ''), position: 'bottom',
+       offset: 16, boundaryGap: true,
+       axisLine: {show: true, lineStyle: {color: '#9FB7C9'}},
+       axisTick: {show: true, length: 6, inside: true,
+                  interval: i => monthEdge.includes(i),
+                  lineStyle: {color: '#9FB7C9'}},
+       axisLabel: {show: false}}
+    ],
+    yAxis: {type: 'value',
+            splitLine: {lineStyle: {color: '#14384C'}},
+            axisLabel: {color: '#9FB7C9', fontSize: 11}},
+    series: [
+      {name: 'Received', type: 'line', smooth: true, data: first,
+       symbol: 'circle', symbolSize: 7, showSymbol: true,
+       label: {show: labels, position: 'bottom', color: '#E6F0F6',
+               fontSize: 11},
+       lineStyle: {width: 2, color: '#4FC3F7',
+                   shadowColor: 'rgba(79, 195, 247, 0.5)', shadowBlur: 10},
+       itemStyle: {color: '#4FC3F7'},
+       areaStyle: {color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+         {offset: 0, color: 'rgba(79, 195, 247, 0.28)'},
+         {offset: 1, color: 'rgba(79, 195, 247, 0)'}])},
+       markArea: {silent: true, itemStyle: {color: 'transparent'},
+                  label: {position: 'bottom', distance: 20,
+                          color: '#E6F0F6', fontSize: 12, fontWeight: 700},
+                  data: monthAreas}},
+      /* Processed in yellow, its shade over everything below it. Above
+         each point a bright green check when the week met the target, a
+         bright red cross when not. */
+      {name: 'Processed', type: 'line', smooth: true,
+       data: second.map((v, i) => ({value: v, label: v >= goal[i]
+         ? {color: '#2EF2B0', formatter: '✓'}
+         : {color: '#FF4F7B', formatter: '✗'}})),
+       symbol: 'circle', symbolSize: 6, showSymbol: true,
+       label: {show: true, position: 'top', fontSize: 14, fontWeight: 700},
+       lineStyle: {width: 1.5, color: '#E6F0F6'},
+       itemStyle: {color: '#E6F0F6'},
+       areaStyle: {color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+         {offset: 0, color: 'rgba(230, 240, 246, 0.14)'},
+         {offset: 1, color: 'rgba(230, 240, 246, 0)'}])}},
+      /* The target on top: a thin red line, 90% of each week's received. */
+      {name: 'Target', type: 'line', smooth: true, data: goal,
+       showSymbol: false, z: 5,
+       lineStyle: {width: 1.2, color: 'rgba(230, 240, 246, 0.75)', type: 'dashed'},
+       itemStyle: {color: 'rgba(230, 240, 246, 0.75)'}}
+    ]
+  }, true);
+}
+
+/* Sandbox: the filter. A funnel button in the top bar opens a panel
+   over the chart: first the years, then the step, then a ruler of the
+   weeks with two handles that stop only at whole steps. */
+function buildRuler() {
+  const button = document.getElementById('filter-button');
+  const panel = document.getElementById('filter-panel');
+  const fromYear = document.getElementById('year-from');
+  const toYear = document.getElementById('year-to');
+  const steps = panel.querySelectorAll('.step');
+  const from = document.getElementById('rfrom');
+  const to = document.getElementById('rto');
+  const marks = document.getElementById('ruler-marks');
+
+  YEARS.forEach(y => {
+    fromYear.appendChild(new Option(y, y));
+    toYear.appendChild(new Option(y, y));
+  });
+
+  function drawMarks() {
+    const ws = period.weeks;
+    marks.innerHTML = '';
+    from.max = to.max = ws.length;
+    const pos = i => (100 * i / ws.length) + '%';
+    ws.forEach((w, i) => {
+      const prev = ws[i - 1];
+      const kind = !prev || w.year !== prev.year ? 'y'
+                 : w.quarter !== prev.quarter ? 'q'
+                 : w.month !== prev.month ? 'm' : 'w';
+      const tick = el('span', 'tick ' + kind);
+      tick.style.left = pos(i);
+      marks.appendChild(tick);
+      if (kind !== 'w') {
+        const next = ws.findIndex((x, j) => j > i && x.month !== w.month);
+        const mid = ((next < 0 ? ws.length : next) + i) / 2;
+        const name = el('span', 'mname',
+                        ws.length > 60 ? MONTHS[w.month].charAt(0)
+                                       : MONTHS[w.month].slice(0, 3));
+        name.style.left = pos(mid);
+        marks.appendChild(name);
+      }
+      if (kind === 'y' || kind === 'q') {
+        const next = ws.findIndex((x, j) => j > i &&
+          (x.quarter !== w.quarter || x.year !== w.year));
+        const mid = ((next < 0 ? ws.length : next) + i) / 2;
+        const name = el('span', 'qname', 'Q' + (w.quarter + 1) +
+                        (period.fromYear !== period.toYear
+                           ? ' ' + String(w.year).slice(2) : ''));
+        name.style.left = pos(mid);
+        marks.appendChild(name);
+      }
+    });
+    const end = el('span', 'tick y');
+    end.style.left = '100%';
+    marks.appendChild(end);
+  }
+
+  function paint() {
+    fromYear.value = period.fromYear;
+    toYear.value = period.toYear;
+    steps.forEach(s => s.classList.toggle('on',
+                                          s.dataset.unit === period.unit));
+    from.value = period.from;
+    to.value = period.to;
+    const n = period.weeks.length;
+    const fill = document.getElementById('ruler-fill');
+    fill.style.left = (100 * period.from / n) + '%';
+    fill.style.width = (100 * (period.to - period.from) / n) + '%';
+    const text = periodText();
+    document.getElementById('period-label').textContent = text;
+    document.getElementById('filter-label').textContent = text;
+    renderPeriod();
+  }
+
+  function snap(which) {
+    const stops = periodStops(period.unit);
+    let a = nearestStop(Number(from.value), stops);
+    let b = nearestStop(Number(to.value), stops);
+    if (a >= b) {
+      if (which === 'from') a = stops[stops.indexOf(b) - 1];
+      else b = stops[stops.indexOf(a) + 1];
+    }
+    period.from = a;
+    period.to = b;
+    paint();
+  }
+
+  function setYears() {
+    let a = Number(fromYear.value), b = Number(toYear.value);
+    if (b < a) b = a;
+    period.fromYear = a;
+    period.toYear = b;
+    period.weeks = weeksFor(a, b);
+    period.from = 0;
+    period.to = period.weeks.length;
+    drawMarks();
+    paint();
+  }
+
+  fromYear.addEventListener('change', setYears);
+  toYear.addEventListener('change', setYears);
+  steps.forEach(s => s.addEventListener('click', () => {
+    period.unit = s.dataset.unit;
+    snap('to');
+  }));
+  from.addEventListener('input', () => snap('from'));
+  to.addEventListener('input', () => snap('to'));
+  button.addEventListener('click', e => {
+    e.stopPropagation();
+    /* Open right under the button, its right edge on the button's. */
+    const r = button.getBoundingClientRect();
+    panel.style.top = (r.bottom + 8) + 'px';
+    panel.style.left = Math.max(8, r.right - 640) + 'px';
+    panel.classList.toggle('open');
+  });
+  panel.addEventListener('click', e => e.stopPropagation());
+  document.addEventListener('click', () => panel.classList.remove('open'));
+
+  drawMarks();
+  paint();
+}
+
 function drawGrid() {
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
-  while (charts.length) charts.pop().dispose();
+  dropCharts();
 
-  const balance = card('balance', 6, 1, 'The period');
-  const tilesA = el('div', 'tiles');
-  tilesA.appendChild(tile(overview.total_owed, 'Total owed', 'money'));
-  tilesA.appendChild(tile(String(overview.count), 'Documents'));
-  tilesA.appendChild(tile(overview.ticket_average, 'Average document',
-                          'money'));
-  balance.body.appendChild(tilesA);
-  grid.appendChild(balance.box);
+  const o = overview;
+  const t = o.targets || {};
 
-  /* The oldest overdue document belongs here, beside the rest of what
-     is late, not in the period card. */
-  const overdue = card('overdue', 6, 1, 'Overdue');
-  const tilesB = el('div', 'tiles');
-  tilesB.appendChild(tile(overview.overdue_total, 'Overdue', 'money'));
-  tilesB.appendChild(tile(overview.overdue_rate, 'Share', 'share'));
-  tilesB.appendChild(tile(overview.average_days_overdue, 'Average late'));
-  tilesB.appendChild(tile(overview.oldest_overdue, 'Oldest overdue',
-                          'ref'));
-  overdue.body.appendChild(tilesB);
-  grid.appendChild(overdue.box);
+  /* The desk's own targets first: the department is judged on these,
+     not on the size of the bill. They cover the whole period, because
+     project 01 measured them per run, not per carrier. */
+  /* Sandbox: one row high, so the tiles hold no empty space. */
+  const desk = card('targets', 12, 1, 'How the desk did');
+  const deskTiles = el('div', 'tiles');
+  /* Sandbox: four weekly tiles: name, value with the change against
+     last week, then the target. */
+  (o.desk || []).forEach(k => {
+    const outer = el('div', 'tile kpi-tile');
+    const box = el('div', 'kpi-text');
+    outer.appendChild(box);
+    /* Sandbox: the icon on the title's line; the rest below it. */
+    const head = el('div', 'kpi-head');
+    const icon = el('img', 'kpi-icon');
+    icon.src = k.icon;
+    icon.alt = '';
+    head.appendChild(icon);
+    const words = el('div', 'kpi-words');
+    words.appendChild(el('div', 'label', k.name));
+    words.appendChild(el('div', 'kpi-target', 'target: ' + k.target));
+    head.appendChild(words);
+    box.appendChild(head);
+    const row = el('div', 'kpi-row');
+    row.appendChild(el('div', 'value', k.value));
+    /* Sandbox: the arrow apart; last week on top, last month below. Its
+       colour follows the effect, not the direction: for the tiles where
+       less is better, a rise is coral and a fall is mint. */
+    const lessIsBetter = ['Remaining to target', 'Supplier errors',
+                          'Automation errors']
+                           .includes(k.name);
+    const changes = el('div', 'kpi-changes');
+    [k.change, k.month].forEach(text => {
+      const change = el('div', 'kpi-change');
+      const mark = text.charAt(0);
+      if (mark === '▲' || mark === '▼') {
+        const better = (mark === '▲') !== lessIsBetter;
+        change.appendChild(el('span', better ? 'up' : 'down', mark));
+        change.appendChild(document.createTextNode(text.slice(1)));
+      } else {
+        change.textContent = text;
+      }
+      changes.appendChild(change);
+    });
+    row.appendChild(changes);
+    box.appendChild(row);
+    deskTiles.appendChild(outer);
+  });
+  desk.body.appendChild(deskTiles);
+  /* Sandbox: the panel title removed. */
+  desk.box.querySelector('h3').remove();
+  grid.appendChild(desk.box);
 
-  const week = card('by_month', 8, 2, 'Falling due by week');
-  const weekNode = el('div', 'chart');
-  week.body.appendChild(weekNode);
-  grid.appendChild(week.box);
+  /* Sandbox: the four empty regions, no charts yet. 1 over time across
+     the top; 2 bars and 3 pies on the left; 4 the document tables on the
+     right, as tall as 2 and 3 together. */
+  /* Below region 1, after Rafael's second sketch: a tall panel on the
+     left, a wide one in the middle, two stacked on the right. */
+  [['region-time', 12, 2], ['region-left', 3, 4],
+   ['region-center', 6, 4], ['region-right-top', 3, 2],
+   ['region-right-bottom', 3, 2]].forEach(([name, cols, rows]) => {
+    const region = card(name, cols, rows, '');
+    region.box.querySelector('h3').remove();
+    grid.appendChild(region.box);
+    /* A panel's title in the page, not in the chart: an icon and the
+       name, in the same type as the tile titles. */
+    const heading = (icon, text) => {
+      const head = el('div', 'panel-head');
+      const img = el('img', 'kpi-icon');
+      img.src = icon;
+      img.alt = '';
+      head.appendChild(img);
+      head.appendChild(el('div', 'panel-title', text));
+      region.box.insertBefore(head, region.body);
+    };
+    if (name === 'region-time') {
+      heading('/static/icon-time.png', 'Invoices received vs processed (draft)');
+      /* The title floats in the corner; the chart takes the whole panel,
+         its legend on the title's line. */
+      region.box.classList.add('float-head');
+      drawTimeDraft(region.body);
+    }
+    if (name === 'region-left') {
+      heading('/static/icon-issuers.png', 'Top issuers');
+      drawIssuers(region.body);
+    }
+    if (name === 'region-center') {
+      heading('/static/icon-invoices.svg', 'Invoices');
+      drawInvoiceTable(region.body);
+    }
+    if (name === 'region-right-top') {
+      heading('/static/icon-processed.svg', 'Invoice types');
+      drawPie(region.body, 'kind');
+    }
+    if (name === 'region-right-bottom') {
+      heading('/static/icon-completed.png', 'Invoice status');
+      drawPie(region.body, 'status');
+    }
+  });
 
-  const band = card('by_band', 4, 2, 'Overdue by band');
-  const bandNode = el('div', 'chart');
-  band.body.appendChild(bandNode);
-  grid.appendChild(band.box);
+  /* Sandbox: every other panel stays removed. */
+  return;
 
-  /* The same stat row as the top, one level down: who, and what. The
-     figures are read off the charts below them, so the two can never
-     disagree. */
-  const names = overview.by_supplier || [];
-  const things = overview.by_item || [];
-  const whole = num(overview.total_owed);
+  /* The recoverable taxes sit beside the cost, never inside it: IPI,
+     PIS, COFINS and ICMS come back to a manufacturer as credits. */
+  const head = card('landed', 12, 2, 'Landed cost, in reais');
+  const headTiles = el('div', 'tiles');
+  headTiles.appendChild(tile(o.landed_total,
+                             o.shipments + ' shipments', 'money'));
+  headTiles.appendChild(tile(o.final_total, 'Final', 'money'));
+  headTiles.appendChild(tile(o.provisional_total,
+                             'Provisional, ' + (o.provisional_share || '-') +
+                             ' of it', 'money'));
+  headTiles.appendChild(tile(o.credits_total, 'Recoverable taxes, apart',
+                             'money'));
+  head.body.appendChild(headTiles);
+  grid.appendChild(head.box);
 
-  const whoCard = card('suppliers', 6, 1, 'Suppliers');
-  const whoTiles = el('div', 'tiles');
-  whoTiles.appendChild(tile(String(names.length), 'Suppliers billing'));
-  whoTiles.appendChild(tile(names.length ? names[0][0] : '-',
-                            'Largest balance', 'ref'));
-  whoTiles.appendChild(tile(
-    names.length ? names[0][1] : '-',
-    names.length && whole
-      ? 'Owed, ' + (num(names[0][1]) / whole * 100).toFixed(1) +
-        '% of the total'
-      : 'What they are owed',
-    'money'));
-  whoCard.body.appendChild(whoTiles);
-  grid.appendChild(whoCard.box);
+  /* Sandbox: every chart panel removed; only the tables stay. */
 
-  const whatCard = card('items', 6, 1, 'Items');
-  const whatTiles = el('div', 'tiles');
-  whatTiles.appendChild(tile(String(things.length), 'Distinct items'));
-  whatTiles.appendChild(tile(things.length ? things[0][0] : '-',
-                             'Most bought', 'ref'));
-  whatTiles.appendChild(tile(
-    things.length ? things[0][1] : '-',
-    things.length && whole
-      ? 'Spent, ' + (num(things[0][1]) / whole * 100).toFixed(1) +
-        '% of the total'
-      : 'What it cost',
-    'money'));
-  whatCard.body.appendChild(whatTiles);
-  grid.appendChild(whatCard.box);
+  /* Four places, not two: a cap that lands at 0.4577 is not 0.46 to a
+     team multiplying it by a hundred thousand. */
+  const unit = card('unit_cost', 4, 4, 'Cost per unit');
+  rankTable(unit.body, o.unit_cost || [], ['Part', 'Per unit'], 'unit');
+  grid.appendChild(unit.box);
 
-  const supplier = card('by_supplier', 6, 2, 'Owed by supplier');
-  const supplierNode = el('div', 'chart');
-  supplier.body.appendChild(supplierNode);
-  grid.appendChild(supplier.box);
-
-  const item = card('by_item', 6, 2, 'Owed by item');
-  const itemNode = el('div', 'chart');
-  item.body.appendChild(itemNode);
-  grid.appendChild(item.box);
-
-  const docs = card('documents', 12, 3, 'Documents');
-  documentTable(docs.body, papers);
-  grid.appendChild(docs.box);
-
-  const order = card('by_order', 12, 2, 'Owed by order');
-  orderTable(order.body, overview.by_order || []);
-  grid.appendChild(order.box);
-
-  /* Both lines read off one x axis, so the second is mapped onto the
-     first one's weeks. Two series on two sets of labels is two charts
-     drawn on top of each other. */
-  const due = overview.by_due_week || [];
-  const arrived = new Map(overview.by_issue_week || []);
-  lineChart(weekNode, due,
-            due.map(w => [w[0], arrived.get(w[0]) || '0']));
-  donutChart(bandNode, (overview.overdue_buckets || [])
-             .map(b => [b[0], b[2]]), AGEING, 'band');
-  barChart(supplierNode, (overview.by_supplier || []).slice(0, 8), true,
-           'supplier');
-  barChart(itemNode, (overview.by_item || []).slice(0, 8), true, 'item');
+  const list = card('shipments', 8, 4, 'Shipments');
+  shipmentTable(list.body, trips);
+  grid.appendChild(list.box);
 }
 
+function flaggedTable(body, rows) {
+  /* Every invoice the checking model scored, flagged first. The score
+     bar says how far it stands out; the check says what to look at. */
+  const scroll = el('div', 'scroll');
+  const table = document.createElement('table');
+  const head = document.createElement('tr');
+  for (const label of ['Document', 'Supplier', 'Issued', 'Amount',
+                       'Stage', 'Check', 'Decision', 'Score']) {
+    const cell = el('th', null, label);
+    if (label === 'Amount') cell.className = 'right';
+    head.appendChild(cell);
+  }
+  table.appendChild(head);
+  for (const row of rows) {
+    const line = document.createElement('tr');
+    line.appendChild(el('td', null, row.number));
+    line.appendChild(el('td', null, row.supplier));
+    line.appendChild(el('td', null, row.issued));
+    line.appendChild(el('td', 'right money', row.total));
+    line.appendChild(el('td', null, row.stage));
+    const check = el('td', null, row.check);
+    check.title = row.checks || row.check;
+    line.appendChild(check);
+    const decided = el('td');
+    if (row.flagged) {
+      const word = row.decision || 'pending';
+      decided.appendChild(el('span', 'badge ' + word, word));
+    }
+    line.appendChild(decided);
+    const score = el('td');
+    const wrap = el('div', 'score');
+    const meter = el('div', 'meter' + (row.flagged ? ' hot' : ''));
+    meter.style.width = Math.max(4, Math.round(row.score * 100)) + '%';
+    meter.style.flex = 'none';
+    const track = el('div');
+    track.style.flex = '1';
+    track.appendChild(meter);
+    wrap.appendChild(track);
+    wrap.appendChild(el('span', null, row.score.toFixed(2)));
+    score.appendChild(wrap);
+    line.appendChild(score);
+    /* A red bar is a flag; a grey one is an invoice that was scored
+       and passed. A separate badge column said the same thing twice. */
+    if (row.flagged) line.title = 'Flagged: ' + (row.checks || row.check);
+    table.appendChild(line);
+  }
+  scroll.appendChild(table);
+  body.appendChild(scroll);
+}
+
+/* The anomaly view reads like the invoice view: the same five tiles, the
+   same wide chart over the weeks, the same ranked list, table and two
+   donuts, in the same places. Only the subject changes. What the desk
+   processes here is a flag, not an invoice. */
+
+let aTimeChart = null;
+let aListBody = null;
+let aTableBody = null;
+const apies = {stage: null, decision: null};
+
+/* The desk checks its top five every week, so five is the line a week is
+   read against, the way 90% is on the invoice side. */
+const FLAG_TARGET = 5;
+
+//: What the analyst said, each answer in its own colour.
+const DECISION_COLOURS = {confirmed: '#FF4F7B', pending: '#FFC547',
+                          dismissed: '#5B7C93'};
+const STAGE_COLOURS = {'model only': '#75D6FF', purchasing: '#C9A227',
+                       billing: '#2E9E6B', customs: '#9C7AE0',
+                       'freight billing': '#D1495B',
+                       'vendor master': '#4FB3C9', receiving: '#7892A6'};
+
+/* Every scored invoice carries the week it was issued in, so the funnel
+   in the top bar moves this view the way it moves the other one. */
+function aInside() {
+  return new Set(period.weeks.slice(period.from, period.to)
+                             .map(w => w.serial));
+}
+
+function aRows() {
+  const inside = aInside();
+  return (flagged || []).filter(r => inside.has(serialOf(r.issued)));
+}
+
+function drawAnomalyGrid() {
+  const grid = document.getElementById('agrid');
+  grid.innerHTML = '';
+  dropCharts();
+  aTimeChart = null;
+  const o = aoverview;
+
+  /* The desk's own week first, the same five-tile row as the invoices:
+     what the model saw, what it raised, the money on it, and what the
+     analyst did with it. */
+  const desk = card('targets', 12, 1, 'How the desk did');
+  const deskTiles = el('div', 'tiles');
+  (o.desk || []).forEach(k => {
+    const outer = el('div', 'tile kpi-tile');
+    const box = el('div', 'kpi-text');
+    outer.appendChild(box);
+    const head = el('div', 'kpi-head');
+    const icon = el('img', 'kpi-icon');
+    icon.src = k.icon;
+    icon.alt = '';
+    head.appendChild(icon);
+    const words = el('div', 'kpi-words');
+    words.appendChild(el('div', 'label', k.name));
+    words.appendChild(el('div', 'kpi-target', 'target: ' + k.target));
+    head.appendChild(words);
+    box.appendChild(head);
+    const row = el('div', 'kpi-row');
+    row.appendChild(el('div', 'value', k.value));
+    /* A rise is good news on two of the five only: more invoices scored
+       and more flags confirmed. More raised, more money and more left
+       waiting all read as coral. */
+    const lessIsBetter = ['Flagged', 'Money flagged', 'Waiting']
+                           .includes(k.name);
+    const changes = el('div', 'kpi-changes');
+    [k.change, k.month].forEach(text => {
+      const change = el('div', 'kpi-change');
+      const mark = text.charAt(0);
+      if (mark === '▲' || mark === '▼') {
+        const better = (mark === '▲') !== lessIsBetter;
+        change.appendChild(el('span', better ? 'up' : 'down', mark));
+        change.appendChild(document.createTextNode(text.slice(1)));
+      } else {
+        change.textContent = text;
+      }
+      changes.appendChild(change);
+    });
+    row.appendChild(changes);
+    box.appendChild(row);
+    deskTiles.appendChild(outer);
+  });
+  desk.body.appendChild(deskTiles);
+  desk.box.querySelector('h3').remove();
+  grid.appendChild(desk.box);
+
+  [['region-time', 12, 2], ['region-left', 3, 4],
+   ['region-center', 6, 4], ['region-right-top', 3, 2],
+   ['region-right-bottom', 3, 2]].forEach(([name, cols, rows]) => {
+    const region = card(name, cols, rows, '');
+    region.box.querySelector('h3').remove();
+    grid.appendChild(region.box);
+    const heading = (icon, text) => {
+      const head = el('div', 'panel-head');
+      const img = el('img', 'kpi-icon');
+      img.src = icon;
+      img.alt = '';
+      head.appendChild(img);
+      head.appendChild(el('div', 'panel-title', text));
+      region.box.insertBefore(head, region.body);
+    };
+    if (name === 'region-time') {
+      heading('/static/icon-time.png', 'Invoices scored vs flagged');
+      region.box.classList.add('float-head');
+      drawFlagTime(region.body);
+    }
+    if (name === 'region-left') {
+      heading('/static/icon-issuers.png', 'Top suppliers');
+      drawFlagSuppliers(region.body);
+    }
+    if (name === 'region-center') {
+      heading('/static/icon-invoices.svg', 'Scored invoices');
+      drawScoredTable(region.body);
+    }
+    if (name === 'region-right-top') {
+      heading('/static/icon-processed.svg', 'Flags by stage');
+      drawAnomalyPie(region.body, 'stage');
+    }
+    if (name === 'region-right-bottom') {
+      heading('/static/icon-completed.png', "Analyst's answer");
+      drawAnomalyPie(region.body, 'decision');
+    }
+  });
+}
+
+/* Region 1: the weeks, scored in blue and flagged in white, with the
+   desk's five-a-week line on top. A green check over a week the desk
+   could clear, a red cross when the flags ran past five. */
+function drawFlagTime(body) {
+  const node = el('div', 'chart');
+  body.appendChild(node);
+  aTimeChart = echarts.init(node, null, {renderer: 'canvas'});
+  charts.push(aTimeChart);
+  renderFlagTime();
+}
+
+function renderFlagTime() {
+  if (!aTimeChart) return;
+  const span = period.weeks.slice(period.from, period.to);
+  const all = period.weeks;
+  const names = span.map((w, i) => {
+    let k = period.from + i, n = 1;
+    while (k > 0 && all[k - 1].month === w.month &&
+           all[k - 1].year === w.year) { k--; n++; }
+    return MONTHS[w.month].slice(0, 3) + ' - Week ' + n;
+  });
+  const rows = flagged || [];
+  const counts = {}, raised = {};
+  rows.forEach(r => {
+    const s = serialOf(r.issued);
+    counts[s] = (counts[s] || 0) + 1;
+    if (r.flagged) raised[s] = (raised[s] || 0) + 1;
+  });
+  const scored = span.map(w => counts[w.serial] || 0);
+  const flags = span.map(w => raised[w.serial] || 0);
+  const goal = span.map(() => FLAG_TARGET);
+  const monthEdge = [0];
+  span.forEach((w, i) => {
+    if (i > 0 && w.month !== span[i - 1].month) monthEdge.push(i);
+  });
+  monthEdge.push(span.length);
+  const monthAreas = [];
+  for (let k = 0; k < monthEdge.length - 1; k++) {
+    const a = monthEdge[k], b = monthEdge[k + 1] - 1;
+    const name = span.length > 30 ? MONTHS[span[a].month].slice(0, 3)
+                                  : MONTHS[span[a].month];
+    monthAreas.push([{name: name, xAxis: a}, {xAxis: b}]);
+  }
+  const labels = span.length <= 14;
+  aTimeChart.setOption({
+    backgroundColor: 'transparent',
+    animationDuration: 300,
+    legend: {right: 8, top: 10, icon: 'roundRect', itemWidth: 16,
+             itemHeight: 3, textStyle: {color: '#9FB7C9', fontSize: 12}},
+    tooltip: Object.assign({}, TOOLTIP, {
+      trigger: 'axis',
+      formatter: ps => {
+        const i = ps[0].dataIndex;
+        const share = scored[i] ? Math.round(1000 * flags[i] / scored[i]) / 10
+                                : 0;
+        return names[i] + ' ' + span[i].year + ' (from ' + span[i].label +
+               ')' +
+               '<br/>Scored: <b>' + scored[i] + '</b>' +
+               '<br/>Flagged: <b>' + flags[i] + '</b> (' + share + '%)' +
+               '<br/>Target: <b>' + FLAG_TARGET + '</b> a week';
+      }}),
+    grid: {left: 38, right: 8, top: 44, bottom: 34},
+    xAxis: [
+      {type: 'category', data: names, boundaryGap: true,
+       axisLine: {lineStyle: {color: '#14384C'}},
+       axisTick: {show: true, alignWithLabel: false,
+                  lineStyle: {color: '#7892A6'}},
+       axisLabel: {color: '#9FB7C9', fontSize: 11}},
+      {type: 'category', data: names.map(() => ''), position: 'bottom',
+       offset: 16, boundaryGap: true,
+       axisLine: {show: true, lineStyle: {color: '#9FB7C9'}},
+       axisTick: {show: true, length: 6, inside: true,
+                  interval: i => monthEdge.includes(i),
+                  lineStyle: {color: '#9FB7C9'}},
+       axisLabel: {show: false}}
+    ],
+    yAxis: {type: 'value',
+            splitLine: {lineStyle: {color: '#14384C'}},
+            axisLabel: {color: '#9FB7C9', fontSize: 11}},
+    series: [
+      {name: 'Scored', type: 'line', smooth: true, data: scored,
+       symbol: 'circle', symbolSize: 7, showSymbol: true,
+       label: {show: labels, position: 'bottom', color: '#E6F0F6',
+               fontSize: 11},
+       lineStyle: {width: 2, color: '#4FC3F7',
+                   shadowColor: 'rgba(79, 195, 247, 0.5)', shadowBlur: 10},
+       itemStyle: {color: '#4FC3F7'},
+       areaStyle: {color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+         {offset: 0, color: 'rgba(79, 195, 247, 0.28)'},
+         {offset: 1, color: 'rgba(79, 195, 247, 0)'}])},
+       markArea: {silent: true, itemStyle: {color: 'transparent'},
+                  label: {position: 'bottom', distance: 20,
+                          color: '#E6F0F6', fontSize: 12, fontWeight: 700},
+                  data: monthAreas}},
+      {name: 'Flagged', type: 'line', smooth: true,
+       data: flags.map((v, i) => ({value: v, label: v <= goal[i]
+         ? {color: '#2EF2B0', formatter: '✓'}
+         : {color: '#FF4F7B', formatter: '✗'}})),
+       symbol: 'circle', symbolSize: 6, showSymbol: true,
+       label: {show: true, position: 'top', fontSize: 14, fontWeight: 700},
+       lineStyle: {width: 1.5, color: '#E6F0F6'},
+       itemStyle: {color: '#E6F0F6'},
+       areaStyle: {color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+         {offset: 0, color: 'rgba(230, 240, 246, 0.14)'},
+         {offset: 1, color: 'rgba(230, 240, 246, 0)'}])}},
+      {name: 'Target', type: 'line', smooth: true, data: goal,
+       showSymbol: false, z: 5,
+       lineStyle: {width: 1.2, color: 'rgba(230, 240, 246, 0.75)',
+                   type: 'dashed'},
+       itemStyle: {color: 'rgba(230, 240, 246, 0.75)'}}
+    ]
+  }, true);
+}
+
+/* Region 2: who the flags point at. Each supplier's share of the flags
+   raised in the chosen weeks, against its share over the whole run. */
+function drawFlagSuppliers(body) {
+  aListBody = body;
+  renderFlagSuppliers();
+}
+
+function flagShares(serials) {
+  const inside = new Set(serials);
+  const counts = {};
+  let total = 0;
+  (flagged || []).forEach(r => {
+    if (!r.flagged || !inside.has(serialOf(r.issued))) return;
+    counts[r.supplier] = (counts[r.supplier] || 0) + 1;
+    total += 1;
+  });
+  const shares = {};
+  for (const k in counts) shares[k] = 100 * counts[k] / total;
+  return {shares: shares, total: total};
+}
+
+function renderFlagSuppliers() {
+  if (!aListBody) return;
+  const serials = period.weeks.slice(period.from, period.to)
+                              .map(w => w.serial);
+  const now = flagShares(serials);
+  const week = flagShares(serials.map(s => s - 1));
+  const month = flagShares(serials.map(s => s - 4));
+  const run = flagShares((flagged || []).map(r => serialOf(r.issued)));
+  const top = Object.keys(now.shares)
+    .sort((a, b) => now.shares[b] - now.shares[a]).slice(0, 15);
+  const scale = Math.max.apply(null, top.map(k =>
+    Math.max(now.shares[k], run.shares[k] || 0)).concat([1]));
+  aListBody.innerHTML = '';
+  const cols = el('div', 'iss-head iss-cols');
+  ['Supplier', 'Share', 'Last week', 'Last month'].forEach(t =>
+    cols.appendChild(el('span', null, t)));
+  aListBody.appendChild(cols);
+  const list = el('div', 'iss-list packed');
+  if (!top.length) list.appendChild(el('div', 'inv-empty',
+                                       'No flags in this period'));
+  top.forEach(k => {
+    const share = now.shares[k];
+    const goal = run.shares[k] || 0;
+    const row = el('div', 'iss-row');
+    row.title = k + ': ' + share.toFixed(1) + '% of ' + now.total + ' flags';
+    const head = el('div', 'iss-head');
+    head.appendChild(el('span', 'iss-name',
+                        ISSUER_SHORT[k] || k.split(' ')[0]));
+    head.appendChild(el('span', 'iss-share', share.toFixed(1) + '%'));
+    head.appendChild(changeCell(share, week.total ? week.shares[k] || 0
+                                                  : undefined));
+    head.appendChild(changeCell(share, month.total ? month.shares[k] || 0
+                                                   : undefined));
+    row.appendChild(head);
+    const track = el('div', 'iss-track');
+    /* Fewer flags than the run's share is the good side here, so the bar
+       is mint below the mark and coral above it. */
+    const bar = el('div', 'iss-bar ' + (share <= goal ? 'met' : 'missed'));
+    bar.style.width = (100 * share / scale) + '%';
+    track.appendChild(bar);
+    const mark = el('div', 'iss-target', '▼');
+    mark.style.left = (100 * goal / scale) + '%';
+    track.appendChild(mark);
+    row.appendChild(track);
+    list.appendChild(row);
+  });
+  aListBody.appendChild(list);
+}
+
+/* Region 3: the scored invoices themselves, the flagged ones first and
+   the highest score at the top, as project 02 ordered them. */
+function drawScoredTable(body) {
+  aTableBody = body;
+  renderScoredTable();
+}
+
+function renderScoredTable() {
+  if (!aTableBody) return;
+  const rows = aRows();
+  aTableBody.innerHTML = '';
+  const scroll = el('div', 'inv-scroll');
+  const table = el('table', 'inv scored');
+  const head = el('tr');
+  ['Invoice', 'Supplier', 'Date', 'Decision', 'Score'].forEach(t =>
+    head.appendChild(el('th', null, t)));
+  const thead = el('thead');
+  thead.appendChild(head);
+  table.appendChild(thead);
+  const tbody = el('tbody');
+  if (!rows.length) {
+    const tr = el('tr');
+    const td = el('td', 'inv-empty', 'No invoices in this period');
+    td.colSpan = 5;
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+  }
+  rows.forEach(r => {
+    const tr = el('tr', 'inv-row');
+    tr.title = r.check === 'model only'
+      ? r.number + ': no check fired, the model scored it'
+      : r.number + ': ' + r.check + ' (' + r.stage + ')';
+    tr.appendChild(el('td', 'inv-num', r.number));
+    const who = el('td', 'inv-who',
+                   ISSUER_SHORT[r.supplier] || r.supplier.split(' ')[0]);
+    who.title = r.supplier;
+    tr.appendChild(who);
+    const [y, m, d] = r.issued.split('-');
+    tr.appendChild(el('td', 'inv-date', d + '/' + m + '/' + y));
+    const word = r.flagged ? (r.decision || 'pending') : 'not flagged';
+    const st = el('td');
+    st.appendChild(el('span', 'chip ' + word.replace(' ', '-'), word));
+    tr.appendChild(st);
+    tr.appendChild(el('td', 'inv-date', Number(r.score).toFixed(3)));
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  scroll.appendChild(table);
+  aTableBody.appendChild(scroll);
+}
+
+/* Regions 4 and 5: the stage a flag points at, and what the analyst made
+   of it. Both follow the period, like the donuts on the invoice side. */
+function drawAnomalyPie(body, which) {
+  const node = el('div', 'chart');
+  body.appendChild(node);
+  apies[which] = echarts.init(node, null, {renderer: 'canvas'});
+  charts.push(apies[which]);
+  renderAnomalyPies();
+}
+
+function renderAnomalyPies() {
+  const rows = aRows().filter(r => r.flagged);
+  if (apies.stage && !apies.stage.isDisposed()) {
+    const counts = {};
+    rows.forEach(r => { counts[r.stage] = (counts[r.stage] || 0) + 1; });
+    apies.stage.setOption(pieOption(apies.stage,
+      Object.entries(counts).sort((a, b) => b[1] - a[1]), STAGE_COLOURS),
+      true);
+  }
+  if (apies.decision && !apies.decision.isDisposed()) {
+    const counts = {};
+    rows.forEach(r => {
+      const word = r.decision || 'pending';
+      counts[word] = (counts[word] || 0) + 1;
+    });
+    apies.decision.setOption(pieOption(apies.decision,
+      Object.entries(counts).sort((a, b) => b[1] - a[1]),
+      DECISION_COLOURS), true);
+  }
+}
+
+window.addEventListener('resize', () => setTimeout(() => {
+  renderAnomalyPies();
+  if (aTimeChart) aTimeChart.resize();
+}, 50));
+
 const CRUMB_NAMES = {
-  supplier: 'Supplier', item: 'Item', band: 'Band', category: 'Category',
-  state: 'State', order: 'Order', shipment: 'Shipment'
+  carrier: 'Carrier', mode: 'Operation', status: 'Status', month: 'Month',
+  product: 'Part', supplier: 'Supplier', stage: 'Stage'
 };
 
 function drawCrumbs() {
   const box = document.getElementById('active');
   box.innerHTML = '';
-  const live = Object.keys(filters).filter(key => filters[key]);
+  const chosen = active();
+  const live = Object.keys(chosen).filter(key => chosen[key]);
   for (const key of live) {
     const crumb = el('button', 'crumb',
-                     (CRUMB_NAMES[key] || key) + ': ' + filters[key] +
+                     (CRUMB_NAMES[key] || key) + ': ' + chosen[key] +
                      '  ×');
     crumb.title = 'Remove this filter';
-    crumb.onclick = () => { filters[key] = ''; refresh(); };
+    crumb.onclick = () => { chosen[key] = ''; refresh(); };
     box.appendChild(crumb);
   }
   if (live.length > 1) {
     const all = el('button', 'crumb', 'Clear all');
-    all.onclick = () => { filters = {}; refresh(); };
+    all.onclick = () => { clearFilters(); refresh(); };
     box.appendChild(all);
   }
 }
 
+/* What changes with the view: the endpoints it reads, the words at the
+   top, and what the two drop-downs filter on. Everything else is
+   shared. */
+const VIEWS = {
+  cost: {
+    name: 'Cost Management - Invoice Processing', api: '/api/cost',
+    first: 'carrier', firstAll: 'all carriers', firstList: 'carriers',
+    second: 'status', secondAll: 'final and provisional',
+    secondList: 'statuses', grid: 'grid', thread: 'thread',
+    chat: 'Cost assistant',
+    chatSub: "Answers from the desk's own figures",
+    placeholder: 'Ask about the invoices'
+  },
+  anomalies: {
+    name: 'Anomalies', api: '/api/anomalies',
+    first: 'supplier', firstAll: 'all suppliers', firstList: 'suppliers',
+    second: 'stage', secondAll: 'any stage', secondList: 'stages',
+    grid: 'agrid', thread: 'athread',
+    chat: 'Anomaly assistant',
+    chatSub: 'Every figure computed over the scored invoices',
+    placeholder: 'Ask about the flagged invoices'
+  },
+  /* The financial report runs on the same landed cost lines as the
+     invoice view, so it takes the same endpoints and the same two
+     drop-downs. What differs is the month it closes. */
+  reports: {
+    name: 'Cost Management - Financial Report', api: '/api/cost',
+    chatApi: '/api/finance',
+    first: 'carrier', firstAll: 'all carriers', firstList: 'carriers',
+    second: 'status', secondAll: 'final and provisional',
+    secondList: 'statuses', grid: 'rgrid', thread: 'thread',
+    chat: 'Finance assistant',
+    chatSub: 'Every figure computed over the costed lines',
+    placeholder: 'Ask about the landed cost'
+  },
+  about: {
+    name: 'About', api: null, grid: 'bgrid', thread: 'thread',
+    chat: 'Cost assistant',
+    chatSub: 'The assistants work on the Cost and Anomalies views',
+    placeholder: 'Open Cost or Anomalies to ask'
+  }
+};
+
+/* The finance view reads like the other two: the same five tiles, the
+   same wide chart, the same ranked list, table and two donuts, in the
+   same places. The desk here closes a month, not a week, so the chart
+   runs over months and the tiles compare months. */
+
+let finance = null;
+let fTimeChart = null;
+let fListBody = null;
+let fTableBody = null;
+const fpies = {component: null, mode: null};
+
+//: What a part of the bill is, each in its own colour.
+const COMPONENT_COLOURS = {Goods: '#75D6FF', 'Import duty (II)': '#C9A227',
+                           'International freight': '#2E9E6B',
+                           'Customs broker': '#9C7AE0',
+                           'Truck to Moty plant': '#D1495B',
+                           AFRMM: '#4FB3C9', Siscomex: '#7892A6'};
+const MODE_COLOURS = {LCL: '#75D6FF', FCL: '#2E9E6B', CIF: '#C9A227',
+                      air: '#9C7AE0'};
+
+function drawReportsGrid() {
+  const grid = document.getElementById('rgrid');
+  grid.innerHTML = '';
+  dropCharts();
+  fTimeChart = null;
+  if (!finance) return;
+
+  const desk = card('targets', 12, 1, 'The month being closed');
+  const deskTiles = el('div', 'tiles');
+  (finance.desk || []).forEach(k => {
+    const outer = el('div', 'tile kpi-tile');
+    const box = el('div', 'kpi-text');
+    outer.appendChild(box);
+    const head = el('div', 'kpi-head');
+    const icon = el('img', 'kpi-icon');
+    icon.src = k.icon;
+    icon.alt = '';
+    head.appendChild(icon);
+    const words = el('div', 'kpi-words');
+    words.appendChild(el('div', 'label', k.name));
+    words.appendChild(el('div', 'kpi-target', 'target: ' + k.target));
+    head.appendChild(words);
+    box.appendChild(head);
+    const row = el('div', 'kpi-row');
+    row.appendChild(el('div', 'value', k.value));
+    /* A bill that grows is not good news, and neither is a cost still
+       open at close. Only the final part and the taxes coming back read
+       as mint when they rise. */
+    const lessIsBetter = ['Landed cost', 'Provisional',
+                          'Provisional share'].includes(k.name);
+    const changes = el('div', 'kpi-changes');
+    [k.change, k.month].forEach(text => {
+      const change = el('div', 'kpi-change');
+      const mark = text.charAt(0);
+      if (mark === '▲' || mark === '▼') {
+        const better = (mark === '▲') !== lessIsBetter;
+        change.appendChild(el('span', better ? 'up' : 'down', mark));
+        change.appendChild(document.createTextNode(text.slice(1)));
+      } else {
+        change.textContent = text;
+      }
+      changes.appendChild(change);
+    });
+    row.appendChild(changes);
+    box.appendChild(row);
+    deskTiles.appendChild(outer);
+  });
+  desk.body.appendChild(deskTiles);
+  desk.box.querySelector('h3').remove();
+  grid.appendChild(desk.box);
+
+  [['region-time', 12, 2], ['region-left', 3, 4],
+   ['region-center', 6, 4], ['region-right-top', 3, 2],
+   ['region-right-bottom', 3, 2]].forEach(([name, cols, rows]) => {
+    const region = card(name, cols, rows, '');
+    region.box.querySelector('h3').remove();
+    grid.appendChild(region.box);
+    const heading = (icon, text) => {
+      const head = el('div', 'panel-head');
+      const img = el('img', 'kpi-icon');
+      img.src = icon;
+      img.alt = '';
+      head.appendChild(img);
+      head.appendChild(el('div', 'panel-title', text));
+      region.box.insertBefore(head, region.body);
+    };
+    if (name === 'region-time') {
+      heading('/static/icon-time.png', 'Landed cost by month');
+      region.box.classList.add('float-head');
+      drawCostTime(region.body);
+    }
+    if (name === 'region-left') {
+      heading('/static/icon-issuers.png', 'Top parts');
+      drawCostParts(region.body);
+    }
+    if (name === 'region-center') {
+      heading('/static/icon-invoices.svg', 'Shipments');
+      drawShipmentTable(region.body);
+    }
+    if (name === 'region-right-top') {
+      heading('/static/icon-processed.svg', 'What the bill is made of');
+      drawFinancePie(region.body, 'component');
+    }
+    if (name === 'region-right-bottom') {
+      heading('/static/icon-completed.png', 'Cost by operation');
+      drawFinancePie(region.body, 'mode');
+    }
+  });
+}
+
+/* Region 1: the months, the whole bill in blue and the part already
+   closed in white. A green check over a month with nothing provisional
+   left, a red cross while something is still open. */
+function drawCostTime(body) {
+  const node = el('div', 'chart');
+  body.appendChild(node);
+  fTimeChart = echarts.init(node, null, {renderer: 'canvas'});
+  charts.push(fTimeChart);
+  renderCostTime();
+}
+
+function renderCostTime() {
+  if (!fTimeChart || !finance) return;
+  const rows = finance.months || [];
+  const names = rows.map(r => {
+    const [year, month] = r[0].split('-');
+    return MONTHS[Number(month) - 1].slice(0, 3) + ' ' + year.slice(2);
+  });
+  const landed = rows.map(r => num(r[1]));
+  const final = rows.map(r => num(r[2]));
+  const open = rows.map(r => num(r[3]));
+  const labels = rows.length <= 14;
+  fTimeChart.setOption({
+    backgroundColor: 'transparent',
+    animationDuration: 300,
+    legend: {right: 8, top: 10, icon: 'roundRect', itemWidth: 16,
+             itemHeight: 3, textStyle: {color: '#9FB7C9', fontSize: 12}},
+    tooltip: Object.assign({}, TOOLTIP, {
+      trigger: 'axis',
+      formatter: ps => {
+        const i = ps[0].dataIndex;
+        const share = landed[i] ? Math.round(1000 * open[i] / landed[i]) / 10
+                                : 0;
+        return rows[i][0] +
+               '<br/>Landed: <b>' + rows[i][1] + '</b>' +
+               '<br/>Final: <b>' + rows[i][2] + '</b>' +
+               '<br/>Provisional: <b>' + rows[i][3] + '</b> (' + share + '%)';
+      }}),
+    grid: {left: 58, right: 8, top: 44, bottom: 34},
+    xAxis: {type: 'category', data: names, boundaryGap: true,
+            axisLine: {lineStyle: {color: '#14384C'}},
+            axisTick: {show: true, alignWithLabel: false,
+                       lineStyle: {color: '#7892A6'}},
+            axisLabel: {color: '#9FB7C9', fontSize: 11}},
+    yAxis: {type: 'value',
+            splitLine: {lineStyle: {color: '#14384C'}},
+            axisLabel: {color: '#9FB7C9', fontSize: 11,
+                        formatter: v => v >= 1e6 ? (v / 1e6) + 'M'
+                                      : v >= 1e3 ? (v / 1e3) + 'k' : v}},
+    series: [
+      {name: 'Landed', type: 'line', smooth: true, data: landed,
+       symbol: 'circle', symbolSize: 7, showSymbol: true,
+       label: {show: labels, position: 'bottom', color: '#E6F0F6',
+               fontSize: 11,
+               formatter: p => (p.value / 1e6).toFixed(1) + 'M'},
+       lineStyle: {width: 2, color: '#4FC3F7',
+                   shadowColor: 'rgba(79, 195, 247, 0.5)', shadowBlur: 10},
+       itemStyle: {color: '#4FC3F7'},
+       areaStyle: {color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+         {offset: 0, color: 'rgba(79, 195, 247, 0.28)'},
+         {offset: 1, color: 'rgba(79, 195, 247, 0)'}])}},
+      {name: 'Final', type: 'line', smooth: true,
+       data: final.map((v, i) => ({value: v, label: open[i] === 0
+         ? {color: '#2EF2B0', formatter: '✓'}
+         : {color: '#FF4F7B', formatter: '✗'}})),
+       symbol: 'circle', symbolSize: 6, showSymbol: true,
+       label: {show: true, position: 'top', fontSize: 14, fontWeight: 700},
+       lineStyle: {width: 1.5, color: '#E6F0F6'},
+       itemStyle: {color: '#E6F0F6'},
+       areaStyle: {color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+         {offset: 0, color: 'rgba(230, 240, 246, 0.14)'},
+         {offset: 1, color: 'rgba(230, 240, 246, 0)'}])}}
+    ]
+  }, true);
+}
+
+/* A part name short enough for the column and long enough to tell two
+   parts apart. The catalogue names a part by its kind, then its shape,
+   its size, and its finish: "Glass bottle, round, 30 ml, flint". Cut at
+   the first comma and three different bottles all read "Glass bottle".
+   So the kind is kept, and with it the first field carrying a number,
+   which is the size. The whole name stays in the tooltip. */
+function partName(full) {
+  const fields = full.split(',').map(f => f.trim());
+  const size = fields.slice(1).find(f => /\d/.test(f));
+  return size ? fields[0] + ', ' + size : fields[0];
+}
+
+/* Region 2: the parts the money went on this month, each against the
+   month before and the quarter behind it. */
+function drawCostParts(body) {
+  fListBody = body;
+  renderCostParts();
+}
+
+function renderCostParts() {
+  if (!fListBody || !finance) return;
+  const rows = (finance.parts || []).slice(0, 15);
+  const total = (finance.parts || []).reduce((s, r) => s + num(r[1]), 0);
+  const last = (finance.parts || []).reduce((s, r) => s + num(r[2]), 0);
+  const back = (finance.parts || []).reduce((s, r) => s + num(r[3]), 0);
+  const scale = Math.max.apply(null,
+    rows.map(r => Math.max(100 * num(r[1]) / (total || 1),
+                           100 * num(r[2]) / (last || 1))).concat([1]));
+  fListBody.innerHTML = '';
+  const cols = el('div', 'iss-head iss-cols');
+  ['Part', 'Share', 'Last month', 'Last quarter'].forEach(t =>
+    cols.appendChild(el('span', null, t)));
+  fListBody.appendChild(cols);
+  const list = el('div', 'iss-list packed');
+  if (!rows.length) list.appendChild(el('div', 'inv-empty',
+                                        'Nothing costed this month'));
+  rows.forEach(r => {
+    const share = 100 * num(r[1]) / (total || 1);
+    const goal = last ? 100 * num(r[2]) / last : 0;
+    const row = el('div', 'iss-row');
+    row.title = r[0] + ': ' + r[1] + ' of ' + finance.month;
+    const head = el('div', 'iss-head');
+    const name = el('span', 'iss-name', partName(r[0]));
+    name.title = r[0];
+    head.appendChild(name);
+    head.appendChild(el('span', 'iss-share', share.toFixed(1) + '%'));
+    head.appendChild(changeCell(share, last ? goal : undefined));
+    head.appendChild(changeCell(share,
+      back ? 100 * num(r[3]) / back : undefined));
+    row.appendChild(head);
+    const track = el('div', 'iss-track');
+    /* Spending less on a part than last month is the good side here. */
+    const bar = el('div', 'iss-bar ' + (share <= goal ? 'met' : 'missed'));
+    bar.style.width = (100 * share / scale) + '%';
+    track.appendChild(bar);
+    const mark = el('div', 'iss-target', '▼');
+    mark.style.left = (100 * goal / scale) + '%';
+    track.appendChild(mark);
+    row.appendChild(track);
+    list.appendChild(row);
+  });
+  fListBody.appendChild(list);
+}
+
+/* Region 3: the shipments themselves, the dearest first. */
+function drawShipmentTable(body) {
+  fTableBody = body;
+  renderShipmentTable();
+}
+
+function renderShipmentTable() {
+  if (!fTableBody) return;
+  const rows = (trips || []).slice();
+  fTableBody.innerHTML = '';
+  const scroll = el('div', 'inv-scroll');
+  const table = el('table', 'inv scored money');
+  const head = el('tr');
+  ['Shipment', 'Carrier', 'Month', 'Status', 'Landed'].forEach(t =>
+    head.appendChild(el('th', null, t)));
+  const thead = el('thead');
+  thead.appendChild(head);
+  table.appendChild(thead);
+  const tbody = el('tbody');
+  if (!rows.length) {
+    const tr = el('tr');
+    const td = el('td', 'inv-empty', 'No shipments in the current filter');
+    td.colSpan = 5;
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+  }
+  rows.forEach(r => {
+    const tr = el('tr', 'inv-row');
+    tr.title = r.shipment + ': ' + r.landed + ', ' + r.mode;
+    tr.appendChild(el('td', 'inv-num', r.shipment));
+    const who = el('td', 'inv-who',
+                   ISSUER_SHORT[r.carrier] || r.carrier.split(' ')[0]);
+    who.title = r.carrier;
+    tr.appendChild(who);
+    tr.appendChild(el('td', 'inv-date', r.month));
+    const st = el('td');
+    st.appendChild(el('span', 'chip ' + r.status, r.status));
+    tr.appendChild(st);
+    tr.appendChild(el('td', 'inv-date', r.landed));
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  scroll.appendChild(table);
+  fTableBody.appendChild(scroll);
+}
+
+/* Regions 4 and 5: what the bill is made of, and how the goods moved. */
+function drawFinancePie(body, which) {
+  const node = el('div', 'chart');
+  body.appendChild(node);
+  fpies[which] = echarts.init(node, null, {renderer: 'canvas'});
+  charts.push(fpies[which]);
+  renderFinancePies();
+}
+
+function renderFinancePies() {
+  if (!overview) return;
+  if (fpies.component && !fpies.component.isDisposed()) {
+    fpies.component.setOption(pieOption(fpies.component,
+      (overview.by_component || []).map(p => [p[0], num(p[1])]),
+      COMPONENT_COLOURS), true);
+  }
+  if (fpies.mode && !fpies.mode.isDisposed()) {
+    fpies.mode.setOption(pieOption(fpies.mode,
+      (overview.by_mode || []).map(p => [p[0], num(p[1])]),
+      MODE_COLOURS), true);
+  }
+}
+
+window.addEventListener('resize', () => setTimeout(() => {
+  renderFinancePies();
+  if (fTimeChart) fTimeChart.resize();
+}, 50));
+
 async function refresh() {
-  overview = await get('/api/overview', filters);
-  papers = (await get('/api/documents', filters)).documents;
-  document.getElementById('brandsub').textContent =
-    overview.count + ' documents in the current filter';
-  const supplier = document.getElementById('supplier');
-  if (supplier) supplier.value = filters.supplier || '';
+  const chosen = active();
+  if (view === 'anomalies') {
+    aoverview = await get('/api/anomalies/overview', chosen);
+    flagged = (await get('/api/anomalies/list', chosen)).invoices;
+    document.getElementById('brandsub').textContent =
+      aoverview.reviewed + ' invoices scored in the current filter';
+  } else {
+    overview = await get('/api/cost/overview', chosen);
+    trips = (await get('/api/cost/shipments', chosen)).shipments;
+    if (view === 'reports') finance = await get('/api/cost/finance', chosen);
+    document.getElementById('brandsub').textContent =
+      overview.lines + ' order lines on ' + overview.shipments +
+      ' shipments in the current filter';
+  }
+  document.getElementById('first').value = chosen[VIEWS[view].first] || '';
+  document.getElementById('second').value =
+    chosen[VIEWS[view].second] || '';
   drawCrumbs();
-  drawGrid();
+  if (view === 'anomalies') drawAnomalyGrid();
+  else if (view === 'reports') drawReportsGrid();
+  else drawGrid();
 }
 
 async function buildFilters() {
-  const available = await get('/api/filters', {});
-  const supplier = document.getElementById('supplier');
-  supplier.innerHTML = '';
-  supplier.appendChild(new Option('all suppliers', ''));
-  for (const name of available.suppliers) {
-    supplier.appendChild(new Option(name, name));
+  const v = VIEWS[view];
+  const available = await get(v.api + '/filters', {});
+  const first = document.getElementById('first');
+  first.innerHTML = '';
+  first.appendChild(new Option(v.firstAll, ''));
+  for (const name of available[v.firstList]) {
+    first.appendChild(new Option(name, name));
   }
-  supplier.onchange = () => {
-    filters.supplier = supplier.value;
+  first.onchange = () => {
+    active()[v.first] = first.value;
     refresh();
   };
 
-  const state = document.getElementById('state');
-  state.innerHTML = '';
-  state.appendChild(new Option('any state', ''));
-  for (const name of available.states) {
-    state.appendChild(new Option(name, name));
+  const second = document.getElementById('second');
+  second.innerHTML = '';
+  second.appendChild(new Option(v.secondAll, ''));
+  for (const name of available[v.secondList]) {
+    second.appendChild(new Option(name, name));
   }
-  state.onchange = () => {
-    filters.state = state.value;
+  second.onchange = () => {
+    active()[v.second] = second.value;
     refresh();
   };
 
@@ -1126,8 +3357,54 @@ async function buildFilters() {
       : 'No key configured. The ready questions work without one.';
 }
 
+/* The rail. Each view keeps its own grid, thread and filters; switching
+   hides one set and shows the other, so nothing is lost on the way. */
+async function switchView(next) {
+  if (next === view) return;
+  closePanels();
+  view = next;
+  const v = VIEWS[view];
+  for (const name in VIEWS) {
+    const on = name === view;
+    document.getElementById('go-' + name).classList.toggle('on', on);
+    document.getElementById(VIEWS[name].grid).classList.toggle('view-off', !on);
+  }
+  for (const id of ['thread', 'athread']) {
+    document.getElementById(id).classList.toggle('view-off', id !== v.thread);
+  }
+  document.getElementById('brandname').textContent = v.name;
+  document.title = v.name;
+  document.getElementById('chattitle').textContent = v.chat;
+  document.getElementById('chatsub').textContent = v.chatSub;
+  document.getElementById('question').placeholder = v.placeholder;
+  /* The About page has no data behind it: no filters, no questions. */
+  const ready = Boolean(v.api);
+  document.body.classList.toggle('about-view', view === 'about');
+  for (const id of ['first', 'second', 'chips', 'active']) {
+    document.getElementById(id).classList.toggle('view-off', !ready);
+  }
+  document.querySelector('.compose').classList.toggle('view-off', !ready);
+  if (!ready) {
+    document.getElementById('brandsub').textContent =
+      view === 'about' ? 'Three projects, one pipeline' : 'Coming next';
+    return;
+  }
+  await buildFilters();
+  await buildChips();
+  await refresh();
+}
+
+/* Where this view's assistant lives. The Invoices and Finance views read
+   the same cost data but ask different questions of it, so Finance has
+   its own three endpoints under /api/finance. Every other view asks its
+   own api. */
+function chatApi() {
+  const v = VIEWS[view];
+  return v.chatApi || v.api;
+}
+
 async function buildChips() {
-  const found = await get('/api/suggestions', {});
+  const found = await get(chatApi() + '/suggestions', {});
   const bar = document.getElementById('chips');
   bar.innerHTML = '';
   found.chips.forEach((chip, index) => {
@@ -1138,7 +3415,7 @@ async function buildChips() {
 }
 
 function say(text, cls, names) {
-  const thread = document.getElementById('thread');
+  const thread = document.getElementById(VIEWS[view].thread);
   const bubble = el('div', 'bubble ' + (cls || ''));
   if (cls === 'mine' || cls === 'no') {
     bubble.textContent = text;
@@ -1155,7 +3432,7 @@ function highlight(node, text, names) {
      the panel it came out of, and the connecting line is drawn from
      the word itself. Returns the handles, in order. */
   const figure =
-    /-?\d{1,3}(?:,\d{3})*\.\d{1,2}%?|\d+(?:\.\d)? days|\b\d{2,}\b/g;
+    /-?\d{1,3}(?:,\d{3})*\.\d{1,2}%?|\d+(?:\.\d)? days|(?<![\w-])\d{2,}(?![\w-])/g;
   const made = [];
   let at = 0;
   let found;
@@ -1188,23 +3465,82 @@ function closePanels() {
    of them as the same list of rows is what made the panels say
    nothing. */
 const PANEL_SHAPE = {
-  balance: 'tiles',
-  overdue: 'tiles',
-  by_band: 'pie',
-  by_month: 'line',
-  by_due_week: 'line',
-  by_issue_week: 'line',
-  by_category: 'pie',
-  by_supplier: 'bar',
-  by_item: 'bar',
-  by_order: 'column'
+  landed: 'tiles',
+  by_component: 'pie',
+  by_carrier: 'bar',
+  by_mode: 'bar',
+  by_product: 'bar',
+  unit_cost: 'tiles',
+  by_month: 'column',
+  by_shipment: 'tiles',
+  flags: 'tiles',
+  by_origin: 'tiles',
+  by_stage: 'pie',
+  by_check: 'bar',
+  flagged_by_supplier: 'bar',
+  flags_by_week: 'line',
+  worst_flags: 'tiles',
+  /* Sandbox: the operational assistant's panels. */
+  ops_received: 'column',
+  ops_issuers: 'bar',
+  ops_status: 'pie',
+  ops_desk: 'tiles',
+  ops_attention: 'tiles',
+  ops_supplier: 'column'
 };
 
+/* Panels whose figures are counts of invoices, not money. */
+const COUNT_PANELS = new Set(['by_stage', 'by_check', 'flagged_by_supplier',
+                              'ops_received', 'ops_issuers', 'ops_supplier']);
+
+/* Ring colours: names take distinct hues. */
+const PIE_COLOURS = {by_stage: STAGES, by_component: PARTS,
+                     ops_status: ['#75D6FF', '#FFC547', '#5B7C93', '#FF9F43']};
+
 let lines = [];
+
+/* Sandbox: the dashboard's colour rules, applied to an answer's panels.
+   A figure with a target is mint when it meets it and coral when not; a
+   status word takes its chip colour; volume stays cyan. */
+const OPS_TARGETS = {
+  'Completed': v => parseFloat(v) >= 100,
+  'Remaining to target': v => parseFloat(v) <= 0,
+  'Automation errors': v => parseFloat(v) < 1,
+  'Supplier errors': v => parseFloat(v) === 0
+};
+const STATUS_TONE = {new: 'tone-new', revised: 'tone-warn',
+                     superseded: 'tone-dim', problem: 'tone-problem'};
+
+function valueTone(panel, label, value) {
+  if (panel.name === 'ops_attention') return STATUS_TONE[value] || '';
+  if (panel.name === 'ops_desk' && OPS_TARGETS[label])
+    return OPS_TARGETS[label](value) ? 'tone-met' : 'tone-missed';
+  return '';
+}
+
+/* Bars: volume in cyan, supplier errors in amber; each with a soft glow
+   in its own colour. Status rings take their chip colours by name. */
+const OPS_BAR = {ops_received: '#75D6FF', ops_issuers: '#75D6FF',
+                 ops_supplier: '#FFC547'};
+const OPS_STATUS = {new: '#75D6FF', revised: '#FFC547',
+                    superseded: '#5B7C93', problem: '#FF9F43'};
 
 function fillPanel(box, panel) {
   const inner = el('div', 'inner');
   box.appendChild(inner);
+  /* A panel from the ready-made library draws itself. The rest are the
+     older hand-built shapes below. */
+  if (panel.plot) {
+    const holder = PlotTemplates.draw(inner, panel.plot);
+    /* The panel is built before it is on the page, so the chart was
+       sized against a box of nothing and drew nothing. One resize once
+       it has a place on the screen. */
+    box._plot = holder;
+    requestAnimationFrame(() => {
+      if (holder && holder._chart) holder._chart.resize();
+    });
+    return;
+  }
   const shape = PANEL_SHAPE[panel.name] || 'bar';
   const pairs = panel.rows.map(r => [r[0], r[1]]);
 
@@ -1213,9 +3549,12 @@ function fillPanel(box, panel) {
     for (const row of pairs) {
       const line = el('div', 'line');
       line.appendChild(el('span', 'k', row[0]));
-      line.appendChild(el('span', 'v', String(row[1])));
+      const tone = valueTone(panel, row[0], String(row[1]));
+      line.appendChild(el('span', (panel.name === 'unit_cost' ? 'v unit' : 'v') +
+                          (tone ? ' ' + tone : ''), String(row[1])));
       rows.appendChild(line);
     }
+    if (!pairs.length) rows.appendChild(el('div', 'k', 'Nothing to show.'));
     inner.appendChild(rows);
     return;
   }
@@ -1229,9 +3568,23 @@ function fillPanel(box, panel) {
   window.requestAnimationFrame(() => {
     window.requestAnimationFrame(() => {
       if (!plot.clientHeight) return;
-      if (shape === 'pie') donutChart(plot, pairs, AGEING);
-      else if (shape === 'line') lineChart(plot, pairs);
-      else barChart(plot, pairs.slice(0, 8), shape !== 'column');
+      const count = COUNT_PANELS.has(panel.name);
+      if (shape === 'pie') {
+        const colours = panel.name === 'ops_status'
+          ? pairs.map(p => OPS_STATUS[p[0]] || '#5B7C93')
+          : PIE_COLOURS[panel.name] || RAMP;
+        donutChart(plot, pairs, colours);
+      } else if (shape === 'line') {
+        lineChart(plot, pairs, [], panel.name === 'flags_by_week'
+                  ? {names: ['Money flagged', '']} : null);
+      } else {
+        barChart(plot, pairs.slice(0, 8), shape !== 'column', null, count);
+        const colour = OPS_BAR[panel.name];
+        if (colour && plot._chart) {
+          plot._chart.setOption({series: [{itemStyle: {
+            color: colour, shadowColor: colour, shadowBlur: 6}}]});
+        }
+      }
     });
   });
 }
@@ -1266,8 +3619,6 @@ function dragAndResize(box, overlay) {
   };
   const stop = () => { from = null; };
 
-  box.querySelector('.tag').addEventListener('mousedown',
-    e => start(e, 'move'));
   box.querySelector('h4').addEventListener('mousedown',
     e => start(e, 'move'));
   box.querySelector('.grip').addEventListener('mousedown',
@@ -1276,9 +3627,20 @@ function dragAndResize(box, overlay) {
   window.addEventListener('mouseup', stop);
 }
 
+/* The open answer, kept so its panels can be laid out again when the
+   window or the assistant changes width. */
+let shown = null;
+
+function replacePanels() {
+  if (shown && document.querySelector('.overlay')) {
+    openPanels(shown.answer, shown.anchors);
+  }
+}
+
 function openPanels(answer, anchors) {
   closePanels();
   if (!answer.panels || !answer.panels.length) return;
+  shown = {answer: answer, anchors: anchors};
 
   const overlay = el('div', 'overlay');
   const close = el('button', 'close-panels', 'Close panels');
@@ -1292,23 +3654,29 @@ function openPanels(answer, anchors) {
   /* Spread across the width rather than huddled at one end, and
      staggered down the page so no two sit on the same line. Still one
      group: a reader should take them in together, not hunt for them. */
-  const wide = 340;
-  const tall = 280;
+  /* An overview opens five panels: smaller, so two rows fit the screen. */
+  const many = answer.panels.length > 3;
   const edge = 28;
-  const room = overlay.clientWidth || (window.innerWidth - 436);
-  const perRow = Math.min(3, Math.max(1, answer.panels.length));
+  /* The panels live left of the assistant, never over it: the room ends
+     at the chat's left edge, whatever the window or chat width. */
+  document.body.appendChild(overlay);
+  const room = document.querySelector('.chat').getBoundingClientRect().left
+             - overlay.getBoundingClientRect().left;
+  const wide = Math.min(many ? 400 : 440, Math.max(220, room - 2 * edge));
+  const tall = many ? 300 : 360;
+  /* As many side by side as fit without touching, never more. */
+  const fits = Math.max(1, Math.floor((room - 2 * edge + 24) / (wide + 24)));
+  const perRow = Math.min(fits, Math.max(1, answer.panels.length));
   const span = Math.max(0, room - 2 * edge - wide);
   const step = perRow > 1 ? span / (perRow - 1) : 0;
-  const dip = 130;
+  const dip = 60;
   lines = [];
 
   answer.panels.forEach((panel, index) => {
     const box = el('div', 'glass');
     box.dataset.panel = panel.name;
-    const tag = el('div', 'tag');
-    tag.appendChild(el('span', 'pill', 'AI'));
-    tag.appendChild(el('span', 'where', 'current filter'));
-    box.appendChild(tag);
+    box.style.width = wide + 'px';
+    box.style.height = tall + 'px';
     box.appendChild(el('h4', null, panel.title));
     fillPanel(box, panel);
     box.appendChild(el('div', 'grip'));
@@ -1318,7 +3686,7 @@ function openPanels(answer, anchors) {
     box.style.left = Math.round(edge + column * step) + 'px';
     /* A sawtooth down the page: no two side by side sit on the same
        line, and the eye has somewhere to travel between them. */
-    box.style.top = Math.round(72 + row * (tall + 150)
+    box.style.top = Math.round(72 + row * (tall + 90)
                                + (column % 2 ? dip : 0)) + 'px';
     overlay.appendChild(box);
     dragAndResize(box, overlay);
@@ -1348,6 +3716,13 @@ function redrawLines(overlay) {
   const svg = overlay._svg;
   if (!svg) return;
   svg.innerHTML = '';
+  /* Sandbox: the overlay's blur makes it the frame for its fixed svg, so
+     page coordinates are shifted by the overlay's own corner. Without
+     this the lines stopped short of their panels. */
+  const frame = overlay.getBoundingClientRect();
+  /* The line never enters the assistant: it starts 6px outside its left
+     edge, level with the item it stands for. */
+  const chatEdge = document.querySelector('.chat').getBoundingClientRect().left - 6;
 
   lines.forEach(pair => {
     const box = pair.box;
@@ -1355,10 +3730,11 @@ function redrawLines(overlay) {
     if (!word) return;
     const tip = word.getBoundingClientRect();
     const rect = box.getBoundingClientRect();
-    const from = {x: tip.left, y: Math.round(tip.top + tip.height / 2)};
+    const from = {x: chatEdge - frame.left,
+                  y: Math.round(tip.top + tip.height / 2) - frame.top};
     const to = {
-      x: rect.right <= from.x ? rect.right : rect.left,
-      y: Math.round(rect.top + 22)
+      x: (rect.right <= chatEdge ? rect.right : rect.left) - frame.left,
+      y: Math.round(rect.top + 22) - frame.top
     };
     const bend = (from.x + to.x) / 2;
     const path = document.createElementNS(
@@ -1368,22 +3744,14 @@ function redrawLines(overlay) {
       ' C ' + bend + ' ' + from.y + ', ' + bend + ' ' + to.y +
       ', ' + to.x + ' ' + to.y);
     path.setAttribute('fill', 'none');
-    path.setAttribute('stroke', '#4FC3F7');
-    path.setAttribute('stroke-width', '2');
-    path.setAttribute('opacity', '0.85');
-    path.style.filter = 'drop-shadow(0 0 4px rgba(79, 195, 247, 0.9))';
+    /* Sandbox: a thin line with a stronger glow, and no square at its
+       ends. */
+    path.setAttribute('stroke', '#9EE6FF');
+    path.setAttribute('stroke-width', '1.1');
+    path.setAttribute('opacity', '1');
+    path.style.filter = 'drop-shadow(0 0 2px rgba(117, 214, 255, 1)) ' +
+                        'drop-shadow(0 0 7px rgba(63, 208, 255, 0.85))';
     svg.appendChild(path);
-    for (const end of [from, to]) {
-      const dot = document.createElementNS(
-        'http://www.w3.org/2000/svg', 'rect');
-      dot.setAttribute('x', end.x - 3);
-      dot.setAttribute('y', end.y - 3);
-      dot.setAttribute('width', '6');
-      dot.setAttribute('height', '6');
-      dot.setAttribute('fill', '#9CCCE0');
-      dot.style.filter = 'drop-shadow(0 0 4px rgba(79, 195, 247, 0.9))';
-      svg.appendChild(dot);
-    }
     const length = path.getTotalLength();
     path.style.strokeDasharray = length;
     path.style.strokeDashoffset = length;
@@ -1397,39 +3765,47 @@ window.addEventListener('scroll', () => {
   if (open) redrawLines(open);
 }, true);
 
-function showAnswer(answer) {
+/* The ready-made plot for a question. Same question, same plot.
+   Invoices view only; without it the answer keeps its own panels. */
+async function pickPlot(question) {
+  if (view !== 'cost') return null;
+  try {
+    return await post('/api/plot-answer', {question: question});
+  } catch (error) {
+    return null;
+  }
+}
+
+function showAnswer(answer, picked) {
   if (answer.refusal) {
     say(answer.refusal, 'no');
     closePanels();
     return;
   }
-  const names = (answer.panels || []).map(p => p.name);
-  const bubble = say(answer.sentence, '', names);
-
-  /* One handle per panel. When the sentence names fewer figures than
-     there are panels, the titles of the ones left over are added as
-     handles, so every line leaves its own word. */
-  const spare = (answer.panels || []).slice((bubble._keys || []).length);
-  if (spare.length) {
-    const tail = el('div', 'also');
-    tail.appendChild(document.createTextNode('Also showing '));
-    spare.forEach((panel, index) => {
-      if (index) tail.appendChild(document.createTextNode(', '));
-      const key = el('span', 'key', panel.title.toLowerCase());
-      key.dataset.panel = panel.name;
-      tail.appendChild(key);
-      bubble._keys.push(key);
+  /* Every panel comes from the ready-made library: the question names a
+     category, the picker names which of its plots leads, and the rest
+     of that family follows. The hand-built panels stay only for the
+     views the library does not cover. */
+  if (picked && window.PlotTemplates) {
+    /* One question, one panel, and none at all when the answer is a
+       single figure: the server says so by sending no plot. */
+    /* An overview sends a list of plots; any other question sends one. */
+    const chosen = picked.plots || (picked.plot === null ? [] : [picked]);
+    answer.panels = chosen.map((one, i) => {
+      const spec = PlotTemplates.spec({category: one.category, plot: one.plot,
+                                       figures: picked.figures, extra: picked.extra});
+      return {name: 'plot_' + i, title: spec.title, plot: spec};
     });
-    tail.appendChild(document.createTextNode('.'));
-    bubble.appendChild(tail);
   }
-
-  if (answer.rows_used) {
-    const slice = el('div', 'slice',
-                     answer.rows_used + ' documents, as of ' + answer.as_of);
-    bubble.appendChild(slice);
-  }
-  openPanels(answer, bubble._keys || []);
+  /* Sandbox: the sentence stays plain; under it, one line per panel,
+     numbered, so it is clear what each panel is. Each panel's line of
+     light starts at the assistant's edge, level with its item. */
+  /* The answer is the sentence. The panel carries its own title on the
+     screen, so listing it under the sentence and then repeating the
+     figure was the answer said three times. */
+  const bubble = say(answer.sentence, '', []);
+  bubble._keys = (answer.panels || []).map(() => bubble);
+  openPanels(answer, bubble._keys);
 }
 
 function waiting(text) {
@@ -1438,7 +3814,7 @@ function waiting(text) {
   const bubble = el('div', 'bubble waiting');
   for (let dot = 0; dot < 3; dot += 1) bubble.appendChild(el('span'));
   bubble.appendChild(document.createTextNode(' ' + text));
-  const thread = document.getElementById('thread');
+  const thread = document.getElementById(VIEWS[view].thread);
   thread.appendChild(bubble);
   thread.scrollTop = thread.scrollHeight;
   return bubble;
@@ -1454,10 +3830,11 @@ async function clickChip(index, question) {
   const pending = waiting('working it out');
   busy(true);
   try {
-    const answer = await post('/api/chip',
-                              {chip: index, filters: filters});
+    const [answer, picked] = await Promise.all([
+      post(chatApi() + '/chip', {chip: index, filters: active()}),
+      pickPlot(question)]);
     pending.remove();
-    showAnswer(answer);
+    showAnswer(answer, picked);
   } catch (error) {
     pending.remove();
     say(String(error), 'no');
@@ -1476,6 +3853,27 @@ function toggleChat() {
   if (!shut) document.getElementById('question').focus();
 }
 
+/* Sandbox: drag the assistant's left edge to set its width, between
+   220px and half the window. The charts redraw to the new space. */
+document.getElementById('chatdrag').addEventListener('mousedown', down => {
+  down.preventDefault();
+  document.body.classList.add('dragging');
+  const move = e => {
+    const w = Math.min(Math.max(window.innerWidth - 8 - e.clientX, 220),
+                       window.innerWidth / 2);
+    document.documentElement.style.setProperty('--chat-w', w + 'px');
+    charts.forEach(chart => chart.resize());
+  };
+  const up = () => {
+    document.body.classList.remove('dragging');
+    replacePanels();
+    document.removeEventListener('mousemove', move);
+    document.removeEventListener('mouseup', up);
+  };
+  document.addEventListener('mousemove', move);
+  document.addEventListener('mouseup', up);
+});
+
 function focusAsk() {
   if (document.body.classList.contains('no-chat')) {
     toggleChat();
@@ -1493,10 +3891,12 @@ async function ask() {
   const pending = waiting('reading the question');
   busy(true);
   try {
-    const answer = await post('/api/ask',
-                              {question: question, filters: filters});
+    const [answer, picked] = await Promise.all([
+      post(chatApi() + '/ask',
+           {question: question, filters: active()}),
+      pickPlot(question)]);
     pending.remove();
-    showAnswer(answer);
+    showAnswer(answer, picked);
   } catch (error) {
     pending.remove();
     say(String(error), 'no');
@@ -1520,23 +3920,24 @@ document.addEventListener('keydown', event => {
     open.remove();
     return;
   }
-  if (Object.keys(filters).some(key => filters[key])) {
-    filters = {};
+  const chosen = active();
+  if (Object.keys(chosen).some(key => chosen[key])) {
+    clearFilters();
     refresh();
   }
 });
 
+/* A new width lays the panels out again, so none is left over the
+   assistant. */
+let relayout = null;
 window.addEventListener('resize', () => {
   charts.forEach(chart => chart.resize());
-  const overlay = document.querySelector('.overlay');
-  if (overlay) {
-    const svg = overlay.querySelector('svg');
-    svg.innerHTML = '';
-    drawLines(overlay, svg);
-  }
+  clearTimeout(relayout);
+  relayout = setTimeout(replacePanels, 150);
 });
 
 (async function start() {
+  buildRuler();
   await buildFilters();
   await buildChips();
   await refresh();

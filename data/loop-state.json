@@ -1,0 +1,29 @@
+{
+  "last_precision": 0.5,
+  "drift": {
+    "price_over_contract": 0.008946330051924956,
+    "quantity_over_receipt": 0.01425072757911837,
+    "receipt_known": 0.005088002961564813,
+    "unknown_charges": 0.019641646786325177,
+    "known_fixed_fee": 0.00022795858433577722,
+    "bank_not_on_file": 0.0,
+    "sender_not_on_file": 0.0,
+    "has_order": 0.0039952925385237665,
+    "same_amount_30d": 0.011793360351037844,
+    "days_since_last": 0.049860170560468195,
+    "amount_zscore": 0.05424853580890771,
+    "same_order_7d_total": 0.07341058059772812,
+    "under_limit_but_order_over": 0.0018638814317639345,
+    "same_shipment_7d": 0.0004394387156738312,
+    "round_thousands": 0.10549773638677502,
+    "cents_zero": 3.178967177987222e-06,
+    "is_freight": 0.0011447242003990708,
+    "grand_total": 0.08789134638468885,
+    "duty_rate_off": 0.0,
+    "fee_over_contract": 0.008946330051924956,
+    "fee_amended": 0.0,
+    "is_customs": 0.0006841977434889734
+  },
+  "retrainings": 4,
+  "champion_version": "70"
+}

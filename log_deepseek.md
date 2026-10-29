@@ -229,12 +229,12 @@ created on Windows also exists in WSL.
   fixed. Now: 14 files, none broken.
 * Full suite: 202 passed.
 
-## 2026-10-10T22:20:00-03:00, item 15 done: the folder is 02-payables-panel
+## 2026-10-10T22:20:00-03:00, item 15 done: the folder is 03-payables-panel
 
 * Renamed last, as ordered. docker compose down first, then the
   rename, then the paths in the scripts and the two scheduled tasks
   moved with it, then compose up -d --build from the new folder.
-* The container now runs as 02-payables-panel-dashboard-1 and serves
+* The container now runs as 03-payables-panel-dashboard-1 and serves
   the real data on localhost:8000. Browser opened.
 * 202 tests pass from the new folder. check_links.py: 14 files, none
   broken.
@@ -388,3 +388,12 @@ guess, so it waits.
 * Docker is written and the engine is down; uvicorn is serving.
 * The DeepSeek key is found automatically in the Windows credential
   store under `deepseek` / `api-key`.
+
+## 2026-10-11T00:30:00-03:00, caught up, and the neetcode folder
+
+* Read my own log end to end. The state: 306 tests pass, the page was
+  rebuilt from look.md by the IA above, the agent runs on flash, the
+  key sits in the Windows credential store. Open: the target decision
+  and the repository name.
+* Created C:\Users\tavar\OneDrive\Ambiente de Trabalho\contexts\over_employment\neetcode.io,
+  empty, by Rafael's order.

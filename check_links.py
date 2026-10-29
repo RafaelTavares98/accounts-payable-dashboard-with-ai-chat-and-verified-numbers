@@ -18,7 +18,7 @@ LINK = re.compile(r'\[[^\]]*\]\(([^)]+)\)')
 
 def slug(heading):
     text = heading.strip().lower()
-    text = re.sub(r'[^a-z0-9 \-]', '', text)
+    text = re.sub(r'[^a-z0-9 _\-]', '', text)
     text = re.sub(r'[ \-]+', '-', text)
     return text.strip('-')
 

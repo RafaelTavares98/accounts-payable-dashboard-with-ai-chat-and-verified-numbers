@@ -1,0 +1,787 @@
+number,supplier,kind,issue_date,week,grand_total,score,check,stage,checks,flagged,origin,decision,decided_on,scored_on,model_weeks
+SBP-2026-3334-R1,"Shantou Brightpack Packaging Co., Ltd.",goods,2026-03-06,2026-03-02,2011.4,0.0,model only,model only,,0,,,,2026-03-02,9
+HCV-2026-3342-R1,"Hanil Cosmetic Vessels Co., Ltd.",goods,2026-03-08,2026-03-02,92388.13,0.0,model only,model only,,0,,,,2026-03-02,9
+SCA-2026-3357,Santos Comissaria Aduaneira Ltda.,customs,2026-03-02,2026-03-02,16537.4,0.0,model only,model only,,0,,,,2026-03-02,9
+SCA-2026-3358,Santos Comissaria Aduaneira Ltda.,broker,2026-03-02,2026-03-02,3169.94,0.0,model only,model only,,0,,,,2026-03-02,9
+DHI-2026-3359,DHI Global Forwarding (HK) Ltd.,local,2026-03-02,2026-03-02,2280.04,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-03-05,2026-03-02,9
+TVA-2026-3360,Terminal Valongo Alfandegado Ltda.,storage,2026-03-02,2026-03-02,333.5,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-03-05,2026-03-02,9
+TLV-2026-3361,Transportes Lima Vieira Ltda.,freight,2026-03-02,2026-03-02,1726.61,0.0,model only,model only,,0,,,,2026-03-02,9
+SCA-2026-3362,Santos Comissaria Aduaneira Ltda.,customs,2026-03-05,2026-03-02,238070.86,0.0,model only,model only,,0,,,,2026-03-02,9
+SCA-2026-3363,Santos Comissaria Aduaneira Ltda.,broker,2026-03-05,2026-03-02,5229.5,0.0,model only,model only,,0,,,,2026-03-02,9
+CSM-2026-3364,"COSMO Shipping Lines Co., Ltd.",local,2026-03-05,2026-03-02,5037.18,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-03-08,2026-03-02,9
+TVA-2026-3365,Terminal Valongo Alfandegado Ltda.,storage,2026-03-05,2026-03-02,1881.43,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-03-08,2026-03-02,9
+TLV-2026-3366,Transportes Lima Vieira Ltda.,freight,2026-03-05,2026-03-02,5153.22,0.0,model only,model only,,0,,,,2026-03-02,9
+GZV-2026-3368,Guangzhou Verrelia Glassworks Ltd.,goods,2026-03-06,2026-03-02,3162.3,0.0476,order split under the limit,billing,order split under the limit,0,,,,2026-03-02,9
+DHI-2026-3369,DHI Global Forwarding (HK) Ltd.,freight,2026-03-06,2026-03-02,835.74,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-03-09,2026-03-02,9
+SBP-2026-3371,"Shantou Brightpack Packaging Co., Ltd.",goods,2026-03-06,2026-03-02,2500.0,0.0952,same amount again,billing,same amount again; order split under the limit,0,,,,2026-03-02,9
+DHI-2026-3372,DHI Global Forwarding (HK) Ltd.,freight,2026-03-06,2026-03-02,518.45,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-03-02,9
+BDT-2026-3374,Binh Duong Tubeworks JSC,goods,2026-03-06,2026-03-02,39399.0,0.0,model only,model only,,0,,,,2026-03-02,9
+DHI-2026-3375,DHI Global Forwarding (HK) Ltd.,freight,2026-03-06,2026-03-02,2921.76,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-03-02,9
+SCA-2026-3376,Santos Comissaria Aduaneira Ltda.,customs,2026-03-06,2026-03-02,160940.35,0.0,model only,model only,,0,,,,2026-03-02,9
+SCA-2026-3377,Santos Comissaria Aduaneira Ltda.,broker,2026-03-06,2026-03-02,3269.67,0.0,model only,model only,,0,,,,2026-03-02,9
+DHI-2026-3378,DHI Global Forwarding (HK) Ltd.,local,2026-03-06,2026-03-02,3074.14,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-03-02,9
+TVA-2026-3379,Terminal Valongo Alfandegado Ltda.,storage,2026-03-06,2026-03-02,2894.05,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-03-02,9
+TLV-2026-3380,Transportes Lima Vieira Ltda.,freight,2026-03-06,2026-03-02,2439.44,0.0,model only,model only,,0,,,,2026-03-02,9
+SCA-2026-3381,Santos Comissaria Aduaneira Ltda.,customs,2026-03-06,2026-03-02,644161.56,0.0,model only,model only,,0,,,,2026-03-02,9
+SCA-2026-3382,Santos Comissaria Aduaneira Ltda.,broker,2026-03-06,2026-03-02,5484.5,0.0,model only,model only,,0,,,,2026-03-02,9
+DHI-2026-3383,DHI Global Forwarding (HK) Ltd.,local,2026-03-06,2026-03-02,5231.74,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-03-02,9
+TVA-2026-3384,Terminal Valongo Alfandegado Ltda.,storage,2026-03-06,2026-03-02,11283.35,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-03-02,9
+TLV-2026-3385,Transportes Lima Vieira Ltda.,freight,2026-03-06,2026-03-02,4659.58,0.0,model only,model only,,0,,,,2026-03-02,9
+SCA-2026-3386,Santos Comissaria Aduaneira Ltda.,customs,2026-03-08,2026-03-02,30314.7,0.0,model only,model only,,0,,,,2026-03-02,9
+SCA-2026-3387,Santos Comissaria Aduaneira Ltda.,broker,2026-03-08,2026-03-02,3229.06,0.0,model only,model only,,0,,,,2026-03-02,9
+DHI-2026-3388,DHI Global Forwarding (HK) Ltd.,local,2026-03-08,2026-03-02,2628.54,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-03-02,9
+TVA-2026-3389,Terminal Valongo Alfandegado Ltda.,storage,2026-03-08,2026-03-02,489.17,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-03-02,9
+TLV-2026-3390,Transportes Lima Vieira Ltda.,freight,2026-03-08,2026-03-02,2217.35,0.0,model only,model only,,0,,,,2026-03-02,9
+SCA-2026-3391,Santos Comissaria Aduaneira Ltda.,customs,2026-03-08,2026-03-02,195903.83,0.0,model only,model only,,0,,,,2026-03-02,9
+SCA-2026-3392,Santos Comissaria Aduaneira Ltda.,broker,2026-03-08,2026-03-02,4727.84,0.0,model only,model only,,0,,,,2026-03-02,9
+DHI-2026-3393,DHI Global Forwarding (HK) Ltd.,local,2026-03-08,2026-03-02,3102.94,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-03-02,9
+TVA-2026-3394,Terminal Valongo Alfandegado Ltda.,storage,2026-03-08,2026-03-02,3412.81,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-03-02,9
+TLV-2026-3395,Transportes Lima Vieira Ltda.,freight,2026-03-08,2026-03-02,2376.52,0.0,model only,model only,,0,,,,2026-03-02,9
+SCA-2026-3348-R1,Santos Comissaria Aduaneira Ltda.,customs,2026-03-10,2026-03-09,267282.89,0.0,model only,model only,,0,,,,2026-03-09,9
+SCA-2026-3399,Santos Comissaria Aduaneira Ltda.,customs,2026-03-12,2026-03-09,36102.41,0.0,model only,model only,,0,,,,2026-03-09,9
+SCA-2026-3400,Santos Comissaria Aduaneira Ltda.,broker,2026-03-12,2026-03-09,6796.88,0.0,model only,model only,,0,,,,2026-03-09,9
+DHI-2026-3401,DHI Global Forwarding (HK) Ltd.,local,2026-03-12,2026-03-09,2395.64,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-03-15,2026-03-09,9
+TVA-2026-3402,Terminal Valongo Alfandegado Ltda.,storage,2026-03-12,2026-03-09,674.8,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-03-15,2026-03-09,9
+TLV-2026-3403,Transportes Lima Vieira Ltda.,freight,2026-03-12,2026-03-09,1603.8,0.0,model only,model only,,0,,,,2026-03-09,9
+SCA-2026-3404,Santos Comissaria Aduaneira Ltda.,customs,2026-03-12,2026-03-09,162143.77,0.0,model only,model only,,0,,,,2026-03-09,9
+SCA-2026-3405,Santos Comissaria Aduaneira Ltda.,broker,2026-03-12,2026-03-09,5482.1,0.0,model only,model only,,0,,,,2026-03-09,9
+DHI-2026-3406,DHI Global Forwarding (HK) Ltd.,local,2026-03-12,2026-03-09,3530.04,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-03-15,2026-03-09,9
+TVA-2026-3407,Terminal Valongo Alfandegado Ltda.,storage,2026-03-12,2026-03-09,2911.44,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-03-15,2026-03-09,9
+TLV-2026-3408,Transportes Lima Vieira Ltda.,freight,2026-03-12,2026-03-09,2205.11,0.0,model only,model only,,0,,,,2026-03-09,9
+GZV-2026-3410,Guangzhou Verrelia Glassworks Ltd.,goods,2026-03-13,2026-03-09,2183.4,0.0,model only,model only,,0,,,,2026-03-09,9
+DHI-2026-3411,DHI Global Forwarding (HK) Ltd.,freight,2026-03-13,2026-03-09,368.14,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-03-16,2026-03-09,9
+BDT-2026-3413,Binh Duong Tubeworks JSC,goods,2026-03-13,2026-03-09,9588.46,0.0476,order split under the limit,billing,order split under the limit,0,,,,2026-03-09,9
+BDT-2026-3414,Binh Duong Tubeworks JSC,goods,2026-03-13,2026-03-09,3000.0,0.0476,order split under the limit,billing,order split under the limit,0,,,,2026-03-09,9
+DHI-2026-3415,DHI Global Forwarding (HK) Ltd.,freight,2026-03-13,2026-03-09,8221.54,0.0,model only,model only,,0,,,,2026-03-09,9
+HCV-2026-3417,"Hanil Cosmetic Vessels Co., Ltd.",goods,2026-03-13,2026-03-09,54301.58,0.0,model only,model only,,0,,,,2026-03-09,9
+SCA-2026-3400-R1,Santos Comissaria Aduaneira Ltda.,broker,2026-03-19,2026-03-16,5011.6,0.0,model only,model only,,0,,,,2026-03-16,9
+SCA-2026-3422,Santos Comissaria Aduaneira Ltda.,customs,2026-03-17,2026-03-16,79262.1,0.0,model only,model only,,0,,,,2026-03-16,9
+SCA-2026-3423,Santos Comissaria Aduaneira Ltda.,broker,2026-03-17,2026-03-16,5161.58,0.0,model only,model only,,0,,,,2026-03-16,9
+DHI-2026-3424,DHI Global Forwarding (HK) Ltd.,local,2026-03-17,2026-03-16,3281.08,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-03-20,2026-03-16,9
+TVA-2026-3425,Terminal Valongo Alfandegado Ltda.,storage,2026-03-17,2026-03-16,1309.94,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-03-20,2026-03-16,9
+TLV-2026-3426,Transportes Lima Vieira Ltda.,freight,2026-03-17,2026-03-16,1625.48,0.0,model only,model only,,0,,,,2026-03-16,9
+SCA-2026-3427,Santos Comissaria Aduaneira Ltda.,customs,2026-03-19,2026-03-16,64945.32,0.0,model only,model only,,0,,,,2026-03-16,9
+SCA-2026-3428,Santos Comissaria Aduaneira Ltda.,broker,2026-03-19,2026-03-16,6267.9,0.0,model only,model only,,0,,,,2026-03-16,9
+DHI-2026-3429,DHI Global Forwarding (HK) Ltd.,local,2026-03-19,2026-03-16,2460.42,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-03-22,2026-03-16,9
+TVA-2026-3430,Terminal Valongo Alfandegado Ltda.,storage,2026-03-19,2026-03-16,1337.84,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-03-22,2026-03-16,9
+TLV-2026-3431,Transportes Lima Vieira Ltda.,freight,2026-03-19,2026-03-16,1780.12,0.0,model only,model only,,0,,,,2026-03-16,9
+GZV-2026-3433,Guangzhou Verrelia Glassworks Ltd.,goods,2026-03-20,2026-03-16,34628.4,0.0,model only,model only,,0,,,,2026-03-16,9
+DHI-2026-3434,DHI Global Forwarding (HK) Ltd.,freight,2026-03-20,2026-03-16,2624.59,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-03-23,2026-03-16,9
+HCV-2026-3436,"Hanil Cosmetic Vessels Co., Ltd.",goods,2026-03-20,2026-03-16,17599.5,0.0,model only,model only,,0,,,,2026-03-16,9
+HCV-2026-3437,"Hanil Cosmetic Vessels Co., Ltd.",goods,2026-03-20,2026-03-16,69780.0,0.0,model only,model only,,0,,,,2026-03-16,9
+NCL-2026-3439,"Ningbo Caplink Industrial Co., Ltd.",goods,2026-03-20,2026-03-16,40480.0,0.0,model only,model only,,0,,,,2026-03-16,9
+DHI-2026-3440,DHI Global Forwarding (HK) Ltd.,freight,2026-03-20,2026-03-16,2385.85,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-03-16,9
+SBP-2026-3442,"Shantou Brightpack Packaging Co., Ltd.",goods,2026-03-20,2026-03-16,45319.0,0.0,model only,model only,,0,,,,2026-03-16,9
+DHI-2026-3443,DHI Global Forwarding (HK) Ltd.,freight,2026-03-20,2026-03-16,2707.96,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-03-16,9
+GZV-CN-2026-3338,Guangzhou Verrelia Glassworks Ltd.,credit,2026-03-29,2026-03-23,-358.84,0.0,model only,model only,,0,,,,2026-03-23,9
+SCA-2026-3448,Santos Comissaria Aduaneira Ltda.,customs,2026-03-23,2026-03-23,150411.1,0.0952,duty at a rate not in force,customs,duty at a rate not in force,1,client,dismissed,2026-03-26,2026-03-23,9
+SCA-2026-3449,Santos Comissaria Aduaneira Ltda.,broker,2026-03-23,2026-03-23,4311.88,0.0,model only,model only,,0,,,,2026-03-23,9
+DHI-2026-3450,DHI Global Forwarding (HK) Ltd.,local,2026-03-23,2026-03-23,2935.56,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-03-26,2026-03-23,9
+TVA-2026-3451,Terminal Valongo Alfandegado Ltda.,storage,2026-03-23,2026-03-23,2659.63,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-03-26,2026-03-23,9
+TLV-2026-3452,Transportes Lima Vieira Ltda.,freight,2026-03-23,2026-03-23,2368.59,0.0,model only,model only,,0,,,,2026-03-23,9
+GZV-2026-3454,Guangzhou Verrelia Glassworks Ltd.,goods,2026-03-27,2026-03-23,9480.0,0.0476,order split under the limit,billing,order split under the limit,0,,,,2026-03-23,9
+GZV-2026-3455,Guangzhou Verrelia Glassworks Ltd.,goods,2026-03-27,2026-03-23,12641.09,0.0,model only,model only,,0,,,,2026-03-23,9
+DHI-2026-3456,DHI Global Forwarding (HK) Ltd.,freight,2026-03-27,2026-03-23,1360.2,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-03-30,2026-03-23,9
+HCV-2026-3458,"Hanil Cosmetic Vessels Co., Ltd.",goods,2026-03-27,2026-03-23,5225.06,0.0,model only,model only,,0,,,,2026-03-23,9
+HCV-2026-3459,"Hanil Cosmetic Vessels Co., Ltd.",goods,2026-03-27,2026-03-23,7805.0,0.0476,order split under the limit,billing,order split under the limit,0,,,,2026-03-23,9
+SBP-2026-3461,"Shantou Brightpack Packaging Co., Ltd.",goods,2026-03-27,2026-03-23,1835.0,0.0476,order split under the limit,billing,order split under the limit,0,,,,2026-03-23,9
+DHI-2026-3462,DHI Global Forwarding (HK) Ltd.,freight,2026-03-27,2026-03-23,1244.21,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-03-30,2026-03-23,9
+BDT-2026-3464,Binh Duong Tubeworks JSC,goods,2026-03-27,2026-03-23,5003.18,0.0,model only,model only,,0,,,,2026-03-23,9
+DHI-2026-3465,DHI Global Forwarding (HK) Ltd.,freight,2026-03-27,2026-03-23,795.66,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-03-23,9
+SCA-2026-3466,Santos Comissaria Aduaneira Ltda.,customs,2026-03-29,2026-03-23,40942.9,0.0,model only,model only,,0,,,,2026-03-23,9
+SCA-2026-3467,Santos Comissaria Aduaneira Ltda.,broker,2026-03-29,2026-03-23,3287.2,0.0,model only,model only,,0,,,,2026-03-23,9
+DHI-2026-3468,DHI Global Forwarding (HK) Ltd.,local,2026-03-29,2026-03-23,2894.58,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-03-23,9
+TVA-2026-3469,Terminal Valongo Alfandegado Ltda.,storage,2026-03-29,2026-03-23,672.02,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-03-23,9
+TLV-2026-3470,Transportes Lima Vieira Ltda.,freight,2026-03-29,2026-03-23,2029.56,0.0,model only,model only,,0,,,,2026-03-23,9
+KNG-2026-3471,Keuhne & Nager Logistics AG,freight,2026-03-29,2026-03-23,2000.0,0.0476,same amount again,billing,same amount again,0,,,,2026-03-23,9
+DHI-2026-3440-R1,DHI Global Forwarding (HK) Ltd.,freight,2026-04-01,2026-03-30,2385.85,0.1429,charge not on the rate card,freight billing,charge not on the rate card; same amount again,1,client,dismissed,2026-04-04,2026-03-30,9
+DHI-2026-3450-R1,DHI Global Forwarding (HK) Ltd.,local,2026-03-30,2026-03-30,2935.56,0.1429,no order behind a goods bill,purchasing,no order behind a goods bill; same amount again,1,client,dismissed,2026-04-02,2026-03-30,9
+SCA-2026-3475,Santos Comissaria Aduaneira Ltda.,customs,2026-03-30,2026-03-30,226737.55,0.0,model only,model only,,0,,,,2026-03-30,9
+SCA-2026-3476,Santos Comissaria Aduaneira Ltda.,broker,2026-03-30,2026-03-30,3767.64,0.0,model only,model only,,0,,,,2026-03-30,9
+DHI-2026-3477,DHI Global Forwarding (HK) Ltd.,local,2026-03-30,2026-03-30,4033.5,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-04-02,2026-03-30,9
+TVA-2026-3478,Terminal Valongo Alfandegado Ltda.,storage,2026-03-30,2026-03-30,3540.53,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-04-02,2026-03-30,9
+TLV-2026-3479,Transportes Lima Vieira Ltda.,freight,2026-03-30,2026-03-30,2273.83,0.0,model only,model only,,0,,,,2026-03-30,9
+SCA-2026-3480,Santos Comissaria Aduaneira Ltda.,customs,2026-03-30,2026-03-30,206284.01,0.0,model only,model only,,0,,,,2026-03-30,9
+SCA-2026-3481,Santos Comissaria Aduaneira Ltda.,broker,2026-03-30,2026-03-30,4666.88,0.0,model only,model only,,0,,,,2026-03-30,9
+DHI-2026-3482,DHI Global Forwarding (HK) Ltd.,local,2026-03-30,2026-03-30,4447.9,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-04-02,2026-03-30,9
+TVA-2026-3483,Terminal Valongo Alfandegado Ltda.,storage,2026-03-30,2026-03-30,3534.33,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-03-30,9
+TLV-2026-3484,Transportes Lima Vieira Ltda.,freight,2026-03-30,2026-03-30,2261.64,0.0,model only,model only,,0,,,,2026-03-30,9
+SCA-2026-3485,Santos Comissaria Aduaneira Ltda.,customs,2026-03-31,2026-03-30,82928.11,0.0,model only,model only,,0,,,,2026-03-30,9
+SCA-2026-3486,Santos Comissaria Aduaneira Ltda.,broker,2026-03-31,2026-03-30,4873.45,0.0,model only,model only,,0,,,,2026-03-30,9
+DHI-2026-3487,DHI Global Forwarding (HK) Ltd.,local,2026-03-31,2026-03-30,3261.94,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-03-30,9
+TVA-2026-3488,Terminal Valongo Alfandegado Ltda.,storage,2026-03-31,2026-03-30,1182.76,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-03-30,9
+TLV-2026-3489,Transportes Lima Vieira Ltda.,freight,2026-03-31,2026-03-30,1619.96,0.0,model only,model only,,0,,,,2026-03-30,9
+SCA-2026-3490,Santos Comissaria Aduaneira Ltda.,customs,2026-04-02,2026-03-30,58856.02,0.0,model only,model only,,0,,,,2026-03-30,9
+SCA-2026-3491,Santos Comissaria Aduaneira Ltda.,broker,2026-04-02,2026-03-30,4079.75,0.0,model only,model only,,0,,,,2026-03-30,9
+DHI-2026-3492,DHI Global Forwarding (HK) Ltd.,local,2026-04-02,2026-03-30,2398.56,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-03-30,9
+TVA-2026-3493,Terminal Valongo Alfandegado Ltda.,storage,2026-04-02,2026-03-30,1101.45,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-03-30,9
+TLV-2026-3494,Transportes Lima Vieira Ltda.,freight,2026-04-02,2026-03-30,1641.73,0.0,model only,model only,,0,,,,2026-03-30,9
+HCV-2026-3496,"Hanil Cosmetic Vessels Co., Ltd.",goods,2026-04-03,2026-03-30,9781.76,0.0,model only,model only,,0,,,,2026-03-30,9
+GZV-2026-3498,Guangzhou Verrelia Glassworks Ltd.,goods,2026-04-03,2026-03-30,27320.4,0.0,model only,model only,,0,,,,2026-03-30,9
+DHI-2026-3499,DHI Global Forwarding (HK) Ltd.,freight,2026-04-03,2026-03-30,1507.0,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-03-30,9
+ARL-2026-3501,Aravalli Labelworks Pvt. Ltd.,goods,2026-04-03,2026-03-30,12539.84,0.0,model only,model only,,0,,,,2026-03-30,9
+DHI-2026-3502,DHI Global Forwarding (HK) Ltd.,freight,2026-04-03,2026-03-30,939.32,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-03-30,9
+BDT-2026-3504,Binh Duong Tubeworks JSC,goods,2026-04-03,2026-03-30,24032.0,0.0,model only,model only,,0,,,,2026-03-30,9
+DHI-2026-3505,DHI Global Forwarding (HK) Ltd.,freight,2026-04-03,2026-03-30,2048.53,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-03-30,9
+SCA-2026-3506,Santos Comissaria Aduaneira Ltda.,customs,2026-04-05,2026-03-30,22046.09,0.0,model only,model only,,0,,,,2026-03-30,9
+SCA-2026-3507,Santos Comissaria Aduaneira Ltda.,broker,2026-04-05,2026-03-30,6097.37,0.0,model only,model only,,0,,,,2026-03-30,9
+DHI-2026-3508,DHI Global Forwarding (HK) Ltd.,local,2026-04-05,2026-03-30,2258.76,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-03-30,9
+TVA-2026-3509,Terminal Valongo Alfandegado Ltda.,storage,2026-04-05,2026-03-30,445.72,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-03-30,9
+TLV-2026-3510,Transportes Lima Vieira Ltda.,freight,2026-04-05,2026-03-30,2044.01,0.0,model only,model only,,0,,,,2026-03-30,9
+SCA-2026-3490-R1,Santos Comissaria Aduaneira Ltda.,customs,2026-04-08,2026-04-06,56079.38,0.0,model only,model only,,0,,,,2026-04-06,9
+SCA-2026-3513,Santos Comissaria Aduaneira Ltda.,customs,2026-04-07,2026-04-06,369436.39,0.0952,duty at a rate not in force,customs,duty at a rate not in force,1,client,confirmed,2026-05-08,2026-04-06,9
+SCA-2026-3513-R1,Santos Comissaria Aduaneira Ltda.,customs,2026-04-12,2026-04-06,351765.89,0.0952,duty at a rate not in force,customs,duty at a rate not in force,1,client,confirmed,2026-05-15,2026-04-06,9
+SCA-2026-3514,Santos Comissaria Aduaneira Ltda.,broker,2026-04-07,2026-04-06,4937.35,0.0,model only,model only,,0,,,,2026-04-06,9
+DHI-2026-3515,DHI Global Forwarding (HK) Ltd.,local,2026-04-07,2026-04-06,8451.38,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-04-10,2026-04-06,9
+TVA-2026-3516,Terminal Valongo Alfandegado Ltda.,storage,2026-04-07,2026-04-06,5586.68,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-04-10,2026-04-06,9
+TLV-2026-3517,Transportes Lima Vieira Ltda.,freight,2026-04-07,2026-04-06,2655.65,0.0,model only,model only,,0,,,,2026-04-06,9
+SCA-2026-3518,Santos Comissaria Aduaneira Ltda.,customs,2026-04-07,2026-04-06,390902.44,0.0,model only,model only,,0,,,,2026-04-06,9
+SCA-2026-3519,Santos Comissaria Aduaneira Ltda.,broker,2026-04-07,2026-04-06,6408.89,0.0,model only,model only,,0,,,,2026-04-06,9
+DHI-2026-3520,DHI Global Forwarding (HK) Ltd.,local,2026-04-07,2026-04-06,4564.98,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-06,9
+TVA-2026-3521,Terminal Valongo Alfandegado Ltda.,storage,2026-04-07,2026-04-06,7343.23,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-06,9
+TLV-2026-3522,Transportes Lima Vieira Ltda.,freight,2026-04-07,2026-04-06,3500.59,0.0,model only,model only,,0,,,,2026-04-06,9
+SCA-2026-3523,Santos Comissaria Aduaneira Ltda.,customs,2026-04-08,2026-04-06,69997.22,0.0,model only,model only,,0,,,,2026-04-06,9
+SCA-2026-3524,Santos Comissaria Aduaneira Ltda.,broker,2026-04-08,2026-04-06,3768.82,0.0,model only,model only,,0,,,,2026-04-06,9
+DHI-2026-3525,DHI Global Forwarding (HK) Ltd.,local,2026-04-08,2026-04-06,2694.0,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-06,9
+TVA-2026-3526,Terminal Valongo Alfandegado Ltda.,storage,2026-04-08,2026-04-06,1220.63,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-06,9
+TLV-2026-3527,Transportes Lima Vieira Ltda.,freight,2026-04-08,2026-04-06,1989.75,0.0,model only,model only,,0,,,,2026-04-06,9
+JHP-2026-3528,"Jinhua Packtech Industrial Co., Ltd.",goods,2026-04-08,2026-04-06,1428.0,0.0476,young vendor,vendor master,young vendor,0,,,,2026-04-06,9
+SCA-2026-3529,Santos Comissaria Aduaneira Ltda.,customs,2026-04-09,2026-04-06,9979.43,0.0,model only,model only,,0,,,,2026-04-06,9
+SCA-2026-3530,Santos Comissaria Aduaneira Ltda.,broker,2026-04-09,2026-04-06,6809.3,0.0,model only,model only,,0,,,,2026-04-06,9
+DHI-2026-3531,DHI Global Forwarding (HK) Ltd.,local,2026-04-09,2026-04-06,2267.74,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-06,9
+TVA-2026-3532,Terminal Valongo Alfandegado Ltda.,storage,2026-04-09,2026-04-06,195.68,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-06,9
+TLV-2026-3533,Transportes Lima Vieira Ltda.,freight,2026-04-09,2026-04-06,1714.25,0.0,model only,model only,,0,,,,2026-04-06,9
+APX-2026-3534,Apex Trade Services LLC,goods,2026-04-09,2026-04-06,5000.0,0.1905,no order behind a goods bill,purchasing,"no order behind a goods bill; round total, not a known fee; young vendor",1,client,confirmed,2026-07-22,2026-04-06,9
+GZV-2026-3536,Guangzhou Verrelia Glassworks Ltd.,goods,2026-04-10,2026-04-06,2556.0,0.0476,order split under the limit,billing,order split under the limit,0,,,,2026-04-06,9
+GZV-2026-3537,Guangzhou Verrelia Glassworks Ltd.,goods,2026-04-10,2026-04-06,32089.62,0.0,model only,model only,,0,,,,2026-04-06,9
+DHI-2026-3538,DHI Global Forwarding (HK) Ltd.,freight,2026-04-10,2026-04-06,1323.06,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-04-06,9
+ARL-2026-3540,Aravalli Labelworks Pvt. Ltd.,goods,2026-04-10,2026-04-06,30126.0,0.0,model only,model only,,0,,,,2026-04-06,9
+ARL-2026-3541,Aravalli Labelworks Pvt. Ltd.,goods,2026-04-10,2026-04-06,4286.07,0.0,model only,model only,,0,,,,2026-04-06,9
+ARL-2026-3542,Aravalli Labelworks Pvt. Ltd.,goods,2026-04-10,2026-04-06,6226.0,0.0,model only,model only,,0,,,,2026-04-06,9
+ARL-2026-3543,Aravalli Labelworks Pvt. Ltd.,goods,2026-04-10,2026-04-06,6192.0,0.0,model only,model only,,0,,,,2026-04-06,9
+DHI-2026-3544,DHI Global Forwarding (HK) Ltd.,freight,2026-04-10,2026-04-06,2299.08,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-04-06,9
+TLV-2026-3510-R1,Transportes Lima Vieira Ltda.,freight,2026-04-15,2026-04-13,2044.01,0.0476,same amount again,billing,same amount again,0,,,,2026-04-13,9
+SCA-2026-3514-R1,Santos Comissaria Aduaneira Ltda.,broker,2026-04-15,2026-04-13,4937.35,0.0476,same amount again,billing,same amount again,0,,,,2026-04-13,9
+SCA-2026-3530-R1,Santos Comissaria Aduaneira Ltda.,broker,2026-04-17,2026-04-13,6809.3,0.0476,same amount again,billing,same amount again,0,,,,2026-04-13,9
+GLC-2026-3547,Greenline Sourcing Consultants,goods,2026-04-15,2026-04-13,7400.0,0.1429,no order behind a goods bill,purchasing,no order behind a goods bill; young vendor,1,client,confirmed,2026-06-26,2026-04-13,9
+SCA-2026-3548,Santos Comissaria Aduaneira Ltda.,customs,2026-04-16,2026-04-13,15450.79,0.0,model only,model only,,0,,,,2026-04-13,9
+SCA-2026-3549,Santos Comissaria Aduaneira Ltda.,broker,2026-04-16,2026-04-13,5653.76,0.0,model only,model only,,0,,,,2026-04-13,9
+DHI-2026-3550,DHI Global Forwarding (HK) Ltd.,local,2026-04-16,2026-04-13,2245.78,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-04-19,2026-04-13,9
+TVA-2026-3551,Terminal Valongo Alfandegado Ltda.,storage,2026-04-16,2026-04-13,254.1,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-04-19,2026-04-13,9
+TLV-2026-3552,Transportes Lima Vieira Ltda.,freight,2026-04-16,2026-04-13,1409.19,0.0,model only,model only,,0,,,,2026-04-13,9
+GZV-2026-3554,Guangzhou Verrelia Glassworks Ltd.,goods,2026-04-17,2026-04-13,37516.47,0.0,model only,model only,,0,,,,2026-04-13,9
+DHI-2026-3555,DHI Global Forwarding (HK) Ltd.,freight,2026-04-17,2026-04-13,2501.85,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-04-20,2026-04-13,9
+SBP-2026-3557,"Shantou Brightpack Packaging Co., Ltd.",goods,2026-04-17,2026-04-13,13878.0,0.0,model only,model only,,0,,,,2026-04-13,9
+SBP-2026-3558,"Shantou Brightpack Packaging Co., Ltd.",goods,2026-04-17,2026-04-13,27982.0,0.0,model only,model only,,0,,,,2026-04-13,9
+DHI-2026-3559,DHI Global Forwarding (HK) Ltd.,freight,2026-04-17,2026-04-13,1306.96,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-04-20,2026-04-13,9
+NCL-2026-3561,"Ningbo Caplink Industrial Co., Ltd.",goods,2026-04-17,2026-04-13,15500.0,0.0,model only,model only,,0,,,,2026-04-13,9
+DHI-2026-3562,DHI Global Forwarding (HK) Ltd.,freight,2026-04-17,2026-04-13,1245.48,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-04-13,9
+SCA-2026-3563,Santos Comissaria Aduaneira Ltda.,customs,2026-04-17,2026-04-13,155654.17,0.0,model only,model only,,0,,,,2026-04-13,9
+SCA-2026-3564,Santos Comissaria Aduaneira Ltda.,broker,2026-04-17,2026-04-13,4863.15,0.0,model only,model only,,0,,,,2026-04-13,9
+DHI-2026-3565,DHI Global Forwarding (HK) Ltd.,local,2026-04-17,2026-04-13,4064.42,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-13,9
+TVA-2026-3566,Terminal Valongo Alfandegado Ltda.,storage,2026-04-17,2026-04-13,2705.02,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-13,9
+TLV-2026-3567,Transportes Lima Vieira Ltda.,freight,2026-04-17,2026-04-13,1960.02,0.0,model only,model only,,0,,,,2026-04-13,9
+SCA-2026-3571,Santos Comissaria Aduaneira Ltda.,customs,2026-04-20,2026-04-20,11794.31,0.0,model only,model only,,0,,,,2026-04-20,9
+SCA-2026-3572,Santos Comissaria Aduaneira Ltda.,broker,2026-04-20,2026-04-20,7015.76,0.0,model only,model only,,0,,,,2026-04-20,9
+DHI-2026-3573,DHI Global Forwarding (HK) Ltd.,local,2026-04-20,2026-04-20,2260.14,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-04-23,2026-04-20,9
+TVA-2026-3574,Terminal Valongo Alfandegado Ltda.,storage,2026-04-20,2026-04-20,164.29,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-04-23,2026-04-20,9
+TLV-2026-3575,Transportes Lima Vieira Ltda.,freight,2026-04-20,2026-04-20,1325.67,0.0,model only,model only,,0,,,,2026-04-20,9
+APX-2026-3576,Apex Trade Services LLC,goods,2026-04-20,2026-04-20,9900.0,0.1429,no order behind a goods bill,purchasing,no order behind a goods bill; young vendor,1,client,confirmed,2026-08-11,2026-04-20,9
+SCA-2026-3577,Santos Comissaria Aduaneira Ltda.,customs,2026-04-21,2026-04-20,152939.33,0.0,model only,model only,,0,,,,2026-04-20,9
+SCA-2026-3578,Santos Comissaria Aduaneira Ltda.,broker,2026-04-21,2026-04-20,5340.5,0.0,model only,model only,,0,,,,2026-04-20,9
+DHI-2026-3579,DHI Global Forwarding (HK) Ltd.,local,2026-04-21,2026-04-20,3453.34,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-20,9
+TVA-2026-3580,Terminal Valongo Alfandegado Ltda.,storage,2026-04-21,2026-04-20,2756.07,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-20,9
+TLV-2026-3581,Transportes Lima Vieira Ltda.,freight,2026-04-21,2026-04-20,1990.44,0.0,model only,model only,,0,,,,2026-04-20,9
+GLC-2026-3582,Greenline Sourcing Consultants,goods,2026-04-23,2026-04-20,3300.0,0.1429,no order behind a goods bill,purchasing,no order behind a goods bill; young vendor,1,client,confirmed,2026-07-11,2026-04-20,9
+GZV-2026-3584,Guangzhou Verrelia Glassworks Ltd.,goods,2026-04-24,2026-04-20,3362.94,0.1429,quantity above receipt,receiving,quantity above receipt; order split under the limit,1,client,confirmed,2026-05-07,2026-04-20,9
+DHI-2026-3585,DHI Global Forwarding (HK) Ltd.,freight,2026-04-24,2026-04-20,1250.03,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-04-20,9
+HCV-2026-3587,"Hanil Cosmetic Vessels Co., Ltd.",goods,2026-04-24,2026-04-20,15114.0,0.0,model only,model only,,0,,,,2026-04-20,9
+HCV-2026-3588,"Hanil Cosmetic Vessels Co., Ltd.",goods,2026-04-24,2026-04-20,18272.0,0.0,model only,model only,,0,,,,2026-04-20,9
+SBP-2026-3590,"Shantou Brightpack Packaging Co., Ltd.",goods,2026-04-24,2026-04-20,2008.0,0.0,model only,model only,,0,,,,2026-04-20,9
+DHI-2026-3591,DHI Global Forwarding (HK) Ltd.,freight,2026-04-24,2026-04-20,1422.05,0.0,model only,model only,,0,,,,2026-04-20,9
+BDT-2026-3593,Binh Duong Tubeworks JSC,goods,2026-04-24,2026-04-20,8622.0,0.0,model only,model only,,0,,,,2026-04-20,9
+DHI-2026-3594,DHI Global Forwarding (HK) Ltd.,freight,2026-04-24,2026-04-20,1326.3,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-04-20,9
+SCA-2026-3595,Santos Comissaria Aduaneira Ltda.,customs,2026-04-24,2026-04-20,295321.13,0.0,model only,model only,,0,,,,2026-04-20,9
+SCA-2026-3596,Santos Comissaria Aduaneira Ltda.,broker,2026-04-24,2026-04-20,5339.01,0.0,model only,model only,,0,,,,2026-04-20,9
+DHI-2026-3597,DHI Global Forwarding (HK) Ltd.,local,2026-04-24,2026-04-20,3558.36,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-20,9
+TVA-2026-3598,Terminal Valongo Alfandegado Ltda.,storage,2026-04-24,2026-04-20,5554.34,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-20,9
+TLV-2026-3599,Transportes Lima Vieira Ltda.,freight,2026-04-24,2026-04-20,3096.56,0.0,model only,model only,,0,,,,2026-04-20,9
+SCA-2026-3600,Santos Comissaria Aduaneira Ltda.,customs,2026-04-25,2026-04-20,183883.89,0.0,model only,model only,,0,,,,2026-04-20,9
+SCA-2026-3601,Santos Comissaria Aduaneira Ltda.,broker,2026-04-25,2026-04-20,5791.47,0.0,model only,model only,,0,,,,2026-04-20,9
+DHI-2026-3602,DHI Global Forwarding (HK) Ltd.,local,2026-04-25,2026-04-20,2954.36,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-20,9
+TVA-2026-3603,Terminal Valongo Alfandegado Ltda.,storage,2026-04-25,2026-04-20,3451.72,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-20,9
+TLV-2026-3604,Transportes Lima Vieira Ltda.,freight,2026-04-25,2026-04-20,2861.3,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-04-20,9
+SCA-2026-3605,Santos Comissaria Aduaneira Ltda.,customs,2026-04-25,2026-04-20,143627.31,0.0952,duty at a rate not in force,customs,duty at a rate not in force,0,,,,2026-04-20,9
+SCA-2026-3606,Santos Comissaria Aduaneira Ltda.,broker,2026-04-25,2026-04-20,5709.68,0.0,model only,model only,,0,,,,2026-04-20,9
+DHI-2026-3607,DHI Global Forwarding (HK) Ltd.,local,2026-04-25,2026-04-20,3755.16,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-20,9
+TVA-2026-3608,Terminal Valongo Alfandegado Ltda.,storage,2026-04-25,2026-04-20,2368.01,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-20,9
+TLV-2026-3609,Transportes Lima Vieira Ltda.,freight,2026-04-25,2026-04-20,2347.14,0.0,model only,model only,,0,,,,2026-04-20,9
+KNG-2026-3610,Keuhne & Nager Logistics AG,freight,2026-04-26,2026-04-20,2000.0,0.0476,same amount again,billing,same amount again,0,,,,2026-04-20,9
+GZV-2026-3584-R1,Guangzhou Verrelia Glassworks Ltd.,goods,2026-05-03,2026-04-27,2206.95,0.0,model only,model only,,0,,,,2026-04-27,9
+TLV-2026-3599-R1,Transportes Lima Vieira Ltda.,freight,2026-04-27,2026-04-27,3096.56,0.0476,same amount again,billing,same amount again,0,,,,2026-04-27,9
+SCA-2026-3613,Santos Comissaria Aduaneira Ltda.,customs,2026-04-27,2026-04-27,171680.54,0.0,model only,model only,,0,,,,2026-04-27,9
+SCA-2026-3614,Santos Comissaria Aduaneira Ltda.,broker,2026-04-27,2026-04-27,4278.1,0.0952,broker fee above contract,customs,broker fee above contract,1,client,confirmed,2026-06-02,2026-04-27,9
+SCA-2026-3614-R1,Santos Comissaria Aduaneira Ltda.,broker,2026-05-03,2026-04-27,4278.1,0.1429,broker fee above contract,customs,broker fee above contract; same amount again,1,client,confirmed,2026-06-15,2026-04-27,9
+DHI-2026-3615,DHI Global Forwarding (HK) Ltd.,local,2026-04-27,2026-04-27,4021.5,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-04-30,2026-04-27,9
+TVA-2026-3616,Terminal Valongo Alfandegado Ltda.,storage,2026-04-27,2026-04-27,3068.3,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-04-30,2026-04-27,9
+TLV-2026-3617,Transportes Lima Vieira Ltda.,freight,2026-04-27,2026-04-27,2154.74,0.0,model only,model only,,0,,,,2026-04-27,9
+SCA-2026-3618,Santos Comissaria Aduaneira Ltda.,customs,2026-04-27,2026-04-27,10819.89,0.0,model only,model only,,0,,,,2026-04-27,9
+SCA-2026-3619,Santos Comissaria Aduaneira Ltda.,broker,2026-04-27,2026-04-27,4170.92,0.0,model only,model only,,0,,,,2026-04-27,9
+DHI-2026-3620,DHI Global Forwarding (HK) Ltd.,local,2026-04-27,2026-04-27,2251.5,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-27,9
+TVA-2026-3621,Terminal Valongo Alfandegado Ltda.,storage,2026-04-27,2026-04-27,219.14,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-27,9
+TLV-2026-3622,Transportes Lima Vieira Ltda.,freight,2026-04-27,2026-04-27,1471.99,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-04-27,9
+SCA-2026-3623,Santos Comissaria Aduaneira Ltda.,customs,2026-04-30,2026-04-27,89437.84,0.0952,duty at a rate not in force,customs,duty at a rate not in force,0,,,,2026-04-27,9
+SCA-2026-3624,Santos Comissaria Aduaneira Ltda.,broker,2026-04-30,2026-04-27,3282.49,0.0,model only,model only,,0,,,,2026-04-27,9
+DHI-2026-3625,DHI Global Forwarding (HK) Ltd.,local,2026-04-30,2026-04-27,2639.12,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-27,9
+TVA-2026-3626,Terminal Valongo Alfandegado Ltda.,storage,2026-04-30,2026-04-27,1499.09,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-04-27,9
+TLV-2026-3627,Transportes Lima Vieira Ltda.,freight,2026-04-30,2026-04-27,1821.22,0.0,model only,model only,,0,,,,2026-04-27,9
+NCL-2026-3629,"Ningbo Caplink Industrial Co., Ltd.",goods,2026-05-01,2026-04-27,54625.18,0.0,model only,model only,,0,,,,2026-04-27,9
+DHI-2026-3630,DHI Global Forwarding (HK) Ltd.,freight,2026-05-01,2026-04-27,2808.68,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-04-27,9
+BDT-2026-3632,Binh Duong Tubeworks JSC,goods,2026-05-01,2026-04-27,7965.76,0.0,model only,model only,,0,,,,2026-04-27,9
+BDT-2026-3633,Binh Duong Tubeworks JSC,goods,2026-05-01,2026-04-27,33300.0,0.0,model only,model only,,0,,,,2026-04-27,9
+DHI-2026-3634,DHI Global Forwarding (HK) Ltd.,freight,2026-05-01,2026-04-27,2637.66,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-04-27,9
+APX-2026-3635,Apex Trade Services LLC,goods,2026-05-03,2026-04-27,5600.0,0.1429,no order behind a goods bill,purchasing,no order behind a goods bill; young vendor,1,client,pending,,2026-04-27,9
+HCV-2026-3588-R1,"Hanil Cosmetic Vessels Co., Ltd.",goods,2026-05-05,2026-05-04,17479.75,0.0,model only,model only,,0,,,,2026-05-04,9
+SCA-2026-3640,Santos Comissaria Aduaneira Ltda.,customs,2026-05-04,2026-05-04,54470.72,0.0,model only,model only,,0,,,,2026-05-04,9
+SCA-2026-3641,Santos Comissaria Aduaneira Ltda.,broker,2026-05-04,2026-05-04,4827.48,0.0,model only,model only,,0,,,,2026-05-04,9
+DHI-2026-3642,DHI Global Forwarding (HK) Ltd.,local,2026-05-04,2026-05-04,2567.3,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-05-07,2026-05-04,9
+TVA-2026-3643,Terminal Valongo Alfandegado Ltda.,storage,2026-05-04,2026-05-04,866.3,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-05-07,2026-05-04,9
+TLV-2026-3644,Transportes Lima Vieira Ltda.,freight,2026-05-04,2026-05-04,2109.03,0.0,model only,model only,,0,,,,2026-05-04,9
+SCA-2026-3645,Santos Comissaria Aduaneira Ltda.,customs,2026-05-06,2026-05-04,21572.66,0.0,model only,model only,,0,,,,2026-05-04,9
+SCA-2026-3646,Santos Comissaria Aduaneira Ltda.,broker,2026-05-06,2026-05-04,3162.4,0.0,model only,model only,,0,,,,2026-05-04,9
+DHI-2026-3647,DHI Global Forwarding (HK) Ltd.,local,2026-05-06,2026-05-04,2248.1,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-05-09,2026-05-04,9
+TVA-2026-3648,Terminal Valongo Alfandegado Ltda.,storage,2026-05-06,2026-05-04,369.33,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-05-09,2026-05-04,9
+TLV-2026-3649,Transportes Lima Vieira Ltda.,freight,2026-05-06,2026-05-04,2117.15,0.0,model only,model only,,0,,,,2026-05-04,9
+SCA-2026-3650,Santos Comissaria Aduaneira Ltda.,customs,2026-05-07,2026-05-04,13961.85,0.0,model only,model only,,0,,,,2026-05-04,9
+SCA-2026-3651,Santos Comissaria Aduaneira Ltda.,broker,2026-05-07,2026-05-04,3597.76,0.0,model only,model only,,0,,,,2026-05-04,9
+DHI-2026-3652,DHI Global Forwarding (HK) Ltd.,local,2026-05-07,2026-05-04,2659.74,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-05-04,9
+TVA-2026-3653,Terminal Valongo Alfandegado Ltda.,storage,2026-05-07,2026-05-04,195.98,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-05-04,9
+TLV-2026-3654,Transportes Lima Vieira Ltda.,freight,2026-05-07,2026-05-04,1754.78,0.0,model only,model only,,0,,,,2026-05-04,9
+GZV-2026-3656,Guangzhou Verrelia Glassworks Ltd.,goods,2026-05-08,2026-05-04,27691.2,0.0,model only,model only,,0,,,,2026-05-04,9
+DHI-2026-3657,DHI Global Forwarding (HK) Ltd.,freight,2026-05-08,2026-05-04,4461.02,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-05-04,9
+NCL-2026-3659,"Ningbo Caplink Industrial Co., Ltd.",goods,2026-05-08,2026-05-04,21445.0,0.0476,order split under the limit,billing,order split under the limit,0,,,,2026-05-04,9
+DHI-2026-3660,DHI Global Forwarding (HK) Ltd.,freight,2026-05-08,2026-05-04,1223.03,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-05-04,9
+ARL-2026-3662,Aravalli Labelworks Pvt. Ltd.,goods,2026-05-08,2026-05-04,9124.0,0.0,model only,model only,,0,,,,2026-05-04,9
+ARL-2026-3663,Aravalli Labelworks Pvt. Ltd.,goods,2026-05-08,2026-05-04,5133.69,0.0,model only,model only,,0,,,,2026-05-04,9
+DHI-2026-3665,DHI Global Forwarding (HK) Ltd.,freight,2026-05-08,2026-05-04,2162.88,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-05-04,9
+SBP-2026-3667,"Shantou Brightpack Packaging Co., Ltd.",goods,2026-05-08,2026-05-04,11977.0,0.0,model only,model only,,0,,,,2026-05-04,9
+DHI-2026-3668,DHI Global Forwarding (HK) Ltd.,freight,2026-05-08,2026-05-04,3453.62,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-05-04,9
+SCA-2026-3669,Santos Comissaria Aduaneira Ltda.,customs,2026-05-08,2026-05-04,49077.83,0.0,model only,model only,,0,,,,2026-05-04,9
+SCA-2026-3670,Santos Comissaria Aduaneira Ltda.,broker,2026-05-08,2026-05-04,3593.5,0.0,model only,model only,,0,,,,2026-05-04,9
+DHI-2026-3671,DHI Global Forwarding (HK) Ltd.,local,2026-05-08,2026-05-04,2300.88,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-05-04,9
+TVA-2026-3672,Terminal Valongo Alfandegado Ltda.,storage,2026-05-08,2026-05-04,819.89,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-05-04,9
+TLV-2026-3673,Transportes Lima Vieira Ltda.,freight,2026-05-08,2026-05-04,1884.14,0.0,model only,model only,,0,,,,2026-05-04,9
+GLC-2026-3674,Greenline Sourcing Consultants,goods,2026-05-09,2026-05-04,6900.0,0.1429,no order behind a goods bill,purchasing,no order behind a goods bill; young vendor,1,client,pending,,2026-05-04,9
+SCA-2026-3675,Santos Comissaria Aduaneira Ltda.,customs,2026-05-10,2026-05-04,163224.32,0.0,model only,model only,,0,,,,2026-05-04,9
+SCA-2026-3676,Santos Comissaria Aduaneira Ltda.,broker,2026-05-10,2026-05-04,4830.75,0.0,model only,model only,,0,,,,2026-05-04,9
+DHI-2026-3677,DHI Global Forwarding (HK) Ltd.,local,2026-05-10,2026-05-04,3696.08,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-05-04,9
+TVA-2026-3678,Terminal Valongo Alfandegado Ltda.,storage,2026-05-10,2026-05-04,3091.36,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-05-04,9
+TLV-2026-3679,Transportes Lima Vieira Ltda.,freight,2026-05-10,2026-05-04,2142.43,0.0,model only,model only,,0,,,,2026-05-04,9
+DHI-2026-3642-R1,DHI Global Forwarding (HK) Ltd.,local,2026-05-14,2026-05-11,2567.3,0.1429,no order behind a goods bill,purchasing,no order behind a goods bill; same amount again,1,client,dismissed,2026-05-17,2026-05-11,9
+SCA-2026-3683,Santos Comissaria Aduaneira Ltda.,customs,2026-05-11,2026-05-11,109191.83,0.0,model only,model only,,0,,,,2026-05-11,9
+SCA-2026-3684,Santos Comissaria Aduaneira Ltda.,broker,2026-05-11,2026-05-11,4937.7,0.0,model only,model only,,0,,,,2026-05-11,9
+DHI-2026-3685,DHI Global Forwarding (HK) Ltd.,local,2026-05-11,2026-05-11,2767.6,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-05-14,2026-05-11,9
+TVA-2026-3686,Terminal Valongo Alfandegado Ltda.,storage,2026-05-11,2026-05-11,1806.42,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-05-14,2026-05-11,9
+TLV-2026-3687,Transportes Lima Vieira Ltda.,freight,2026-05-11,2026-05-11,2001.84,0.0,model only,model only,,0,,,,2026-05-11,9
+SCA-2026-3688,Santos Comissaria Aduaneira Ltda.,customs,2026-05-13,2026-05-11,118017.38,0.0,model only,model only,,0,,,,2026-05-11,9
+SCA-2026-3689,Santos Comissaria Aduaneira Ltda.,broker,2026-05-13,2026-05-11,4324.04,0.0,model only,model only,,0,,,,2026-05-11,9
+DHI-2026-3690,DHI Global Forwarding (HK) Ltd.,local,2026-05-13,2026-05-11,2923.42,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-05-16,2026-05-11,9
+TVA-2026-3691,Terminal Valongo Alfandegado Ltda.,storage,2026-05-13,2026-05-11,2248.53,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-05-11,9
+TLV-2026-3692,Transportes Lima Vieira Ltda.,freight,2026-05-13,2026-05-11,2316.23,0.0,model only,model only,,0,,,,2026-05-11,9
+GZV-2026-3694,Guangzhou Verrelia Glassworks Ltd.,goods,2026-05-15,2026-05-11,12769.2,0.0,model only,model only,,0,,,,2026-05-11,9
+GZV-2026-3695,Guangzhou Verrelia Glassworks Ltd.,goods,2026-05-15,2026-05-11,114769.5,0.0,model only,model only,,0,,,,2026-05-11,9
+GZV-2026-3696,Guangzhou Verrelia Glassworks Ltd.,goods,2026-05-15,2026-05-11,35041.7,0.0,model only,model only,,0,,,,2026-05-11,9
+DHI-2026-3697,DHI Global Forwarding (HK) Ltd.,freight,2026-05-15,2026-05-11,8934.13,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-05-11,9
+ARL-2026-3699,Aravalli Labelworks Pvt. Ltd.,goods,2026-05-15,2026-05-11,2587.13,0.0,model only,model only,,0,,,,2026-05-11,9
+DHI-2026-3700,DHI Global Forwarding (HK) Ltd.,freight,2026-05-15,2026-05-11,839.71,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-05-11,9
+SBP-2026-3702,"Shantou Brightpack Packaging Co., Ltd.",goods,2026-05-15,2026-05-11,1386.0,0.0,model only,model only,,0,,,,2026-05-11,9
+DHI-2026-3703,DHI Global Forwarding (HK) Ltd.,freight,2026-05-15,2026-05-11,617.03,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-05-11,9
+APX-2026-3704,Apex Trade Services LLC,goods,2026-05-17,2026-05-11,4900.0,0.1429,no order behind a goods bill,purchasing,no order behind a goods bill; young vendor,1,client,confirmed,2026-08-18,2026-05-11,9
+SCA-2026-3669-R1,Santos Comissaria Aduaneira Ltda.,customs,2026-05-19,2026-05-18,48665.06,0.0,model only,model only,,0,,,,2026-05-18,9
+SCA-2026-3707,Santos Comissaria Aduaneira Ltda.,customs,2026-05-18,2026-05-18,32552.36,0.0,model only,model only,,0,,,,2026-05-18,9
+SCA-2026-3708,Santos Comissaria Aduaneira Ltda.,broker,2026-05-18,2026-05-18,3677.74,0.0,model only,model only,,0,,,,2026-05-18,9
+DHI-2026-3709,DHI Global Forwarding (HK) Ltd.,local,2026-05-18,2026-05-18,2221.9,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-05-21,2026-05-18,9
+TVA-2026-3710,Terminal Valongo Alfandegado Ltda.,storage,2026-05-18,2026-05-18,607.0,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-05-21,2026-05-18,9
+TLV-2026-3711,Transportes Lima Vieira Ltda.,freight,2026-05-18,2026-05-18,2062.66,0.0,model only,model only,,0,,,,2026-05-18,9
+SCA-2026-3712,Santos Comissaria Aduaneira Ltda.,customs,2026-05-18,2026-05-18,93290.66,0.0,model only,model only,,0,,,,2026-05-18,9
+SCA-2026-3713,Santos Comissaria Aduaneira Ltda.,broker,2026-05-18,2026-05-18,5332.2,0.0,model only,model only,,0,,,,2026-05-18,9
+DHI-2026-3714,DHI Global Forwarding (HK) Ltd.,local,2026-05-18,2026-05-18,3062.7,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-05-21,2026-05-18,9
+TVA-2026-3715,Terminal Valongo Alfandegado Ltda.,storage,2026-05-18,2026-05-18,1618.41,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-05-18,9
+TLV-2026-3716,Transportes Lima Vieira Ltda.,freight,2026-05-18,2026-05-18,1560.38,0.0,model only,model only,,0,,,,2026-05-18,9
+SCA-2026-3717,Santos Comissaria Aduaneira Ltda.,customs,2026-05-21,2026-05-18,59425.97,0.0,model only,model only,,0,,,,2026-05-18,9
+SCA-2026-3718,Santos Comissaria Aduaneira Ltda.,broker,2026-05-21,2026-05-18,6001.68,0.0,model only,model only,,0,,,,2026-05-18,9
+DHI-2026-3719,DHI Global Forwarding (HK) Ltd.,local,2026-05-21,2026-05-18,2534.86,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-05-18,9
+DHI-2026-3719-R1,DHI Global Forwarding (HK) Ltd.,local,2026-05-24,2026-05-18,2534.86,0.1429,no order behind a goods bill,purchasing,no order behind a goods bill; same amount again,1,client,dismissed,2026-05-27,2026-05-18,9
+TVA-2026-3720,Terminal Valongo Alfandegado Ltda.,storage,2026-05-21,2026-05-18,1034.62,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-05-18,9
+TLV-2026-3721,Transportes Lima Vieira Ltda.,freight,2026-05-21,2026-05-18,1622.84,0.0,model only,model only,,0,,,,2026-05-18,9
+GZV-2026-3723,Guangzhou Verrelia Glassworks Ltd.,goods,2026-05-22,2026-05-18,25763.4,0.0,model only,model only,,0,,,,2026-05-18,9
+DHI-2026-3724,DHI Global Forwarding (HK) Ltd.,freight,2026-05-22,2026-05-18,1489.17,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-05-18,9
+HCV-2026-3726,"Hanil Cosmetic Vessels Co., Ltd.",goods,2026-05-22,2026-05-18,149684.04,0.0,model only,model only,,0,,,,2026-05-18,9
+ARL-2026-3728,Aravalli Labelworks Pvt. Ltd.,goods,2026-05-22,2026-05-18,26036.5,0.1905,price above contract,billing,price above contract; quantity above receipt,1,client,dismissed,2026-05-25,2026-05-18,9
+DHI-2026-3729,DHI Global Forwarding (HK) Ltd.,freight,2026-05-22,2026-05-18,3059.0,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-05-18,9
+NCL-2026-3731,"Ningbo Caplink Industrial Co., Ltd.",goods,2026-05-22,2026-05-18,16800.0,0.0,model only,model only,,0,,,,2026-05-18,9
+DHI-2026-3732,DHI Global Forwarding (HK) Ltd.,freight,2026-05-22,2026-05-18,1166.14,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-05-18,9
+KNG-2026-3733,Keuhne & Nager Logistics AG,freight,2026-05-24,2026-05-18,2000.0,0.0476,same amount again,billing,same amount again,0,,,,2026-05-18,9
+TVA-2026-3715-R1,Terminal Valongo Alfandegado Ltda.,storage,2026-05-27,2026-05-25,1618.41,0.1429,no order behind a goods bill,purchasing,no order behind a goods bill; same amount again,1,client,dismissed,2026-05-30,2026-05-25,9
+SCA-2026-3737,Santos Comissaria Aduaneira Ltda.,customs,2026-05-25,2026-05-25,136500.47,0.0,model only,model only,,0,,,,2026-05-25,9
+SCA-2026-3738,Santos Comissaria Aduaneira Ltda.,broker,2026-05-25,2026-05-25,4042.04,0.0,model only,model only,,0,,,,2026-05-25,9
+DHI-2026-3739,DHI Global Forwarding (HK) Ltd.,local,2026-05-25,2026-05-25,2706.74,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-05-28,2026-05-25,9
+TVA-2026-3740,Terminal Valongo Alfandegado Ltda.,storage,2026-05-25,2026-05-25,2644.74,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-05-28,2026-05-25,9
+TLV-2026-3741,Transportes Lima Vieira Ltda.,freight,2026-05-25,2026-05-25,1764.99,0.0,model only,model only,,0,,,,2026-05-25,9
+SCA-2026-3742,Santos Comissaria Aduaneira Ltda.,customs,2026-05-26,2026-05-25,131932.49,0.0,model only,model only,,0,,,,2026-05-25,9
+SCA-2026-3743,Santos Comissaria Aduaneira Ltda.,broker,2026-05-26,2026-05-25,4814.05,0.0,model only,model only,,0,,,,2026-05-25,9
+DHI-2026-3744,DHI Global Forwarding (HK) Ltd.,local,2026-05-26,2026-05-25,3715.5,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-05-29,2026-05-25,9
+TVA-2026-3745,Terminal Valongo Alfandegado Ltda.,storage,2026-05-26,2026-05-25,2446.17,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-05-25,9
+TLV-2026-3746,Transportes Lima Vieira Ltda.,freight,2026-05-26,2026-05-25,2020.54,0.0,model only,model only,,0,,,,2026-05-25,9
+GZV-2026-3748,Guangzhou Verrelia Glassworks Ltd.,goods,2026-05-29,2026-05-25,84215.52,0.0,model only,model only,,0,,,,2026-05-25,9
+DHI-2026-3749,DHI Global Forwarding (HK) Ltd.,freight,2026-05-29,2026-05-25,3279.53,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-05-25,9
+ARL-2026-3751,Aravalli Labelworks Pvt. Ltd.,goods,2026-05-29,2026-05-25,12382.5,0.2381,price above contract,billing,price above contract; quantity above receipt; order split under the limit,1,client,dismissed,2026-06-01,2026-05-25,9
+DHI-2026-3753,DHI Global Forwarding (HK) Ltd.,freight,2026-05-29,2026-05-25,559.5,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-05-25,9
+BDT-2026-3755,Binh Duong Tubeworks JSC,goods,2026-05-29,2026-05-25,20462.0,0.0,model only,model only,,0,,,,2026-05-25,9
+DHI-2026-3756,DHI Global Forwarding (HK) Ltd.,freight,2026-05-29,2026-05-25,1372.82,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-05-25,9
+SBP-2026-3758,"Shantou Brightpack Packaging Co., Ltd.",goods,2026-05-29,2026-05-25,3460.0,0.0,model only,model only,,0,,,,2026-05-25,9
+DHI-2026-3759,DHI Global Forwarding (HK) Ltd.,freight,2026-05-29,2026-05-25,1676.12,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-05-25,9
+SCA-2026-3760,Santos Comissaria Aduaneira Ltda.,customs,2026-05-29,2026-05-25,15728.89,0.0,model only,model only,,0,,,,2026-05-25,9
+SCA-2026-3761,Santos Comissaria Aduaneira Ltda.,broker,2026-05-29,2026-05-25,6593.12,0.0,model only,model only,,0,,,,2026-05-25,9
+DHI-2026-3762,DHI Global Forwarding (HK) Ltd.,local,2026-05-29,2026-05-25,2694.9,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-05-25,9
+TVA-2026-3763,Terminal Valongo Alfandegado Ltda.,storage,2026-05-29,2026-05-25,214.88,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-05-25,9
+TLV-2026-3764,Transportes Lima Vieira Ltda.,freight,2026-05-29,2026-05-25,2021.99,0.0,model only,model only,,0,,,,2026-05-25,9
+SCA-2026-3765,Santos Comissaria Aduaneira Ltda.,customs,2026-05-30,2026-05-25,35074.13,0.0,model only,model only,,0,,,,2026-05-25,9
+SCA-2026-3766,Santos Comissaria Aduaneira Ltda.,broker,2026-05-30,2026-05-25,4090.97,0.0,model only,model only,,0,,,,2026-05-25,9
+DHI-2026-3767,DHI Global Forwarding (HK) Ltd.,local,2026-05-30,2026-05-25,2622.9,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-05-25,9
+TVA-2026-3768,Terminal Valongo Alfandegado Ltda.,storage,2026-05-30,2026-05-25,618.37,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-05-25,9
+TLV-2026-3769,Transportes Lima Vieira Ltda.,freight,2026-05-30,2026-05-25,1380.54,0.0,model only,model only,,0,,,,2026-05-25,9
+ARL-CN-2026-3664,Aravalli Labelworks Pvt. Ltd.,credit,2026-06-02,2026-06-01,-128.43,0.0,model only,model only,,0,,,,2026-06-01,9
+SCA-2026-3766-R1,Santos Comissaria Aduaneira Ltda.,broker,2026-06-03,2026-06-01,3653.98,0.0,model only,model only,,0,,,,2026-06-01,9
+TLV-2026-3769-R1,Transportes Lima Vieira Ltda.,freight,2026-06-07,2026-06-01,1380.54,0.0476,same amount again,billing,same amount again,1,client,dismissed,2026-06-10,2026-06-01,9
+SCA-2026-3773,Santos Comissaria Aduaneira Ltda.,customs,2026-06-02,2026-06-01,122091.46,0.0,model only,model only,,0,,,,2026-06-01,9
+SCA-2026-3774,Santos Comissaria Aduaneira Ltda.,broker,2026-06-02,2026-06-01,5305.78,0.0,model only,model only,,0,,,,2026-06-01,9
+SCA-2026-3774-R1,Santos Comissaria Aduaneira Ltda.,broker,2026-06-05,2026-06-01,5305.78,0.0476,same amount again,billing,same amount again,1,client,dismissed,2026-06-08,2026-06-01,9
+DHI-2026-3775,DHI Global Forwarding (HK) Ltd.,local,2026-06-02,2026-06-01,2706.88,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-06-05,2026-06-01,9
+TVA-2026-3776,Terminal Valongo Alfandegado Ltda.,storage,2026-06-02,2026-06-01,2053.17,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-06-05,2026-06-01,9
+TLV-2026-3777,Transportes Lima Vieira Ltda.,freight,2026-06-02,2026-06-01,1807.39,0.0,model only,model only,,0,,,,2026-06-01,9
+BDT-2026-3779,Binh Duong Tubeworks JSC,goods,2026-06-05,2026-06-01,15916.0,0.0476,order split under the limit,billing,order split under the limit,0,,,,2026-06-01,9
+DHI-2026-3780,DHI Global Forwarding (HK) Ltd.,freight,2026-06-05,2026-06-01,1446.58,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-06-08,2026-06-01,9
+SCA-2026-3773-R1,Santos Comissaria Aduaneira Ltda.,customs,2026-06-08,2026-06-08,121222.41,0.0,model only,model only,,0,,,,2026-06-08,9
+SCA-2026-3784,Santos Comissaria Aduaneira Ltda.,customs,2026-06-08,2026-06-08,201022.59,0.0,model only,model only,,0,,,,2026-06-08,9
+SCA-2026-3785,Santos Comissaria Aduaneira Ltda.,broker,2026-06-08,2026-06-08,4724.16,0.0,model only,model only,,0,,,,2026-06-08,9
+DHI-2026-3786,DHI Global Forwarding (HK) Ltd.,local,2026-06-08,2026-06-08,3818.58,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-06-11,2026-06-08,9
+TVA-2026-3787,Terminal Valongo Alfandegado Ltda.,storage,2026-06-08,2026-06-08,3616.91,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-06-11,2026-06-08,9
+TLV-2026-3788,Transportes Lima Vieira Ltda.,freight,2026-06-08,2026-06-08,2977.05,0.0,model only,model only,,0,,,,2026-06-08,9
+SCA-2026-3789,Santos Comissaria Aduaneira Ltda.,customs,2026-06-08,2026-06-08,156228.3,0.0,model only,model only,,0,,,,2026-06-08,9
+SCA-2026-3790,Santos Comissaria Aduaneira Ltda.,broker,2026-06-08,2026-06-08,7075.7,0.0,model only,model only,,0,,,,2026-06-08,9
+DHI-2026-3791,DHI Global Forwarding (HK) Ltd.,local,2026-06-08,2026-06-08,3900.18,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-06-11,2026-06-08,9
+TVA-2026-3792,Terminal Valongo Alfandegado Ltda.,storage,2026-06-08,2026-06-08,2764.83,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-06-11,2026-06-08,9
+TLV-2026-3793,Transportes Lima Vieira Ltda.,freight,2026-06-08,2026-06-08,2630.02,0.0,model only,model only,,0,,,,2026-06-08,9
+SCA-2026-3794,Santos Comissaria Aduaneira Ltda.,customs,2026-06-11,2026-06-08,78951.14,0.0,model only,model only,,0,,,,2026-06-08,9
+SCA-2026-3795,Santos Comissaria Aduaneira Ltda.,broker,2026-06-11,2026-06-08,3273.87,0.0,model only,model only,,0,,,,2026-06-08,9
+DHI-2026-3796,DHI Global Forwarding (HK) Ltd.,local,2026-06-11,2026-06-08,2616.74,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-06-14,2026-06-08,9
+TVA-2026-3797,Terminal Valongo Alfandegado Ltda.,storage,2026-06-11,2026-06-08,1438.78,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-06-08,9
+TLV-2026-3798,Transportes Lima Vieira Ltda.,freight,2026-06-11,2026-06-08,2127.05,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-06-08,9
+GZV-2026-3800,Guangzhou Verrelia Glassworks Ltd.,goods,2026-06-12,2026-06-08,116372.28,0.0,model only,model only,,0,,,,2026-06-08,9
+DHI-2026-3801,DHI Global Forwarding (HK) Ltd.,freight,2026-06-12,2026-06-08,11543.44,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-06-08,9
+ARL-2026-3804,Aravalli Labelworks Pvt. Ltd.,goods,2026-06-12,2026-06-08,42327.15,0.0,model only,model only,,0,,,,2026-06-08,9
+DHI-2026-3805,DHI Global Forwarding (HK) Ltd.,freight,2026-06-12,2026-06-08,4549.89,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-06-08,9
+BDT-2026-3807,Binh Duong Tubeworks JSC,goods,2026-06-12,2026-06-08,4759.32,0.0,model only,model only,,0,,,,2026-06-08,9
+DHI-2026-3808,DHI Global Forwarding (HK) Ltd.,freight,2026-06-12,2026-06-08,1042.91,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-06-08,9
+SCA-2026-3809,Santos Comissaria Aduaneira Ltda.,customs,2026-06-13,2026-06-08,67911.57,0.0,model only,model only,,0,,,,2026-06-08,9
+SCA-2026-3810,Santos Comissaria Aduaneira Ltda.,broker,2026-06-13,2026-06-08,3810.28,0.0,model only,model only,,0,,,,2026-06-08,9
+DHI-2026-3811,DHI Global Forwarding (HK) Ltd.,local,2026-06-13,2026-06-08,3310.16,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-06-08,9
+TVA-2026-3812,Terminal Valongo Alfandegado Ltda.,storage,2026-06-13,2026-06-08,1029.12,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-06-08,9
+TLV-2026-3813,Transportes Lima Vieira Ltda.,freight,2026-06-13,2026-06-08,1675.06,0.0,model only,model only,,0,,,,2026-06-08,9
+SCA-2026-3814,Santos Comissaria Aduaneira Ltda.,customs,2026-06-14,2026-06-08,64383.53,0.0,model only,model only,,0,,,,2026-06-08,9
+SCA-2026-3815,Santos Comissaria Aduaneira Ltda.,broker,2026-06-14,2026-06-08,4451.78,0.0952,broker fee above contract,customs,broker fee above contract,0,,,,2026-06-08,9
+DHI-2026-3816,DHI Global Forwarding (HK) Ltd.,local,2026-06-14,2026-06-08,4414.96,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-06-08,9
+TVA-2026-3817,Terminal Valongo Alfandegado Ltda.,storage,2026-06-14,2026-06-08,967.08,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-06-08,9
+TLV-2026-3818,Transportes Lima Vieira Ltda.,freight,2026-06-14,2026-06-08,1965.93,0.0,model only,model only,,0,,,,2026-06-08,9
+SCA-2026-3790-R1,Santos Comissaria Aduaneira Ltda.,broker,2026-06-17,2026-06-15,7075.7,0.0476,same amount again,billing,same amount again,0,,,,2026-06-15,9
+DHI-2026-3802,DHI Global Forwarding (HK) Ltd.,freight,2026-06-16,2026-06-15,11543.44,0.1429,charge not on the rate card,freight billing,charge not on the rate card; same amount again,1,client,confirmed,2026-06-24,2026-06-15,9
+SCA-2026-3823,Santos Comissaria Aduaneira Ltda.,customs,2026-06-17,2026-06-15,121527.46,0.0,model only,model only,,0,,,,2026-06-15,9
+SCA-2026-3824,Santos Comissaria Aduaneira Ltda.,broker,2026-06-17,2026-06-15,3573.38,0.0,model only,model only,,0,,,,2026-06-15,9
+DHI-2026-3825,DHI Global Forwarding (HK) Ltd.,local,2026-06-17,2026-06-15,5135.08,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-06-20,2026-06-15,9
+TVA-2026-3826,Terminal Valongo Alfandegado Ltda.,storage,2026-06-17,2026-06-15,2024.23,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-06-20,2026-06-15,9
+TLV-2026-3827,Transportes Lima Vieira Ltda.,freight,2026-06-17,2026-06-15,2135.02,0.0,model only,model only,,0,,,,2026-06-15,9
+SCA-2026-3828,Santos Comissaria Aduaneira Ltda.,customs,2026-06-17,2026-06-15,11106.5,0.0,model only,model only,,0,,,,2026-06-15,9
+SCA-2026-3829,Santos Comissaria Aduaneira Ltda.,broker,2026-06-17,2026-06-15,4165.13,0.0,model only,model only,,0,,,,2026-06-15,9
+DHI-2026-3830,DHI Global Forwarding (HK) Ltd.,local,2026-06-17,2026-06-15,2235.48,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-06-20,2026-06-15,9
+TVA-2026-3831,Terminal Valongo Alfandegado Ltda.,storage,2026-06-17,2026-06-15,215.75,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-06-15,9
+TLV-2026-3832,Transportes Lima Vieira Ltda.,freight,2026-06-17,2026-06-15,1778.31,0.0,model only,model only,,0,,,,2026-06-15,9
+GZV-2026-3834,Guangzhou Verrelia Glassworks Ltd.,goods,2026-06-19,2026-06-15,30810.8,0.0,model only,model only,,0,,,,2026-06-15,9
+GZV-2026-3835,Guangzhou Verrelia Glassworks Ltd.,goods,2026-06-19,2026-06-15,56498.4,0.0,model only,model only,,0,,,,2026-06-15,9
+DHI-2026-3836,DHI Global Forwarding (HK) Ltd.,freight,2026-06-19,2026-06-15,16939.66,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-06-15,9
+ARL-2026-3838,Aravalli Labelworks Pvt. Ltd.,goods,2026-06-19,2026-06-15,7914.52,0.1905,price above contract,billing,price above contract; quantity above receipt,1,client,dismissed,2026-06-22,2026-06-15,9
+ARL-2026-3839,Aravalli Labelworks Pvt. Ltd.,goods,2026-06-19,2026-06-15,37784.0,0.0952,price above contract,billing,price above contract,0,,,,2026-06-15,9
+ARL-2026-3840,Aravalli Labelworks Pvt. Ltd.,goods,2026-06-19,2026-06-15,4444.0,0.0,model only,model only,,0,,,,2026-06-15,9
+DHI-2026-3841,DHI Global Forwarding (HK) Ltd.,freight,2026-06-19,2026-06-15,2527.1,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-06-15,9
+SCA-2026-3842,Santos Comissaria Aduaneira Ltda.,customs,2026-06-21,2026-06-15,628402.73,0.0,model only,model only,,0,,,,2026-06-15,9
+SCA-2026-3843,Santos Comissaria Aduaneira Ltda.,broker,2026-06-21,2026-06-15,3264.96,0.0,model only,model only,,0,,,,2026-06-15,9
+DHI-2026-3844,DHI Global Forwarding (HK) Ltd.,local,2026-06-21,2026-06-15,8922.24,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-06-15,9
+TVA-2026-3845,Terminal Valongo Alfandegado Ltda.,storage,2026-06-21,2026-06-15,10734.12,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-06-15,9
+TLV-2026-3847,Transportes Lima Vieira Ltda.,freight,2026-06-21,2026-06-15,3989.06,0.0,model only,model only,,0,,,,2026-06-15,9
+KNG-2026-3848,Keuhne & Nager Logistics AG,freight,2026-06-21,2026-06-15,2000.0,0.0476,same amount again,billing,same amount again,0,,,,2026-06-15,9
+ARL-CN-2026-3752,Aravalli Labelworks Pvt. Ltd.,credit,2026-06-23,2026-06-22,-801.75,0.0,model only,model only,,0,,,,2026-06-22,9
+TVA-2026-3846,Terminal Valongo Alfandegado Ltda.,storage,2026-06-22,2026-06-22,10734.12,0.1429,no order behind a goods bill,purchasing,no order behind a goods bill; same amount again,1,client,confirmed,2026-07-14,2026-06-22,9
+SCA-2026-3852,Santos Comissaria Aduaneira Ltda.,customs,2026-06-24,2026-06-22,92956.31,0.0,model only,model only,,0,,,,2026-06-22,9
+SCA-2026-3853,Santos Comissaria Aduaneira Ltda.,broker,2026-06-24,2026-06-22,7429.67,0.0,model only,model only,,0,,,,2026-06-22,9
+DHI-2026-3854,DHI Global Forwarding (HK) Ltd.,local,2026-06-24,2026-06-22,2709.52,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-06-27,2026-06-22,9
+TVA-2026-3855,Terminal Valongo Alfandegado Ltda.,storage,2026-06-24,2026-06-22,1717.09,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-06-27,2026-06-22,9
+TLV-2026-3856,Transportes Lima Vieira Ltda.,freight,2026-06-24,2026-06-22,1761.92,0.0,model only,model only,,0,,,,2026-06-22,9
+SCA-2026-3857,Santos Comissaria Aduaneira Ltda.,customs,2026-06-25,2026-06-22,6698.71,0.0,model only,model only,,0,,,,2026-06-22,9
+SCA-2026-3858,Santos Comissaria Aduaneira Ltda.,broker,2026-06-25,2026-06-22,4290.86,0.0,model only,model only,,0,,,,2026-06-22,9
+DHI-2026-3859,DHI Global Forwarding (HK) Ltd.,local,2026-06-25,2026-06-22,2240.98,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-06-28,2026-06-22,9
+TVA-2026-3860,Terminal Valongo Alfandegado Ltda.,storage,2026-06-25,2026-06-22,126.75,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-06-28,2026-06-22,9
+TLV-2026-3861,Transportes Lima Vieira Ltda.,freight,2026-06-25,2026-06-22,1548.63,0.0,model only,model only,,0,,,,2026-06-22,9
+GZV-2026-3863,Guangzhou Verrelia Glassworks Ltd.,goods,2026-06-26,2026-06-22,47322.0,0.0,model only,model only,,0,,,,2026-06-22,9
+GZV-2026-3864,Guangzhou Verrelia Glassworks Ltd.,goods,2026-06-26,2026-06-22,73875.6,0.0,model only,model only,,0,,,,2026-06-22,9
+CSM-2026-3865,"COSMO Shipping Lines Co., Ltd.",freight,2026-06-26,2026-06-22,6638.34,0.0,model only,model only,,0,,,,2026-06-22,9
+ARL-2026-3867,Aravalli Labelworks Pvt. Ltd.,goods,2026-06-26,2026-06-22,4800.0,0.0,model only,model only,,0,,,,2026-06-22,9
+ARL-2026-3868,Aravalli Labelworks Pvt. Ltd.,goods,2026-06-26,2026-06-22,18070.74,0.0,model only,model only,,0,,,,2026-06-22,9
+DHI-2026-3869,DHI Global Forwarding (HK) Ltd.,freight,2026-06-26,2026-06-22,1667.39,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-06-22,9
+BDT-2026-3871,Binh Duong Tubeworks JSC,goods,2026-06-26,2026-06-22,41579.85,0.0,model only,model only,,0,,,,2026-06-22,9
+DHI-2026-3872,DHI Global Forwarding (HK) Ltd.,freight,2026-06-26,2026-06-22,2317.72,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-06-22,9
+SCA-2026-3873,Santos Comissaria Aduaneira Ltda.,customs,2026-06-26,2026-06-22,61117.82,0.0,model only,model only,,0,,,,2026-06-22,9
+SCA-2026-3874,Santos Comissaria Aduaneira Ltda.,broker,2026-06-26,2026-06-22,3702.0,0.0,model only,model only,,0,,,,2026-06-22,9
+DHI-2026-3875,DHI Global Forwarding (HK) Ltd.,local,2026-06-26,2026-06-22,2467.68,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-06-22,9
+TVA-2026-3876,Terminal Valongo Alfandegado Ltda.,storage,2026-06-26,2026-06-22,1132.57,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-06-22,9
+TLV-2026-3877,Transportes Lima Vieira Ltda.,freight,2026-06-26,2026-06-22,2001.89,0.0,model only,model only,,0,,,,2026-06-22,9
+SCA-2026-3878,Santos Comissaria Aduaneira Ltda.,customs,2026-06-28,2026-06-22,109482.06,0.0,model only,model only,,0,,,,2026-06-22,9
+SCA-2026-3879,Santos Comissaria Aduaneira Ltda.,broker,2026-06-28,2026-06-22,6512.48,0.0,model only,model only,,0,,,,2026-06-22,9
+DHI-2026-3880,DHI Global Forwarding (HK) Ltd.,local,2026-06-28,2026-06-22,4082.08,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-06-22,9
+TVA-2026-3881,Terminal Valongo Alfandegado Ltda.,storage,2026-06-28,2026-06-22,1834.15,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-06-22,9
+TLV-2026-3882,Transportes Lima Vieira Ltda.,freight,2026-06-28,2026-06-22,2111.18,0.0,model only,model only,,0,,,,2026-06-22,9
+SCA-2026-3886,Santos Comissaria Aduaneira Ltda.,customs,2026-07-01,2026-06-29,518389.11,0.0,model only,model only,,0,,,,2026-06-29,9
+SCA-2026-3887,Santos Comissaria Aduaneira Ltda.,broker,2026-07-01,2026-06-29,3678.22,0.0,model only,model only,,0,,,,2026-06-29,9
+DHI-2026-3888,DHI Global Forwarding (HK) Ltd.,local,2026-07-01,2026-06-29,4988.94,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-07-04,2026-06-29,9
+TVA-2026-3889,Terminal Valongo Alfandegado Ltda.,storage,2026-07-01,2026-06-29,9481.6,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-07-04,2026-06-29,9
+TLV-2026-3890,Transportes Lima Vieira Ltda.,freight,2026-07-01,2026-06-29,3910.31,0.0,model only,model only,,0,,,,2026-06-29,9
+GZV-2026-3892,Guangzhou Verrelia Glassworks Ltd.,goods,2026-07-03,2026-06-29,7675.23,0.0476,order split under the limit,billing,order split under the limit,0,,,,2026-06-29,9
+DHI-2026-3893,DHI Global Forwarding (HK) Ltd.,freight,2026-07-03,2026-06-29,2550.45,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-07-06,2026-06-29,9
+SCA-2026-3894,Santos Comissaria Aduaneira Ltda.,customs,2026-07-05,2026-06-29,78107.86,0.0,model only,model only,,0,,,,2026-06-29,9
+SCA-2026-3895,Santos Comissaria Aduaneira Ltda.,broker,2026-07-05,2026-06-29,3934.19,0.0,model only,model only,,0,,,,2026-06-29,9
+DHI-2026-3896,DHI Global Forwarding (HK) Ltd.,local,2026-07-05,2026-06-29,2904.02,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-07-08,2026-06-29,9
+TVA-2026-3897,Terminal Valongo Alfandegado Ltda.,storage,2026-07-05,2026-06-29,1373.84,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-07-08,2026-06-29,9
+TLV-2026-3898,Transportes Lima Vieira Ltda.,freight,2026-07-05,2026-06-29,1621.95,0.0,model only,model only,,0,,,,2026-06-29,9
+SCA-2026-3902,Santos Comissaria Aduaneira Ltda.,customs,2026-07-06,2026-07-06,40315.68,0.0,model only,model only,,0,,,,2026-07-06,9
+SCA-2026-3903,Santos Comissaria Aduaneira Ltda.,broker,2026-07-06,2026-07-06,4111.4,0.0,model only,model only,,0,,,,2026-07-06,9
+DHI-2026-3904,DHI Global Forwarding (HK) Ltd.,local,2026-07-06,2026-07-06,2300.56,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-07-09,2026-07-06,9
+TVA-2026-3905,Terminal Valongo Alfandegado Ltda.,storage,2026-07-06,2026-07-06,808.1,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-07-09,2026-07-06,9
+TLV-2026-3906,Transportes Lima Vieira Ltda.,freight,2026-07-06,2026-07-06,1679.98,0.0,model only,model only,,0,,,,2026-07-06,9
+SCA-2026-3907,Santos Comissaria Aduaneira Ltda.,customs,2026-07-08,2026-07-06,22372.16,0.0,model only,model only,,0,,,,2026-07-06,9
+SCA-2026-3908,Santos Comissaria Aduaneira Ltda.,broker,2026-07-08,2026-07-06,3243.91,0.0,model only,model only,,0,,,,2026-07-06,9
+DHI-2026-3909,DHI Global Forwarding (HK) Ltd.,local,2026-07-08,2026-07-06,3196.32,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-07-11,2026-07-06,9
+TVA-2026-3910,Terminal Valongo Alfandegado Ltda.,storage,2026-07-08,2026-07-06,319.2,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-07-11,2026-07-06,9
+TLV-2026-3911,Transportes Lima Vieira Ltda.,freight,2026-07-08,2026-07-06,1495.59,0.0,model only,model only,,0,,,,2026-07-06,9
+GZV-2026-3913,Guangzhou Verrelia Glassworks Ltd.,goods,2026-07-10,2026-07-06,9383.86,0.0,model only,model only,,0,,,,2026-07-06,9
+GZV-2026-3914,Guangzhou Verrelia Glassworks Ltd.,goods,2026-07-10,2026-07-06,16761.6,0.0,model only,model only,,0,,,,2026-07-06,9
+DHI-2026-3915,DHI Global Forwarding (HK) Ltd.,freight,2026-07-10,2026-07-06,4365.16,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-07-13,2026-07-06,9
+ARL-2026-3917,Aravalli Labelworks Pvt. Ltd.,goods,2026-07-10,2026-07-06,5827.6,0.0,model only,model only,,0,,,,2026-07-06,9
+DHI-2026-3918,DHI Global Forwarding (HK) Ltd.,freight,2026-07-10,2026-07-06,1534.96,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-07-06,9
+NCL-2026-3920,"Ningbo Caplink Industrial Co., Ltd.",goods,2026-07-10,2026-07-06,48690.0,0.0,model only,model only,,0,,,,2026-07-06,9
+DHI-2026-3921,DHI Global Forwarding (HK) Ltd.,freight,2026-07-10,2026-07-06,2695.05,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-07-06,9
+SBP-2026-3923,"Shantou Brightpack Packaging Co., Ltd.",goods,2026-07-10,2026-07-06,1848.0,0.0,model only,model only,,0,,,,2026-07-06,9
+DHI-2026-3924,DHI Global Forwarding (HK) Ltd.,freight,2026-07-10,2026-07-06,347.8,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-07-06,9
+SCA-2026-3925,Santos Comissaria Aduaneira Ltda.,customs,2026-07-10,2026-07-06,288152.17,0.0,model only,model only,,0,,,,2026-07-06,9
+SCA-2026-3926,Santos Comissaria Aduaneira Ltda.,broker,2026-07-10,2026-07-06,3178.37,0.0,model only,model only,,0,,,,2026-07-06,9
+DHI-2026-3927,DHI Global Forwarding (HK) Ltd.,local,2026-07-10,2026-07-06,4436.74,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-07-06,9
+TVA-2026-3928,Terminal Valongo Alfandegado Ltda.,storage,2026-07-10,2026-07-06,5496.62,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-07-06,9
+TLV-2026-3929,Transportes Lima Vieira Ltda.,freight,2026-07-10,2026-07-06,3026.17,0.0,model only,model only,,0,,,,2026-07-06,9
+SCA-2026-3933,Santos Comissaria Aduaneira Ltda.,customs,2026-07-13,2026-07-13,175976.9,0.0,model only,model only,,0,,,,2026-07-13,9
+SCA-2026-3934,Santos Comissaria Aduaneira Ltda.,broker,2026-07-13,2026-07-13,6380.56,0.0,model only,model only,,0,,,,2026-07-13,9
+DHI-2026-3935,DHI Global Forwarding (HK) Ltd.,local,2026-07-13,2026-07-13,5176.48,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-07-16,2026-07-13,9
+TVA-2026-3936,Terminal Valongo Alfandegado Ltda.,storage,2026-07-13,2026-07-13,2939.86,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-07-16,2026-07-13,9
+TLV-2026-3937,Transportes Lima Vieira Ltda.,freight,2026-07-13,2026-07-13,2561.99,0.0,model only,model only,,0,,,,2026-07-13,9
+SCA-2026-3938,Santos Comissaria Aduaneira Ltda.,customs,2026-07-16,2026-07-13,62504.09,0.0,model only,model only,,0,,,,2026-07-13,9
+SCA-2026-3939,Santos Comissaria Aduaneira Ltda.,broker,2026-07-16,2026-07-13,4727.32,0.0,model only,model only,,0,,,,2026-07-13,9
+DHI-2026-3940,DHI Global Forwarding (HK) Ltd.,local,2026-07-16,2026-07-13,2619.46,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-07-19,2026-07-13,9
+TVA-2026-3941,Terminal Valongo Alfandegado Ltda.,storage,2026-07-16,2026-07-13,1087.05,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-07-19,2026-07-13,9
+TLV-2026-3942,Transportes Lima Vieira Ltda.,freight,2026-07-16,2026-07-13,2039.79,0.0,model only,model only,,0,,,,2026-07-13,9
+SCA-2026-3943,Santos Comissaria Aduaneira Ltda.,customs,2026-07-16,2026-07-13,528017.09,0.0,model only,model only,,0,,,,2026-07-13,9
+SCA-2026-3944,Santos Comissaria Aduaneira Ltda.,broker,2026-07-16,2026-07-13,3647.26,0.0,model only,model only,,0,,,,2026-07-13,9
+DHI-2026-3945,DHI Global Forwarding (HK) Ltd.,local,2026-07-16,2026-07-13,11244.26,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-07-19,2026-07-13,9
+TVA-2026-3946,Terminal Valongo Alfandegado Ltda.,storage,2026-07-16,2026-07-13,8731.35,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-07-13,9
+TLV-2026-3947,Transportes Lima Vieira Ltda.,freight,2026-07-16,2026-07-13,3372.74,0.0,model only,model only,,0,,,,2026-07-13,9
+GZV-2026-3949,Guangzhou Verrelia Glassworks Ltd.,goods,2026-07-17,2026-07-13,34031.5,0.0,model only,model only,,0,,,,2026-07-13,9
+GZV-2026-3950,Guangzhou Verrelia Glassworks Ltd.,goods,2026-07-17,2026-07-13,7536.0,0.0,model only,model only,,0,,,,2026-07-13,9
+DHI-2026-3951,DHI Global Forwarding (HK) Ltd.,freight,2026-07-17,2026-07-13,3843.69,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-07-13,9
+HCV-2026-3953,"Hanil Cosmetic Vessels Co., Ltd.",goods,2026-07-17,2026-07-13,8578.0,0.0,model only,model only,,0,,,,2026-07-13,9
+ARL-2026-3955,Aravalli Labelworks Pvt. Ltd.,goods,2026-07-17,2026-07-13,1488.0,0.0,model only,model only,,0,,,,2026-07-13,9
+DHI-2026-3956,DHI Global Forwarding (HK) Ltd.,freight,2026-07-17,2026-07-13,1057.18,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-07-13,9
+BDT-2026-3958,Binh Duong Tubeworks JSC,goods,2026-07-17,2026-07-13,13080.0,0.0,model only,model only,,0,,,,2026-07-13,9
+BDT-2026-3959,Binh Duong Tubeworks JSC,goods,2026-07-17,2026-07-13,37073.8,0.0,model only,model only,,0,,,,2026-07-13,9
+DHI-2026-3960,DHI Global Forwarding (HK) Ltd.,freight,2026-07-17,2026-07-13,3624.97,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-07-13,9
+KNG-2026-3961,Keuhne & Nager Logistics AG,freight,2026-07-19,2026-07-13,2000.0,0.0476,same amount again,billing,same amount again,0,,,,2026-07-13,9
+DHI-2026-3935-R1,DHI Global Forwarding (HK) Ltd.,local,2026-07-22,2026-07-20,5176.48,0.1429,no order behind a goods bill,purchasing,no order behind a goods bill; same amount again,1,client,dismissed,2026-07-25,2026-07-20,9
+SCA-2026-3938-R1,Santos Comissaria Aduaneira Ltda.,customs,2026-07-22,2026-07-20,62278.52,0.0,model only,model only,,0,,,,2026-07-20,9
+GZV-2026-3965,Guangzhou Verrelia Glassworks Ltd.,goods,2026-07-24,2026-07-20,2829.1,0.0476,order split under the limit,billing,order split under the limit,0,,,,2026-07-20,9
+DHI-2026-3966,DHI Global Forwarding (HK) Ltd.,freight,2026-07-24,2026-07-20,411.04,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-07-27,2026-07-20,9
+HCV-2026-3968,"Hanil Cosmetic Vessels Co., Ltd.",goods,2026-07-24,2026-07-20,11368.0,0.0,model only,model only,,0,,,,2026-07-20,9
+NCL-2026-3970,"Ningbo Caplink Industrial Co., Ltd.",goods,2026-07-24,2026-07-20,96308.0,0.0,model only,model only,,0,,,,2026-07-20,9
+DHI-2026-3971,DHI Global Forwarding (HK) Ltd.,freight,2026-07-24,2026-07-20,3244.82,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-07-27,2026-07-20,9
+BDT-2026-3973,Binh Duong Tubeworks JSC,goods,2026-07-24,2026-07-20,40005.0,0.0,model only,model only,,0,,,,2026-07-20,9
+DHI-2026-3974,DHI Global Forwarding (HK) Ltd.,freight,2026-07-24,2026-07-20,2239.68,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-07-27,2026-07-20,9
+SCA-2026-3975,Santos Comissaria Aduaneira Ltda.,customs,2026-07-24,2026-07-20,20588.12,0.0952,duty at a rate not in force,customs,duty at a rate not in force,1,client,dismissed,2026-07-27,2026-07-20,9
+SCA-2026-3976,Santos Comissaria Aduaneira Ltda.,broker,2026-07-24,2026-07-20,3688.42,0.0,model only,model only,,0,,,,2026-07-20,9
+DHI-2026-3977,DHI Global Forwarding (HK) Ltd.,local,2026-07-24,2026-07-20,2311.04,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-07-20,9
+TVA-2026-3978,Terminal Valongo Alfandegado Ltda.,storage,2026-07-24,2026-07-20,357.47,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-07-20,9
+TLV-2026-3979,Transportes Lima Vieira Ltda.,freight,2026-07-24,2026-07-20,1397.96,0.0,model only,model only,,0,,,,2026-07-20,9
+SCA-2026-3980,Santos Comissaria Aduaneira Ltda.,customs,2026-07-25,2026-07-20,440525.79,0.0,model only,model only,,0,,,,2026-07-20,9
+SCA-2026-3981,Santos Comissaria Aduaneira Ltda.,broker,2026-07-25,2026-07-20,6236.4,0.0,model only,model only,,0,,,,2026-07-20,9
+DHI-2026-3982,DHI Global Forwarding (HK) Ltd.,local,2026-07-25,2026-07-20,15588.64,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-07-20,9
+TVA-2026-3983,Terminal Valongo Alfandegado Ltda.,storage,2026-07-25,2026-07-20,6422.76,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-07-20,9
+TLV-2026-3984,Transportes Lima Vieira Ltda.,freight,2026-07-25,2026-07-20,2917.54,0.0,model only,model only,,0,,,,2026-07-20,9
+SCA-2026-3985,Santos Comissaria Aduaneira Ltda.,customs,2026-07-26,2026-07-20,169113.26,0.0,model only,model only,,0,,,,2026-07-20,9
+SCA-2026-3986,Santos Comissaria Aduaneira Ltda.,broker,2026-07-26,2026-07-20,5717.66,0.0,model only,model only,,0,,,,2026-07-20,9
+DHI-2026-3987,DHI Global Forwarding (HK) Ltd.,local,2026-07-26,2026-07-20,3800.64,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-07-20,9
+TVA-2026-3988,Terminal Valongo Alfandegado Ltda.,storage,2026-07-26,2026-07-20,3244.97,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-07-20,9
+TLV-2026-3989,Transportes Lima Vieira Ltda.,freight,2026-07-26,2026-07-20,2685.47,0.0,model only,model only,,0,,,,2026-07-20,9
+SCA-2026-3994,Santos Comissaria Aduaneira Ltda.,customs,2026-07-29,2026-07-27,81590.17,0.0,model only,model only,,1,client,dismissed,2026-08-01,2026-07-27,9
+SCA-2026-3995,Santos Comissaria Aduaneira Ltda.,broker,2026-07-29,2026-07-27,4562.28,0.0,model only,model only,,0,,,,2026-07-27,9
+DHI-2026-3996,DHI Global Forwarding (HK) Ltd.,local,2026-07-29,2026-07-27,2836.42,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-08-01,2026-07-27,9
+TVA-2026-3997,Terminal Valongo Alfandegado Ltda.,storage,2026-07-29,2026-07-27,1503.51,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-08-01,2026-07-27,9
+TLV-2026-3998,Transportes Lima Vieira Ltda.,freight,2026-07-29,2026-07-27,2210.85,0.0,model only,model only,,0,,,,2026-07-27,9
+GZV-2026-4000,Guangzhou Verrelia Glassworks Ltd.,goods,2026-07-31,2026-07-27,2078.4,0.0,model only,model only,,0,,,,2026-07-27,9
+GZV-2026-4001,Guangzhou Verrelia Glassworks Ltd.,goods,2026-07-31,2026-07-27,9199.2,0.0,model only,model only,,0,,,,2026-07-27,9
+DHI-2026-4002,DHI Global Forwarding (HK) Ltd.,freight,2026-07-31,2026-07-27,2318.3,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-08-03,2026-07-27,9
+HCV-2026-4004,"Hanil Cosmetic Vessels Co., Ltd.",goods,2026-07-31,2026-07-27,11053.46,0.0,model only,model only,,0,,,,2026-07-27,9
+ARL-2026-4006,Aravalli Labelworks Pvt. Ltd.,goods,2026-07-31,2026-07-27,24976.53,0.0,model only,model only,,0,,,,2026-07-27,9
+DHI-2026-4007,DHI Global Forwarding (HK) Ltd.,freight,2026-07-31,2026-07-27,1430.26,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-08-03,2026-07-27,9
+SCA-2026-4011,Santos Comissaria Aduaneira Ltda.,customs,2026-08-05,2026-08-03,492392.16,0.0,model only,model only,,0,,,,2026-08-03,9
+SCA-2026-4012,Santos Comissaria Aduaneira Ltda.,broker,2026-08-05,2026-08-03,4284.41,0.0,model only,model only,,0,,,,2026-08-03,9
+CSM-2026-4013,"COSMO Shipping Lines Co., Ltd.",local,2026-08-05,2026-08-03,5014.86,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-08-08,2026-08-03,9
+TVA-2026-4014,Terminal Valongo Alfandegado Ltda.,storage,2026-08-05,2026-08-03,3220.05,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-08-08,2026-08-03,9
+TLV-2026-4015,Transportes Lima Vieira Ltda.,freight,2026-08-05,2026-08-03,6063.66,0.0,model only,model only,,0,,,,2026-08-03,9
+NCL-2026-4017,"Ningbo Caplink Industrial Co., Ltd.",goods,2026-08-07,2026-08-03,26640.0,0.0,model only,model only,,0,,,,2026-08-03,9
+NCL-2026-4018,"Ningbo Caplink Industrial Co., Ltd.",goods,2026-08-07,2026-08-03,37948.0,0.0,model only,model only,,0,,,,2026-08-03,9
+DHI-2026-4019,DHI Global Forwarding (HK) Ltd.,freight,2026-08-07,2026-08-03,3306.37,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-08-10,2026-08-03,9
+BDT-2026-4021,Binh Duong Tubeworks JSC,goods,2026-08-07,2026-08-03,27840.0,0.0952,price above contract,billing,price above contract,1,client,confirmed,2026-09-10,2026-08-03,9
+DHI-2026-4022,DHI Global Forwarding (HK) Ltd.,freight,2026-08-07,2026-08-03,2063.71,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-08-10,2026-08-03,9
+SCA-2026-4023,Santos Comissaria Aduaneira Ltda.,customs,2026-08-09,2026-08-03,150811.07,0.0,model only,model only,,0,,,,2026-08-03,9
+SCA-2026-4024,Santos Comissaria Aduaneira Ltda.,broker,2026-08-09,2026-08-03,4775.5,0.0,model only,model only,,0,,,,2026-08-03,9
+DHI-2026-4025,DHI Global Forwarding (HK) Ltd.,local,2026-08-09,2026-08-03,3810.64,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-08-03,9
+TVA-2026-4026,Terminal Valongo Alfandegado Ltda.,storage,2026-08-09,2026-08-03,2674.99,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-08-03,9
+TLV-2026-4027,Transportes Lima Vieira Ltda.,freight,2026-08-09,2026-08-03,1987.39,0.0,model only,model only,,0,,,,2026-08-03,9
+SCA-2026-4031,Santos Comissaria Aduaneira Ltda.,customs,2026-08-11,2026-08-10,34853.97,0.0952,duty at a rate not in force,customs,duty at a rate not in force,1,client,confirmed,2026-09-05,2026-08-10,9
+SCA-2026-4032,Santos Comissaria Aduaneira Ltda.,broker,2026-08-11,2026-08-10,6351.6,0.0,model only,model only,,0,,,,2026-08-10,9
+DHI-2026-4033,DHI Global Forwarding (HK) Ltd.,local,2026-08-11,2026-08-10,3499.0,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-08-14,2026-08-10,9
+TVA-2026-4034,Terminal Valongo Alfandegado Ltda.,storage,2026-08-11,2026-08-10,620.02,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-08-14,2026-08-10,9
+TLV-2026-4035,Transportes Lima Vieira Ltda.,freight,2026-08-11,2026-08-10,1699.3,0.0,model only,model only,,0,,,,2026-08-10,9
+GZV-2026-4037,Guangzhou Verrelia Glassworks Ltd.,goods,2026-08-14,2026-08-10,6717.6,0.0,model only,model only,,0,,,,2026-08-10,9
+DHI-2026-4038,DHI Global Forwarding (HK) Ltd.,freight,2026-08-14,2026-08-10,1161.61,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,confirmed,2026-09-10,2026-08-10,9
+NCL-2026-4040,"Ningbo Caplink Industrial Co., Ltd.",goods,2026-08-14,2026-08-10,2771.14,0.0476,order split under the limit,billing,order split under the limit,0,,,,2026-08-10,9
+DHI-2026-4041,DHI Global Forwarding (HK) Ltd.,freight,2026-08-14,2026-08-10,467.58,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-08-17,2026-08-10,9
+BDT-2026-4043,Binh Duong Tubeworks JSC,goods,2026-08-14,2026-08-10,57212.0,0.0,model only,model only,,0,,,,2026-08-10,9
+DHI-2026-4044,DHI Global Forwarding (HK) Ltd.,freight,2026-08-14,2026-08-10,4485.7,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-08-10,9
+KNG-2026-4045,Keuhne & Nager Logistics AG,freight,2026-08-16,2026-08-10,2000.0,0.0476,same amount again,billing,same amount again,0,,,,2026-08-10,9
+SCA-2026-4048,Santos Comissaria Aduaneira Ltda.,customs,2026-08-18,2026-08-17,111646.21,0.0,model only,model only,,0,,,,2026-08-17,9
+SCA-2026-4049,Santos Comissaria Aduaneira Ltda.,broker,2026-08-18,2026-08-17,4307.32,0.0,model only,model only,,0,,,,2026-08-17,9
+DHI-2026-4050,DHI Global Forwarding (HK) Ltd.,local,2026-08-18,2026-08-17,4965.8,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-08-21,2026-08-17,9
+TVA-2026-4051,Terminal Valongo Alfandegado Ltda.,storage,2026-08-18,2026-08-17,1873.32,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-08-21,2026-08-17,9
+TLV-2026-4052,Transportes Lima Vieira Ltda.,freight,2026-08-18,2026-08-17,1799.95,0.0,model only,model only,,0,,,,2026-08-17,9
+SCA-2026-4053,Santos Comissaria Aduaneira Ltda.,customs,2026-08-18,2026-08-17,28825.71,0.0,model only,model only,,0,,,,2026-08-17,9
+SCA-2026-4054,Santos Comissaria Aduaneira Ltda.,broker,2026-08-18,2026-08-17,4608.44,0.0,model only,model only,,0,,,,2026-08-17,9
+DHI-2026-4055,DHI Global Forwarding (HK) Ltd.,local,2026-08-18,2026-08-17,2705.8,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-08-21,2026-08-17,9
+TVA-2026-4056,Terminal Valongo Alfandegado Ltda.,storage,2026-08-18,2026-08-17,452.05,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-08-21,2026-08-17,9
+TLV-2026-4057,Transportes Lima Vieira Ltda.,freight,2026-08-18,2026-08-17,1817.87,0.0,model only,model only,,0,,,,2026-08-17,9
+SCA-2026-4058,Santos Comissaria Aduaneira Ltda.,customs,2026-08-20,2026-08-17,178230.4,0.0,model only,model only,,0,,,,2026-08-17,9
+SCA-2026-4059,Santos Comissaria Aduaneira Ltda.,broker,2026-08-20,2026-08-17,4805.65,0.0,model only,model only,,0,,,,2026-08-17,9
+DHI-2026-4060,DHI Global Forwarding (HK) Ltd.,local,2026-08-20,2026-08-17,3745.72,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-08-23,2026-08-17,9
+TVA-2026-4061,Terminal Valongo Alfandegado Ltda.,storage,2026-08-20,2026-08-17,3164.28,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-08-17,9
+TLV-2026-4062,Transportes Lima Vieira Ltda.,freight,2026-08-20,2026-08-17,2311.8,0.0,model only,model only,,0,,,,2026-08-17,9
+SCA-2026-4063,Santos Comissaria Aduaneira Ltda.,customs,2026-08-20,2026-08-17,6961.68,0.0,model only,model only,,0,,,,2026-08-17,9
+SCA-2026-4064,Santos Comissaria Aduaneira Ltda.,broker,2026-08-20,2026-08-17,5036.1,0.0,model only,model only,,0,,,,2026-08-17,9
+DHI-2026-4065,DHI Global Forwarding (HK) Ltd.,local,2026-08-20,2026-08-17,2211.72,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-08-17,9
+TVA-2026-4066,Terminal Valongo Alfandegado Ltda.,storage,2026-08-20,2026-08-17,135.22,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-08-17,9
+TLV-2026-4067,Transportes Lima Vieira Ltda.,freight,2026-08-20,2026-08-17,2026.0,0.0,model only,model only,,0,,,,2026-08-17,9
+GZV-2026-4069,Guangzhou Verrelia Glassworks Ltd.,goods,2026-08-21,2026-08-17,1027.8,0.0,model only,model only,,0,,,,2026-08-17,9
+DHI-2026-4070,DHI Global Forwarding (HK) Ltd.,freight,2026-08-21,2026-08-17,570.34,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-08-17,9
+HCV-2026-4072,"Hanil Cosmetic Vessels Co., Ltd.",goods,2026-08-21,2026-08-17,81696.0,0.0,model only,model only,,0,,,,2026-08-17,9
+HCV-2026-4073,"Hanil Cosmetic Vessels Co., Ltd.",goods,2026-08-21,2026-08-17,8490.0,0.0,model only,model only,,0,,,,2026-08-17,9
+SBP-2026-4075,"Shantou Brightpack Packaging Co., Ltd.",goods,2026-08-21,2026-08-17,28140.0,0.0,model only,model only,,0,,,,2026-08-17,9
+DHI-2026-4076,DHI Global Forwarding (HK) Ltd.,freight,2026-08-21,2026-08-17,3233.31,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-08-17,9
+SCA-2026-4077,Santos Comissaria Aduaneira Ltda.,customs,2026-08-21,2026-08-17,8315.21,0.0,model only,model only,,0,,,,2026-08-17,9
+SCA-2026-4078,Santos Comissaria Aduaneira Ltda.,broker,2026-08-21,2026-08-17,4718.35,0.0,model only,model only,,0,,,,2026-08-17,9
+DHI-2026-4079,DHI Global Forwarding (HK) Ltd.,local,2026-08-21,2026-08-17,2205.76,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-08-17,9
+TVA-2026-4080,Terminal Valongo Alfandegado Ltda.,storage,2026-08-21,2026-08-17,155.85,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-08-17,9
+TLV-2026-4081,Transportes Lima Vieira Ltda.,freight,2026-08-21,2026-08-17,1994.41,0.0,model only,model only,,0,,,,2026-08-17,9
+SCA-2026-4063-R1,Santos Comissaria Aduaneira Ltda.,customs,2026-08-26,2026-08-24,6612.55,0.0,model only,model only,,0,,,,2026-08-24,9
+SCA-2026-4084,Santos Comissaria Aduaneira Ltda.,customs,2026-08-24,2026-08-24,28076.07,0.0,model only,model only,,0,,,,2026-08-24,9
+SCA-2026-4084-R1,Santos Comissaria Aduaneira Ltda.,customs,2026-08-29,2026-08-24,27709.96,0.0,model only,model only,,0,,,,2026-08-24,9
+SCA-2026-4085,Santos Comissaria Aduaneira Ltda.,broker,2026-08-24,2026-08-24,5640.98,0.0,model only,model only,,0,,,,2026-08-24,9
+DHI-2026-4086,DHI Global Forwarding (HK) Ltd.,local,2026-08-24,2026-08-24,2224.44,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-08-27,2026-08-24,9
+TVA-2026-4087,Terminal Valongo Alfandegado Ltda.,storage,2026-08-24,2026-08-24,526.4,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-08-27,2026-08-24,9
+TLV-2026-4088,Transportes Lima Vieira Ltda.,freight,2026-08-24,2026-08-24,1923.31,0.0,model only,model only,,0,,,,2026-08-24,9
+SCA-2026-4089,Santos Comissaria Aduaneira Ltda.,customs,2026-08-25,2026-08-24,326597.17,0.0,model only,model only,,0,,,,2026-08-24,9
+SCA-2026-4090,Santos Comissaria Aduaneira Ltda.,broker,2026-08-25,2026-08-24,3241.05,0.0,model only,model only,,0,,,,2026-08-24,9
+DHI-2026-4091,DHI Global Forwarding (HK) Ltd.,local,2026-08-25,2026-08-24,4450.74,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-08-28,2026-08-24,9
+TVA-2026-4092,Terminal Valongo Alfandegado Ltda.,storage,2026-08-25,2026-08-24,6094.76,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-08-28,2026-08-24,9
+TLV-2026-4093,Transportes Lima Vieira Ltda.,freight,2026-08-25,2026-08-24,3063.72,0.0,model only,model only,,0,,,,2026-08-24,9
+GZV-2026-4095,Guangzhou Verrelia Glassworks Ltd.,goods,2026-08-28,2026-08-24,996.54,0.0,model only,model only,,0,,,,2026-08-24,9
+GZV-2026-4096,Guangzhou Verrelia Glassworks Ltd.,goods,2026-08-28,2026-08-24,89460.0,0.0,model only,model only,,0,,,,2026-08-24,9
+DHI-2026-4097,DHI Global Forwarding (HK) Ltd.,freight,2026-08-28,2026-08-24,4338.59,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-08-31,2026-08-24,9
+BDT-2026-4099,Binh Duong Tubeworks JSC,goods,2026-08-28,2026-08-24,20682.0,0.0,model only,model only,,0,,,,2026-08-24,9
+BDT-2026-4100,Binh Duong Tubeworks JSC,goods,2026-08-28,2026-08-24,13358.0,0.0,model only,model only,,0,,,,2026-08-24,9
+DHI-2026-4101,DHI Global Forwarding (HK) Ltd.,freight,2026-08-28,2026-08-24,2644.6,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-08-24,9
+HCV-2026-4103,"Hanil Cosmetic Vessels Co., Ltd.",goods,2026-08-28,2026-08-24,55620.0,0.0,model only,model only,,0,,,,2026-08-24,9
+NCL-2026-4105,"Ningbo Caplink Industrial Co., Ltd.",goods,2026-08-28,2026-08-24,21240.0,0.0,model only,model only,,0,,,,2026-08-24,9
+DHI-2026-4106,DHI Global Forwarding (HK) Ltd.,freight,2026-08-28,2026-08-24,1206.27,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-08-24,9
+SBP-2026-4108,"Shantou Brightpack Packaging Co., Ltd.",goods,2026-08-28,2026-08-24,9280.6,0.0476,order split under the limit,billing,order split under the limit,0,,,,2026-08-24,9
+SBP-2026-4109,"Shantou Brightpack Packaging Co., Ltd.",goods,2026-08-28,2026-08-24,3124.0,0.0,model only,model only,,0,,,,2026-08-24,9
+DHI-2026-4110,DHI Global Forwarding (HK) Ltd.,freight,2026-08-28,2026-08-24,1112.85,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-08-24,9
+SCA-2026-4111,Santos Comissaria Aduaneira Ltda.,customs,2026-08-28,2026-08-24,165491.68,0.0,model only,model only,,0,,,,2026-08-24,9
+SCA-2026-4112,Santos Comissaria Aduaneira Ltda.,broker,2026-08-28,2026-08-24,6789.92,0.0,model only,model only,,0,,,,2026-08-24,9
+DHI-2026-4113,DHI Global Forwarding (HK) Ltd.,local,2026-08-28,2026-08-24,4669.24,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-08-24,9
+TVA-2026-4114,Terminal Valongo Alfandegado Ltda.,storage,2026-08-28,2026-08-24,2774.08,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-08-24,9
+TLV-2026-4115,Transportes Lima Vieira Ltda.,freight,2026-08-28,2026-08-24,2057.92,0.0,model only,model only,,0,,,,2026-08-24,9
+TPK-2026-4116,"Taizhou Primepack Plastics Co., Ltd.",goods,2026-08-30,2026-08-24,66000.0,0.0952,"round total, not a known fee",billing,"round total, not a known fee; young vendor",0,,,,2026-08-24,9
+SCA-2026-4121,Santos Comissaria Aduaneira Ltda.,customs,2026-08-31,2026-08-31,186385.26,0.0,model only,model only,,0,,,,2026-08-31,9
+SCA-2026-4122,Santos Comissaria Aduaneira Ltda.,broker,2026-08-31,2026-08-31,6019.46,0.0,model only,model only,,0,,,,2026-08-31,9
+DHI-2026-4123,DHI Global Forwarding (HK) Ltd.,local,2026-08-31,2026-08-31,4720.56,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-09-03,2026-08-31,9
+TVA-2026-4124,Terminal Valongo Alfandegado Ltda.,storage,2026-08-31,2026-08-31,3273.13,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-09-03,2026-08-31,9
+TLV-2026-4125,Transportes Lima Vieira Ltda.,freight,2026-08-31,2026-08-31,2497.54,0.0,model only,model only,,0,,,,2026-08-31,9
+SCA-2026-4126,Santos Comissaria Aduaneira Ltda.,customs,2026-09-01,2026-08-31,82524.99,0.0,model only,model only,,0,,,,2026-08-31,9
+SCA-2026-4127,Santos Comissaria Aduaneira Ltda.,broker,2026-09-01,2026-08-31,6291.76,0.0,model only,model only,,0,,,,2026-08-31,9
+DHI-2026-4128,DHI Global Forwarding (HK) Ltd.,local,2026-09-01,2026-08-31,2621.8,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-09-04,2026-08-31,9
+TVA-2026-4129,Terminal Valongo Alfandegado Ltda.,storage,2026-09-01,2026-08-31,1601.74,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-09-04,2026-08-31,9
+TLV-2026-4130,Transportes Lima Vieira Ltda.,freight,2026-09-01,2026-08-31,2246.23,0.0,model only,model only,,0,,,,2026-08-31,9
+SCA-2026-4131,Santos Comissaria Aduaneira Ltda.,customs,2026-09-02,2026-08-31,10864.99,0.0,model only,model only,,0,,,,2026-08-31,9
+SCA-2026-4132,Santos Comissaria Aduaneira Ltda.,broker,2026-09-02,2026-08-31,6028.77,0.0,model only,model only,,0,,,,2026-08-31,9
+DHI-2026-4133,DHI Global Forwarding (HK) Ltd.,local,2026-09-02,2026-08-31,2212.3,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-09-05,2026-08-31,9
+TVA-2026-4134,Terminal Valongo Alfandegado Ltda.,storage,2026-09-02,2026-08-31,199.64,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-08-31,9
+TLV-2026-4135,Transportes Lima Vieira Ltda.,freight,2026-09-02,2026-08-31,1406.82,0.0,model only,model only,,0,,,,2026-08-31,9
+SBP-2026-4137,"Shantou Brightpack Packaging Co., Ltd.",goods,2026-09-04,2026-08-31,1076.0,0.0,model only,model only,,0,,,,2026-08-31,9
+SBP-2026-4138,"Shantou Brightpack Packaging Co., Ltd.",goods,2026-09-04,2026-08-31,15844.94,0.0,model only,model only,,0,,,,2026-08-31,9
+DHI-2026-4139,DHI Global Forwarding (HK) Ltd.,freight,2026-09-04,2026-08-31,2945.06,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-08-31,9
+SCA-2026-4140,Santos Comissaria Aduaneira Ltda.,customs,2026-09-05,2026-08-31,37026.6,0.0,model only,model only,,0,,,,2026-08-31,9
+SCA-2026-4141,Santos Comissaria Aduaneira Ltda.,broker,2026-09-05,2026-08-31,3178.32,0.0,model only,model only,,0,,,,2026-08-31,9
+DHI-2026-4142,DHI Global Forwarding (HK) Ltd.,local,2026-09-05,2026-08-31,2263.64,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-08-31,9
+TVA-2026-4143,Terminal Valongo Alfandegado Ltda.,storage,2026-09-05,2026-08-31,698.14,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-08-31,9
+TLV-2026-4144,Transportes Lima Vieira Ltda.,freight,2026-09-05,2026-08-31,1737.11,0.0,model only,model only,,0,,,,2026-08-31,9
+SCA-2026-4127-R1,Santos Comissaria Aduaneira Ltda.,broker,2026-09-09,2026-09-07,5852.79,0.0,model only,model only,,0,,,,2026-09-07,9
+SCA-2026-4149,Santos Comissaria Aduaneira Ltda.,customs,2026-09-07,2026-09-07,149763.15,0.0,model only,model only,,0,,,,2026-09-07,9
+SCA-2026-4150,Santos Comissaria Aduaneira Ltda.,broker,2026-09-07,2026-09-07,3202.63,0.0,model only,model only,,0,,,,2026-09-07,9
+DHI-2026-4151,DHI Global Forwarding (HK) Ltd.,local,2026-09-07,2026-09-07,3595.9,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-09-10,2026-09-07,9
+TVA-2026-4152,Terminal Valongo Alfandegado Ltda.,storage,2026-09-07,2026-09-07,2622.44,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-09-10,2026-09-07,9
+TLV-2026-4153,Transportes Lima Vieira Ltda.,freight,2026-09-07,2026-09-07,2003.14,0.0,model only,model only,,0,,,,2026-09-07,9
+SCA-2026-4154,Santos Comissaria Aduaneira Ltda.,customs,2026-09-10,2026-09-07,51988.93,0.0952,duty at a rate not in force,customs,duty at a rate not in force,1,client,confirmed,2026-10-14,2026-09-07,9
+SCA-2026-4155,Santos Comissaria Aduaneira Ltda.,broker,2026-09-10,2026-09-07,5328.65,0.0,model only,model only,,0,,,,2026-09-07,9
+DHI-2026-4156,DHI Global Forwarding (HK) Ltd.,local,2026-09-10,2026-09-07,3175.36,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-09-13,2026-09-07,9
+TVA-2026-4157,Terminal Valongo Alfandegado Ltda.,storage,2026-09-10,2026-09-07,842.31,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-09-13,2026-09-07,9
+TLV-2026-4158,Transportes Lima Vieira Ltda.,freight,2026-09-10,2026-09-07,1474.46,0.0,model only,model only,,0,,,,2026-09-07,9
+GZV-2026-4160,Guangzhou Verrelia Glassworks Ltd.,goods,2026-09-11,2026-09-07,36208.8,0.0,model only,model only,,0,,,,2026-09-07,9
+DHI-2026-4161,DHI Global Forwarding (HK) Ltd.,freight,2026-09-11,2026-09-07,1724.69,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-09-07,9
+SCA-2026-4162,Santos Comissaria Aduaneira Ltda.,customs,2026-09-12,2026-09-07,228558.99,0.0,model only,model only,,0,,,,2026-09-07,9
+SCA-2026-4163,Santos Comissaria Aduaneira Ltda.,broker,2026-09-12,2026-09-07,4680.28,0.0,model only,model only,,0,,,,2026-09-07,9
+DHI-2026-4164,DHI Global Forwarding (HK) Ltd.,local,2026-09-12,2026-09-07,4161.82,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-09-07,9
+TVA-2026-4165,Terminal Valongo Alfandegado Ltda.,storage,2026-09-12,2026-09-07,4140.36,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-09-07,9
+TLV-2026-4166,Transportes Lima Vieira Ltda.,freight,2026-09-12,2026-09-07,2635.51,0.0,model only,model only,,0,,,,2026-09-07,9
+SCA-2026-4167,Santos Comissaria Aduaneira Ltda.,customs,2026-09-13,2026-09-07,35758.83,0.0,model only,model only,,0,,,,2026-09-07,9
+SCA-2026-4168,Santos Comissaria Aduaneira Ltda.,broker,2026-09-13,2026-09-07,6125.12,0.0,model only,model only,,0,,,,2026-09-07,9
+DHI-2026-4169,DHI Global Forwarding (HK) Ltd.,local,2026-09-13,2026-09-07,2256.22,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-09-07,9
+TVA-2026-4170,Terminal Valongo Alfandegado Ltda.,storage,2026-09-13,2026-09-07,674.07,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-09-07,9
+TLV-2026-4171,Transportes Lima Vieira Ltda.,freight,2026-09-13,2026-09-07,2036.82,0.0,model only,model only,,0,,,,2026-09-07,9
+KNG-2026-4172,Keuhne & Nager Logistics AG,freight,2026-09-13,2026-09-07,2000.0,0.0476,same amount again,billing,same amount again,0,,,,2026-09-07,9
+SCA-2026-4167-R1,Santos Comissaria Aduaneira Ltda.,customs,2026-09-18,2026-09-14,30752.62,0.0,model only,model only,,0,,,,2026-09-14,9
+SCA-2026-4176,Santos Comissaria Aduaneira Ltda.,customs,2026-09-15,2026-09-14,103512.26,0.0,model only,model only,,0,,,,2026-09-14,9
+SCA-2026-4177,Santos Comissaria Aduaneira Ltda.,broker,2026-09-15,2026-09-14,6740.0,0.0,model only,model only,,0,,,,2026-09-14,9
+DHI-2026-4178,DHI Global Forwarding (HK) Ltd.,local,2026-09-15,2026-09-14,3054.16,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-09-18,2026-09-14,9
+TVA-2026-4179,Terminal Valongo Alfandegado Ltda.,storage,2026-09-15,2026-09-14,1815.86,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-09-18,2026-09-14,9
+TLV-2026-4180,Transportes Lima Vieira Ltda.,freight,2026-09-15,2026-09-14,1777.39,0.0,model only,model only,,0,,,,2026-09-14,9
+GZV-2026-4182,Guangzhou Verrelia Glassworks Ltd.,goods,2026-09-18,2026-09-14,6666.45,0.0476,order split under the limit,billing,order split under the limit,0,,,,2026-09-14,9
+GZV-2026-4183,Guangzhou Verrelia Glassworks Ltd.,goods,2026-09-20,2026-09-14,6666.45,0.0476,same amount again,billing,same amount again,0,,,,2026-09-14,9
+GZV-2026-4184,Guangzhou Verrelia Glassworks Ltd.,goods,2026-09-18,2026-09-14,16738.2,0.0,model only,model only,,0,,,,2026-09-14,9
+DHI-2026-4185,DHI Global Forwarding (HK) Ltd.,freight,2026-09-18,2026-09-14,3063.45,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,confirmed,2026-10-11,2026-09-14,9
+ARL-2026-4187,Aravalli Labelworks Pvt. Ltd.,goods,2026-09-18,2026-09-14,3784.0,0.0,model only,model only,,0,,,,2026-09-14,9
+DHI-2026-4188,DHI Global Forwarding (HK) Ltd.,freight,2026-09-18,2026-09-14,1409.49,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-09-21,2026-09-14,9
+SCA-2026-4189,Santos Comissaria Aduaneira Ltda.,customs,2026-09-18,2026-09-14,31635.27,0.0,model only,model only,,0,,,,2026-09-14,9
+SCA-2026-4190,Santos Comissaria Aduaneira Ltda.,broker,2026-09-18,2026-09-14,3686.68,0.0,model only,model only,,0,,,,2026-09-14,9
+DHI-2026-4191,DHI Global Forwarding (HK) Ltd.,local,2026-09-18,2026-09-14,2212.34,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-09-14,9
+TVA-2026-4192,Terminal Valongo Alfandegado Ltda.,storage,2026-09-18,2026-09-14,482.38,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-09-14,9
+TLV-2026-4193,Transportes Lima Vieira Ltda.,freight,2026-09-18,2026-09-14,1348.78,0.0,model only,model only,,0,,,,2026-09-14,9
+QPS-2026-4194,Quantum Pack Solutions Ltd.,goods,2026-09-20,2026-09-14,4000.0,0.1905,no order behind a goods bill,purchasing,"no order behind a goods bill; round total, not a known fee; young vendor",1,client,pending,,2026-09-14,9
+SCA-2026-4177-R1,Santos Comissaria Aduaneira Ltda.,broker,2026-09-25,2026-09-21,6245.0,0.0,model only,model only,,0,,,,2026-09-21,9
+TLV-2026-4180-R1,Transportes Lima Vieira Ltda.,freight,2026-09-21,2026-09-21,1777.39,0.0476,same amount again,billing,same amount again,0,,,,2026-09-21,9
+SCA-2026-4198,Santos Comissaria Aduaneira Ltda.,customs,2026-09-23,2026-09-21,11655.19,0.0,model only,model only,,0,,,,2026-09-21,9
+SCA-2026-4199,Santos Comissaria Aduaneira Ltda.,broker,2026-09-23,2026-09-21,6432.47,0.0,model only,model only,,0,,,,2026-09-21,9
+DHI-2026-4200,DHI Global Forwarding (HK) Ltd.,local,2026-09-23,2026-09-21,2200.08,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-09-26,2026-09-21,9
+TVA-2026-4201,Terminal Valongo Alfandegado Ltda.,storage,2026-09-23,2026-09-21,197.25,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-09-26,2026-09-21,9
+TLV-2026-4202,Transportes Lima Vieira Ltda.,freight,2026-09-23,2026-09-21,1804.67,0.0,model only,model only,,0,,,,2026-09-21,9
+GZV-2026-4204,Guangzhou Verrelia Glassworks Ltd.,goods,2026-09-25,2026-09-21,37537.2,0.0,model only,model only,,0,,,,2026-09-21,9
+GZV-2026-4205,Guangzhou Verrelia Glassworks Ltd.,goods,2026-09-25,2026-09-21,30984.0,0.0,model only,model only,,0,,,,2026-09-21,9
+DHI-2026-4206,DHI Global Forwarding (HK) Ltd.,freight,2026-09-25,2026-09-21,4737.87,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-09-28,2026-09-21,9
+NCL-2026-4208,"Ningbo Caplink Industrial Co., Ltd.",goods,2026-09-25,2026-09-21,29435.38,0.0,model only,model only,,0,,,,2026-09-21,9
+NCL-2026-4209,"Ningbo Caplink Industrial Co., Ltd.",goods,2026-09-25,2026-09-21,18812.0,0.0,model only,model only,,0,,,,2026-09-21,9
+DHI-2026-4210,DHI Global Forwarding (HK) Ltd.,freight,2026-09-25,2026-09-21,1828.76,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-09-28,2026-09-21,9
+ARL-2026-4212,Aravalli Labelworks Pvt. Ltd.,goods,2026-09-25,2026-09-21,7698.0,0.0,model only,model only,,0,,,,2026-09-21,9
+DHI-2026-4213,DHI Global Forwarding (HK) Ltd.,freight,2026-09-25,2026-09-21,1116.16,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-09-28,2026-09-21,9
+SCA-2026-4214,Santos Comissaria Aduaneira Ltda.,customs,2026-09-25,2026-09-21,210274.29,0.0,model only,model only,,0,,,,2026-09-21,9
+SCA-2026-4215,Santos Comissaria Aduaneira Ltda.,broker,2026-09-25,2026-09-21,6413.76,0.0,model only,model only,,0,,,,2026-09-21,9
+DHI-2026-4216,DHI Global Forwarding (HK) Ltd.,local,2026-09-25,2026-09-21,5268.48,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-09-21,9
+TVA-2026-4217,Terminal Valongo Alfandegado Ltda.,storage,2026-09-25,2026-09-21,3769.13,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-09-21,9
+TLV-2026-4218,Transportes Lima Vieira Ltda.,freight,2026-09-25,2026-09-21,2486.36,0.0,model only,model only,,0,,,,2026-09-21,9
+SCA-2026-4219,Santos Comissaria Aduaneira Ltda.,customs,2026-09-25,2026-09-21,119688.99,0.0,model only,model only,,0,,,,2026-09-21,9
+SCA-2026-4220,Santos Comissaria Aduaneira Ltda.,broker,2026-09-25,2026-09-21,4300.16,0.0,model only,model only,,0,,,,2026-09-21,9
+DHI-2026-4221,DHI Global Forwarding (HK) Ltd.,local,2026-09-25,2026-09-21,4487.68,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-09-21,9
+TVA-2026-4222,Terminal Valongo Alfandegado Ltda.,storage,2026-09-25,2026-09-21,1916.6,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-09-21,9
+TLV-2026-4223,Transportes Lima Vieira Ltda.,freight,2026-09-25,2026-09-21,2319.16,0.0,model only,model only,,0,,,,2026-09-21,9
+DHI-2026-4213-R1,DHI Global Forwarding (HK) Ltd.,freight,2026-09-28,2026-09-28,1116.16,0.1429,charge not on the rate card,freight billing,charge not on the rate card; same amount again,1,client,dismissed,2026-10-01,2026-09-28,9
+SCA-2026-4227,Santos Comissaria Aduaneira Ltda.,customs,2026-09-28,2026-09-28,5600.15,0.0,model only,model only,,0,,,,2026-09-28,9
+SCA-2026-4228,Santos Comissaria Aduaneira Ltda.,broker,2026-09-28,2026-09-28,4312.72,0.0,model only,model only,,0,,,,2026-09-28,9
+DHI-2026-4229,DHI Global Forwarding (HK) Ltd.,local,2026-09-28,2026-09-28,2196.94,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-10-01,2026-09-28,9
+TVA-2026-4230,Terminal Valongo Alfandegado Ltda.,storage,2026-09-28,2026-09-28,97.04,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-10-01,2026-09-28,9
+TLV-2026-4231,Transportes Lima Vieira Ltda.,freight,2026-09-28,2026-09-28,1669.75,0.0,model only,model only,,0,,,,2026-09-28,9
+SCA-2026-4233,Santos Comissaria Aduaneira Ltda.,customs,2026-09-30,2026-09-28,353853.64,0.0,model only,model only,,0,,,,2026-09-28,9
+SCA-2026-4234,Santos Comissaria Aduaneira Ltda.,broker,2026-09-30,2026-09-28,5546.19,0.0,model only,model only,,0,,,,2026-09-28,9
+DHI-2026-4235,DHI Global Forwarding (HK) Ltd.,local,2026-09-30,2026-09-28,5203.18,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-10-03,2026-09-28,9
+TVA-2026-4236,Terminal Valongo Alfandegado Ltda.,storage,2026-09-30,2026-09-28,5704.74,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-09-28,9
+TLV-2026-4237,Transportes Lima Vieira Ltda.,freight,2026-09-30,2026-09-28,2611.58,0.0,model only,model only,,0,,,,2026-09-28,9
+SCA-2026-4238,Santos Comissaria Aduaneira Ltda.,customs,2026-10-01,2026-09-28,314566.38,0.0,model only,model only,,0,,,,2026-09-28,9
+SCA-2026-4239,Santos Comissaria Aduaneira Ltda.,broker,2026-10-01,2026-09-28,3574.36,0.0,model only,model only,,0,,,,2026-09-28,9
+DHI-2026-4240,DHI Global Forwarding (HK) Ltd.,local,2026-10-01,2026-09-28,3874.5,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-09-28,9
+TVA-2026-4241,Terminal Valongo Alfandegado Ltda.,storage,2026-10-01,2026-09-28,5461.47,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-09-28,9
+TLV-2026-4242,Transportes Lima Vieira Ltda.,freight,2026-10-01,2026-09-28,2855.03,0.0,model only,model only,,0,,,,2026-09-28,9
+GZV-2026-4244,Guangzhou Verrelia Glassworks Ltd.,goods,2026-10-02,2026-09-28,3139.2,0.0476,order split under the limit,billing,order split under the limit,0,,,,2026-09-28,9
+GZV-2026-4245,Guangzhou Verrelia Glassworks Ltd.,goods,2026-10-02,2026-09-28,78110.06,0.0,model only,model only,,0,,,,2026-09-28,9
+GZV-2026-4246,Guangzhou Verrelia Glassworks Ltd.,goods,2026-10-02,2026-09-28,67832.4,0.0,model only,model only,,0,,,,2026-09-28,9
+MRK-2026-4247,Marsk Line Agencies B.V.,freight,2026-10-02,2026-09-28,6515.91,0.0,model only,model only,,0,,,,2026-09-28,9
+NCL-2026-4249,"Ningbo Caplink Industrial Co., Ltd.",goods,2026-10-02,2026-09-28,9918.0,0.0,model only,model only,,0,,,,2026-09-28,9
+DHI-2026-4250,DHI Global Forwarding (HK) Ltd.,freight,2026-10-02,2026-09-28,1066.07,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-09-28,9
+BDT-2026-4252,Binh Duong Tubeworks JSC,goods,2026-10-02,2026-09-28,38565.0,0.0,model only,model only,,0,,,,2026-09-28,9
+BDT-2026-4253,Binh Duong Tubeworks JSC,goods,2026-10-02,2026-09-28,24054.0,0.0,model only,model only,,0,,,,2026-09-28,9
+DHI-2026-4254,DHI Global Forwarding (HK) Ltd.,freight,2026-10-02,2026-09-28,4159.33,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-09-28,9
+QPS-2026-4255,Quantum Pack Solutions Ltd.,goods,2026-10-02,2026-09-28,7600.0,0.1429,no order behind a goods bill,purchasing,no order behind a goods bill; young vendor,1,client,pending,,2026-09-28,9
+SCA-2026-4256,Santos Comissaria Aduaneira Ltda.,customs,2026-10-03,2026-09-28,231764.19,0.0,model only,model only,,0,,,,2026-09-28,9
+SCA-2026-4257,Santos Comissaria Aduaneira Ltda.,broker,2026-10-03,2026-09-28,5849.12,0.0,model only,model only,,0,,,,2026-09-28,9
+DHI-2026-4258,DHI Global Forwarding (HK) Ltd.,local,2026-10-03,2026-09-28,3222.22,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-09-28,9
+TVA-2026-4259,Terminal Valongo Alfandegado Ltda.,storage,2026-10-03,2026-09-28,3354.42,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-09-28,9
+TLV-2026-4260,Transportes Lima Vieira Ltda.,freight,2026-10-03,2026-09-28,2278.16,0.0,model only,model only,,0,,,,2026-09-28,9
+SCA-2026-4262,Santos Comissaria Aduaneira Ltda.,customs,2026-10-04,2026-09-28,77443.57,0.0,model only,model only,,0,,,,2026-09-28,9
+SCA-2026-4263,Santos Comissaria Aduaneira Ltda.,broker,2026-10-04,2026-09-28,4932.55,0.0,model only,model only,,0,,,,2026-09-28,9
+DHI-2026-4264,DHI Global Forwarding (HK) Ltd.,local,2026-10-04,2026-09-28,2743.82,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-09-28,9
+TVA-2026-4265,Terminal Valongo Alfandegado Ltda.,storage,2026-10-04,2026-09-28,1353.72,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-09-28,9
+TLV-2026-4266,Transportes Lima Vieira Ltda.,freight,2026-10-04,2026-09-28,2047.4,0.0,model only,model only,,0,,,,2026-09-28,9
+ARL-2026-4212-R1,Aravalli Labelworks Pvt. Ltd.,goods,2026-10-07,2026-10-05,7269.42,0.0,model only,model only,,0,,,,2026-10-05,9
+TVA-2026-4241-R1,Terminal Valongo Alfandegado Ltda.,storage,2026-10-10,2026-10-05,5461.47,0.1429,no order behind a goods bill,purchasing,no order behind a goods bill; same amount again,1,client,dismissed,2026-10-13,2026-10-05,9
+NCL-2026-4249-R1,"Ningbo Caplink Industrial Co., Ltd.",goods,2026-10-09,2026-10-05,8123.2,0.0,model only,model only,,0,,,,2026-10-05,9
+SCA-2026-4270,Santos Comissaria Aduaneira Ltda.,customs,2026-10-07,2026-10-05,43413.93,0.0,model only,model only,,0,,,,2026-10-05,9
+SCA-2026-4271,Santos Comissaria Aduaneira Ltda.,broker,2026-10-07,2026-10-05,4153.07,0.0,model only,model only,,0,,,,2026-10-05,9
+DHI-2026-4272,DHI Global Forwarding (HK) Ltd.,local,2026-10-07,2026-10-05,2466.68,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-10-10,2026-10-05,9
+TVA-2026-4273,Terminal Valongo Alfandegado Ltda.,storage,2026-10-07,2026-10-05,830.65,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,1,client,dismissed,2026-10-10,2026-10-05,9
+TLV-2026-4274,Transportes Lima Vieira Ltda.,freight,2026-10-07,2026-10-05,1765.48,0.0,model only,model only,,0,,,,2026-10-05,9
+GZV-2026-4276,Guangzhou Verrelia Glassworks Ltd.,goods,2026-10-09,2026-10-05,44179.2,0.0,model only,model only,,0,,,,2026-10-05,9
+DHI-2026-4277,DHI Global Forwarding (HK) Ltd.,freight,2026-10-09,2026-10-05,4290.87,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed,2026-10-12,2026-10-05,9
+NCL-2026-4279,"Ningbo Caplink Industrial Co., Ltd.",goods,2026-10-09,2026-10-05,1770.0,0.0,model only,model only,,0,,,,2026-10-05,9
+NCL-2026-4280,"Ningbo Caplink Industrial Co., Ltd.",goods,2026-10-09,2026-10-05,21151.21,0.0,model only,model only,,0,,,,2026-10-05,9
+DHI-2026-4281,DHI Global Forwarding (HK) Ltd.,freight,2026-10-09,2026-10-05,1813.31,0.0952,charge not on the rate card,freight billing,charge not on the rate card,1,client,pending,,2026-10-05,9
+SBP-2026-4283,"Shantou Brightpack Packaging Co., Ltd.",goods,2026-10-09,2026-10-05,22639.55,0.0,model only,model only,,0,,,,2026-10-05,9
+DHI-2026-4284,DHI Global Forwarding (HK) Ltd.,freight,2026-10-09,2026-10-05,1438.58,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-10-05,9
+BDT-2026-4286,Binh Duong Tubeworks JSC,goods,2026-10-09,2026-10-05,33186.0,0.0,model only,model only,,0,,,,2026-10-05,9
+DHI-2026-4287,DHI Global Forwarding (HK) Ltd.,freight,2026-10-09,2026-10-05,2063.34,0.0952,charge not on the rate card,freight billing,charge not on the rate card,0,,,,2026-10-05,9
+SCA-2026-4288,Santos Comissaria Aduaneira Ltda.,customs,2026-10-09,2026-10-05,127623.28,0.0,model only,model only,,0,,,,2026-10-05,9
+SCA-2026-4289,Santos Comissaria Aduaneira Ltda.,broker,2026-10-09,2026-10-05,4289.27,0.0,model only,model only,,0,,,,2026-10-05,9
+DHI-2026-4290,DHI Global Forwarding (HK) Ltd.,local,2026-10-09,2026-10-05,3654.44,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-10-05,9
+TVA-2026-4291,Terminal Valongo Alfandegado Ltda.,storage,2026-10-09,2026-10-05,2246.94,0.0952,no order behind a goods bill,purchasing,no order behind a goods bill,0,,,,2026-10-05,9
+TLV-2026-4292,Transportes Lima Vieira Ltda.,freight,2026-10-09,2026-10-05,2302.08,0.0,model only,model only,,0,,,,2026-10-05,9
+KNG-2026-4293,Keuhne & Nager Logistics AG,freight,2026-10-11,2026-10-05,2000.0,0.0476,same amount again,billing,same amount again,0,,,,2026-10-05,9
+SCA-2026-4233-R1,Santos Comissaria Aduaneira Ltda.,customs,2026-10-12,2026-10-12,350359.89,0.0,model only,model only,,1,client,dismissed,2026-10-15,2026-10-12,9
+DHI-2026-4287-R1,DHI Global Forwarding (HK) Ltd.,freight,2026-10-14,2026-10-12,2063.34,0.1429,charge not on the rate card,freight billing,charge not on the rate card; same amount again,1,client,dismissed,2026-10-17,2026-10-12,9
+QPS-2026-4298,Quantum Pack Solutions Ltd.,goods,2026-10-14,2026-10-12,8400.0,0.1429,no order behind a goods bill,purchasing,no order behind a goods bill; young vendor,1,client,pending,,2026-10-12,9

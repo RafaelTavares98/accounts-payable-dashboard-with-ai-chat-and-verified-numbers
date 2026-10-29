@@ -1,0 +1,23 @@
+invoice_number,origin,reason
+SCA-2026-3131,ours,"lines add to 691496.68, page says subtotal 53776.72; no OCR reading closed; check by hand"
+SCA-2026-3273,ours,"lines add to 325222.22, page says subtotal 401429.83; no OCR reading closed; check by hand"
+SCA-2026-3348,ours,"lines add to 262282.81, page says subtotal 267282.81; no OCR reading closed; check by hand"
+SCA-2026-3399,ours,"lines add to 146859.59, page says subtotal 36102.41; no OCR reading closed; check by hand"
+SCA-2026-3448,ours,"lines add to 130673.32, page says subtotal 150411.10; no OCR reading closed; check by hand"
+SCA-2026-3605,ours,"lines add to 72627.31, page says subtotal 143627.31; no OCR reading closed; check by hand"
+SCA-2026-3773-R1,ours,"lines add to 71222.41, page says subtotal 121222.41; no OCR reading closed; check by hand"
+SCA-2026-3814,ours,"lines add to 51558.21, page says subtotal 64383.53; no OCR reading closed; check by hand"
+SCA-2026-4154,ours,"lines add to 267503.51, page says subtotal 51988.93; no OCR reading closed; check by hand"
+ARL-2026-310,ours,"lines add to 1104805.44, page says subtotal 13230.44; no OCR reading closed; check by hand"
+ARL-2026-3157,ours,"no issue date; lines add to 45552.00, page says subtotal 45; no OCR reading closed; check by hand"
+ARL-2026-3158,ours,"lines make 7.04800, page says total 448.00; no OCR reading closed; check by hand"
+ARL-2026-3247,ours,"lines add to 50432.47, page says subtotal 50492.47; no OCR reading closed; check by hand"
+ARL-2026-3540,ours,no OCR reading closed; check by hand
+ARL-2026-3541,ours,"no issue date; lines make 7286.07, page says total 4236.07; no OCR reading closed; check by hand"
+ARL-202,ours,no total; no OCR reading closed; check by hand
+ARL-2026-3728,ours,"lines add to 26345.50, page says subtotal 26; total 26036.50 is not the subtotal less the discount, 26; no OCR reading closed; check by hand"
+ARL-2026-3751,ours,"lines add to 79980.00, page says subtotal 12.38250; no OCR reading closed; check by hand"
+ARL-2026-3838,ours,"lines add to 1374.3520, page says subtotal 8142.00; no OCR reading closed; check by hand"
+ARL-2026-3839,ours,"lines add to 255.56400, page says subtotal 37.78400; no OCR reading closed; check by hand; issued 2028-06-19, after it arrived on 2026-10-14; check by hand"
+ARL-~CN-2026-3752,ours,"no issue date; lines add to 601.75, page says subtotal 201.75; total -801.75 is not the subtotal less the discount, 201.75; no OCR reading closed; check by hand"
+ARL-2026-3867,ours,"lines make 4808.00, page says total 4; no OCR reading closed; check by hand"

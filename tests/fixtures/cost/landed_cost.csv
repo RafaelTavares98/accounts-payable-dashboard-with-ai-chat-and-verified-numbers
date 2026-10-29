@@ -1,0 +1,5 @@
+shipment_id,order_number,code,ncm,quantity,fx,fx_source,goods_brl,freight_brl,inland_brl,broker_brl,duty_brl,afrmm_brl,siscomex_brl,credits_brl,status,landed_brl,unit_landed_brl
+B/L MRK7000001,PO-1,CP-024F,3923.50.00,10000,5.0000,declaration,2500.00,450.00,1200.00,600.00,450.00,36.00,71.50,747.50,final,5307.50,0.5308
+B/L MRK7000001,PO-1,PM-024G,8424.89.90,1000,5.0000,declaration,5000.00,1050.00,2800.00,1400.00,700.00,84.00,143.00,1500.00,final,11177.00,11.1770
+AWB 138-1,PO-2,GB-030A,7010.90.22,2000,5.0000,declaration,4000.00,2000.00,300.00,200.00,360.00,0.00,214.50,900.00,final,7074.50,3.5372
+B/L CSM7000009,PO-3,CP-024F,3923.50.00,4000,5.5000,ptax,1100.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,provisional,1100.00,0.2750

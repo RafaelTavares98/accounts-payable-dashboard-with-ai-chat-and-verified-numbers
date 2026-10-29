@@ -5,5 +5,5 @@ services:
     ports:
       - "8000:8000"
     environment:
-      PAYABLES_DATA: /app/data
+      PAYABLES_DATA: /app/data-live
       PAYABLES_TODAY: "2026-06-01"

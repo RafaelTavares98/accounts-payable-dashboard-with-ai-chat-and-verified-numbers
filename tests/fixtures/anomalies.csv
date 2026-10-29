@@ -1,0 +1,9 @@
+number,supplier,kind,issue_date,week,grand_total,score,check,stage,checks,flagged,origin,decision
+NCL-2026-3001,Ningbo Caplink,goods,2026-04-06,2026-04-06,1200.00,0.9100,price above contract,billing,price above contract,1,client,confirmed
+NCL-2026-3002,Ningbo Caplink,goods,2026-04-07,2026-04-06,800.00,0.0200,model only,model only,,0,,
+MRK-2026-3003,Marsk Line,freight,2026-04-08,2026-04-06,2100.00,0.8800,charge not on the rate card,freight billing,charge not on the rate card,1,client,confirmed
+QPS-2026-3004,Quantum Pack,goods,2026-04-09,2026-04-06,5000.00,0.4000,no order behind a goods bill,purchasing,no order behind a goods bill; young vendor,0,,
+HCV-2026-3005,Hanil Vessels,goods,2026-04-13,2026-04-13,3000.00,0.9500,account not on file,vendor master,account not on file; sender not on file,1,client,pending
+MRK-2026-3006,Marsk Line,freight,2026-04-14,2026-04-13,1900.00,0.7000,charge not on the rate card,freight billing,charge not on the rate card,1,client,dismissed
+NCL-2026-3007,Ningbo Caplink,goods,2026-04-15,2026-04-13,950.50,0.0100,model only,model only,,0,,
+GZV-2026-3008,Guangzhou Verrelia,goods,2026-04-16,2026-04-13,4400.00,0.3000,model only,model only,,0,,

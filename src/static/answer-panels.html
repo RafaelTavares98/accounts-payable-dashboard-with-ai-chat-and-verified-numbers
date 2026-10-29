@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Answer panels - preview</title>
+<script src="/static/echarts.min.js"></script>
+<style>
+/* A preview of the answer panels: three per category of question, each
+   a different kind of plot, so no category repeats a shape. Same palette
+   and rules as the dashboard: cyan is volume, mint met a target, coral
+   missed it, amber asks for attention, white dashed is the target, hot
+   cyan is clickable, cool blues and one violet are categories. Sample
+   figures from the sandbox data and the year run. */
+:root {
+  --bg: #061C28; --text: #E6F0F6; --muted: #9FB7C9; --dim: #7892A6;
+  --accent: #75D6FF; --hot: #3FD0FF; --good: #2EF2B0; --bad: #FF4F7B;
+  --warn: #FFC547; --edge: rgba(117, 214, 255, 0.24);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+/* Drawn at three times the size so it can be read: the whole page is
+   zoomed 3x and scrolls down, one plot per line. */
+body {
+  zoom: 3;
+  font-family: 'Segoe UI', Arial, sans-serif; color: var(--text);
+  background:
+    radial-gradient(1200px 600px at 15% -10%, rgba(63, 208, 255, 0.16), transparent 60%),
+    radial-gradient(900px 500px at 110% 110%, rgba(124, 108, 255, 0.12), transparent 60%),
+    var(--bg);
+  display: flex; flex-direction: column;
+}
+header { height: 44px; display: flex; align-items: center; gap: 12px;
+  padding: 0 14px; border-bottom: 1px solid rgba(117, 214, 255, 0.16); flex: none; }
+header h1 { font-size: 19px; margin: 0; letter-spacing: -0.02em; white-space: nowrap; }
+header span { font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; }
+/* One plot per line, each at its first size, 308 by 217, centred. */
+main { display: grid; gap: 8px; padding: 8px; justify-content: center;
+  grid-template-columns: 308px; grid-auto-rows: 217px; }
+.gap { display: none; }
+.panel { background: rgba(14, 44, 61, 0.55); border: 1px solid var(--edge);
+  border-radius: 10px; padding: 8px 10px; display: flex; flex-direction: column;
+  min-height: 0; min-width: 0; overflow: hidden; backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07),
+              inset 0 -1px 0 rgba(117, 214, 255, 0.3), 0 10px 30px rgba(0, 0, 0, 0.35);
+  background-image: linear-gradient(to top, rgba(117, 214, 255, 0.08), transparent 40%); }
+.top { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; }
+.cat { font-size: 9.5px; font-weight: 700; color: var(--hot); letter-spacing: 0.08em;
+  text-transform: uppercase; white-space: nowrap; }
+.kind { font-size: 9.5px; color: var(--dim); white-space: nowrap; }
+.panel h2 { font-size: 14px; margin: 1px 0 1px; white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; }
+.ask { font-size: 10px; color: var(--muted); font-style: italic; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+.body { flex: 1; min-height: 0; position: relative; }
+.chart { position: absolute; inset: 0; }
+.big { font-size: 26px; font-weight: 700; color: var(--accent);
+  text-shadow: 0 0 14px rgba(117, 214, 255, 0.45); line-height: 1; }
+.chg { font-size: 10px; color: var(--muted); }
+.up { color: var(--good); } .down { color: var(--bad); }
+.met { color: var(--good); font-weight: 700; text-shadow: 0 0 8px rgba(46, 242, 176, 0.35); }
+.missed { color: var(--bad); font-weight: 700; text-shadow: 0 0 8px rgba(255, 79, 123, 0.35); }
+.bullet { margin: 4px 0 8px; }
+.bullet .lab { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px; }
+.bullet .track { position: relative; height: 5px; border-radius: 3px; background: rgba(117, 214, 255, 0.1); }
+.bullet .fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 3px; }
+.bullet .mark { position: absolute; top: -4px; bottom: -4px; width: 0;
+  border-left: 1.5px dashed rgba(230, 240, 246, 0.8); }
+table { width: 100%; border-collapse: collapse; font-size: 10.5px; table-layout: fixed; }
+th { text-align: left; color: var(--muted); font-size: 9px; text-transform: uppercase;
+  letter-spacing: 0.04em; padding: 3px; border-bottom: 1px solid var(--edge); }
+td { padding: 3px; border-bottom: 1px solid rgba(117, 214, 255, 0.1);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+td.id { color: var(--hot); text-shadow: 0 0 8px rgba(63, 208, 255, 0.4); }
+.chip { display: inline-block; padding: 0 5px; border-radius: 4px; font-size: 9.5px; font-weight: 700; }
+.chip.new { color: var(--accent); background: rgba(117, 214, 255, 0.12); }
+.chip.revised { color: var(--warn); background: rgba(255, 197, 71, 0.14); }
+.chip.superseded { color: #8FA9BC; background: rgba(159, 183, 201, 0.12); }
+.item { display: flex; gap: 7px; font-size: 11px; padding: 4px 0;
+  border-bottom: 1px solid rgba(117, 214, 255, 0.1); line-height: 1.3; }
+.dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 4px; flex: none; }
+/* Lookup: one object's history as a vertical timeline. */
+.tl { position: relative; padding-left: 16px; font-size: 11px; }
+.tl::before { content: ''; position: absolute; left: 4px; top: 4px; bottom: 4px;
+  width: 1px; background: rgba(117, 214, 255, 0.35); }
+.tl .step { position: relative; padding: 1px 0 3px; line-height: 1.25; }
+.tl .step::before { content: ''; position: absolute; left: -15px; top: 7px; width: 7px; height: 7px;
+  border-radius: 50%; background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+.tl .step.warn::before { background: var(--warn); box-shadow: 0 0 6px var(--warn); }
+.tl .when { color: var(--muted); font-size: 9.5px; }
+/* Lookup: one object's card. */
+.card { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; font-size: 11px; }
+.card .k { color: var(--muted); }
+.card .v { text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Overview: tiles, each a figure over its own sparkline. */
+.tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; height: 100%; }
+.tile { border: 1px solid rgba(117, 214, 255, 0.16); border-radius: 7px; padding: 4px 6px;
+  display: flex; flex-direction: column; min-height: 0; background: rgba(14, 44, 61, 0.45); }
+.tile .n { font-size: 9.5px; color: var(--muted); }
+.tile .v { font-size: 15px; font-weight: 700; }
+.tile .spark { flex: 1; min-height: 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Answer panels</h1>
+  <span>Three plots per category of question, none repeated within a category · real figures</span>
+</header>
+<main id="main"></main>
+<script src="/static/plot-templates.js"></script>
+<script>
+/* The 24 plots, three per category, drawn by the same builders the
+   assistant uses (plot-templates.js) and filled with the real figures
+   from /api/plot-figures. Each panel keeps its template question. */
+const CATEGORIES = [
+  ['volume', '1 · Volume', ['How [quantity] [object] came in [time period]?',
+                            'Which [time period] had the [ranking] [object]?',
+                            'How [quantity] [object] came in [time period]?']],
+  ['target', '2 · Target', ['Are we on track to hit the [target] [time period]?',
+                            'Are we on track to hit the [target] [time period]?',
+                            'Did we hit the [target] each [time period]?']],
+  ['errors', '3 · Errors', ['How [quantity] [error type] did we [action] [time period]?',
+                            'Were all [error type] found within [target]?',
+                            'Which [error type] [time period]?']],
+  ['ranking', '4 · Ranking', ['Which [actor] [action] the [ranking] [object] [time period]?',
+                              'Who [action] the [ranking] [object] [time period]?',
+                              'Which [actor] is the [ranking] to [action] [object] [time period]?']],
+  ['trend', '5 · Trend', ['Did volume go [direction] [time period] compared to [time period]?',
+                          'Did [object] go [direction] [time period]?',
+                          'How did [object type] change [time period]?']],
+  ['mix', '6 · Mix', ["What [output] of [time period]'s [object] are [object type]?",
+                      'What [output] of [object] were [status] [time period]?',
+                      'Which [object type] are [status]?']],
+  ['lookup', '7 · Lookup', ['[output] all [status] [object] from [time period].',
+                            'Has [object id] been [action] by a new version?',
+                            'Who [action] [object id] and when?']],
+  ['overview', '8 · Overview', ['Anything I should worry about [time period]?',
+                                'Give me a [output] of [time period].',
+                                'Which targets did we miss [time period]?']],
+];
+
+(async function draw() {
+  const data = await (await fetch('/api/plot-figures')).json();
+  const main = document.getElementById('main');
+  const holders = [];
+  CATEGORIES.forEach(([category, label, asks]) => asks.forEach((ask, plot) => {
+    const spec = PlotTemplates.spec({category: category, plot: plot,
+                                     figures: data.figures, extra: data.extra});
+    const box = document.createElement('section');
+    box.className = 'panel';
+    box.innerHTML = `<div class="top"><span class="cat">${label}</span><span class="kind">${spec.kind}</span></div>` +
+      `<h2>${spec.title}</h2><div class="ask">"${ask}"</div><div class="body"></div>`;
+    main.appendChild(box);
+    holders.push([box.querySelector('.body'), spec]);
+  }));
+  /* Drawn once the grid has its size. A timer, not an animation frame:
+     a page opened in the background never gets a frame. */
+  setTimeout(() => {
+    const charts = holders.map(([body, spec]) => PlotTemplates.draw(body, spec))
+      .filter(holder => holder && holder._chart).map(holder => holder._chart);
+    charts.forEach(chart => chart.resize());
+    window.addEventListener('resize', () => charts.forEach(chart => chart.resize()));
+  }, 0);
+})();
+</script>
+</body>
+</html>

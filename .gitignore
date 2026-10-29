@@ -1,0 +1,22 @@
+# The real run's invoice pages, 1,003 of them. Project 01 draws them in
+# minutes and `refresh_live_data.py` brings them back, so they are not
+# carried here. The CSV files beside them are committed, so every figure
+# on the dashboard is there on a fresh clone; only the page behind the
+# "open the PDF" link needs that one command first.
+data-live/*.pdf
+
+# The dashboard video this project copies. It is somebody else's work,
+# so it stays on this machine. The frames cut from it, the author's own
+# description and the step-by-step reading of it are in reference/ and
+# are what the build was actually done from.
+reference/*.mp4
+
+# A 9 MB recording of the first version's overlay. The four PNGs in
+# docs/ show the page as it is now, and 99-superseded/README.md says
+# what the first version was.
+99-superseded/*.gif
+
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/

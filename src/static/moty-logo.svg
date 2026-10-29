@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 72" role="img" aria-label="Moty">
+  <title>Moty</title>
+  <rect width="160" height="72" fill="#061C28"/>
+  <g transform="translate(3.875 -7.25)">
+    <text x="4" y="54" font-family="Segoe UI, Helvetica, Arial, sans-serif"
+          font-size="52" font-weight="700" letter-spacing="-1" fill="#E6F0F6">moty</text>
+    <circle cx="139.94" cy="50" r="5" fill="#75D6FF"/>
+  </g>
+</svg>

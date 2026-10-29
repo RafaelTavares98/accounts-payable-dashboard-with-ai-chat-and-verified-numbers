@@ -1,0 +1,21 @@
+code,name,country,kind,onboarded_on,bank_account,email,terms
+NCL,"Ningbo Caplink Industrial Co., Ltd.",China,factory,2019-01-01,Bank of Ningbo  SWIFT BKNBCN2N  Acct 7801 4455 2190,accounts@ncl-billing.example,"FOB Ningbo. T/T 30% deposit, balance against B/L copy."
+SBP,"Shantou Brightpack Packaging Co., Ltd.",China,factory,2019-01-01,,accounts@sbp-billing.example,FOB Shantou. Incoterms 2020. Settlement in USD.
+GZV,Guangzhou Verrelia Glassworks Ltd.,China,factory,2019-01-01,ICBC Guangzhou  SWIFT ICBKCNBJGDX  Acct 3602 0012 9100,accounts@gzv-billing.example,"FOB Nansha. All amounts in US dollars, net of Chinese VAT."
+HCV,"Hanil Cosmetic Vessels Co., Ltd.",Republic of Korea,factory,2019-01-01,KEB Hana Bank  SWIFT KOEXKRSE  Acct 630-004188-712,accounts@hcv-billing.example,CIF Santos. Payment at sight against documents.
+BDT,Binh Duong Tubeworks JSC,Vietnam,factory,2019-01-01,,accounts@bdt-billing.example,FOB Cat Lai. 45 days from bill of lading date.
+ARL,Aravalli Labelworks Pvt. Ltd.,India,factory,2019-01-01,HDFC Bank  SWIFT HDFCINBB  Acct 50200031947755,accounts@arl-billing.example,FOB Nhava Sheva. Net 60. Artwork approval before print.
+DHI,DHI Global Forwarding (HK) Ltd.,Hong Kong,carrier,2019-01-01,,accounts@dhi-billing.example,"Charges per tariff DHI-2026, air and sea consolidation. Disputes within 14 days."
+MRK,Marsk Line Agencies B.V.,Netherlands,carrier,2019-01-01,ING Bank  IBAN NL22 INGB 0007 4411 90,accounts@mrk-billing.example,Ocean freight per service contract MRK-2026-114.
+CSM,"COSMO Shipping Lines Co., Ltd.",China,carrier,2019-01-01,,accounts@csm-billing.example,Subject to COSMO bill of lading terms. Payable on arrival.
+KNG,Keuhne & Nager Logistics AG,Switzerland,carrier,2019-01-01,UBS Switzerland  IBAN CH93 0076 2011 6238 5295 7,accounts@kng-billing.example,Rates valid 30 days. Destination charges billed separately.
+TLV,Transportes Lima Vieira Ltda.,Brazil,carrier,2019-01-01,Banco Itau  Ag 0761  Acct 45120-3,accounts@tlv-billing.example,CT-e issued on delivery. Payment in 21 days.
+SCA,Santos Comissaria Aduaneira Ltda.,Brazil,broker,2019-01-01,Banco Bradesco  Ag 2130  Acct 88412-0,accounts@sca-billing.example,Fees per contract SCA-2026-07.
+TVA,Terminal Valongo Alfandegado Ltda.,Brazil,terminal,2019-01-01,Banco do Brasil  Ag 0035  Acct 61207-4,accounts@tva-billing.example,"Armazenagem por periodo, sobre o valor CIF. Tabela TVA-2026."
+JHP,"Jinhua Packtech Industrial Co., Ltd.",China,factory,2026-03-12,DBS Bank  Acct 131-636903-202,accounts@jhp-billing.example,"FOB Ningbo. T/T 30% deposit, balance against B/L copy."
+APX,Apex Trade Services LLC,United Arab Emirates,factory,2026-03-30,DBS Bank  Acct 174-176693-206,accounts@apx-billing.example,"FOB Nansha. All amounts in US dollars, net of Chinese VAT."
+GLC,Greenline Sourcing Consultants,Singapore,factory,2026-04-01,HSBC  Acct 583-132938-568,accounts@glc-billing.example,"FOB Nansha. All amounts in US dollars, net of Chinese VAT."
+TPK,"Taizhou Primepack Plastics Co., Ltd.",China,factory,2026-07-29,HSBC  Acct 753-642410-710,accounts@tpk-billing.example,"FOB Ningbo. T/T 30% deposit, balance against B/L copy."
+QPS,Quantum Pack Solutions Ltd.,Hong Kong,factory,2026-09-05,HSBC  Acct 973-201134-260,accounts@qps-billing.example,FOB Cat Lai. 45 days from bill of lading date.
+VNC,Vinacap Closures Joint Stock Co.,Vietnam,factory,2026-09-24,HSBC  Acct 357-688279-684,accounts@vnc-billing.example,FOB Cat Lai. 45 days from bill of lading date.
+KRB,"Kyungbo Pump Systems Co., Ltd.",South Korea,factory,2026-09-29,DBS Bank  Acct 187-685833-296,accounts@krb-billing.example,"FOB Ningbo. T/T 30% deposit, balance against B/L copy."

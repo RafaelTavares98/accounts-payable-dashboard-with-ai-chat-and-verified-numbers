@@ -4,13 +4,16 @@ It reads the question and names panels. That is all. It does not see a
 row, it does not see a figure, and it does not do arithmetic.
 
 Every test here hands in a fake model, so nothing reaches the network and
-nothing needs a key. The real model is passed the same way, which is the
-point of passing it at all.
+nothing needs a key. The board is the cost view's; the anomaly view uses
+the same function with its own.
 """
 
 import json
 
+import cost_panels
 import routing
+
+BOARD = cost_panels.BOARD
 
 
 def plan(*names, reason='because'):
@@ -18,178 +21,136 @@ def plan(*names, reason='because'):
     return json.dumps({'panels': list(names), 'reason': reason})
 
 
+def route(question, model, **extra):
+    return routing.route(question, model=model, board=BOARD, **extra)
+
+
 class TestItAsksTheModelOnce:
     def test_one_question_is_one_call(self, fake_model):
-        model = fake_model(plan('overdue'))
+        model = fake_model(plan('landed'))
 
-        routing.route('how much is late?', model=model)
+        route('what did it cost?', model)
 
         assert len(model.calls) == 1
 
     def test_the_question_is_in_the_prompt(self, fake_model):
-        model = fake_model(plan('overdue'))
+        model = fake_model(plan('landed'))
 
-        routing.route('how much is late?', model=model)
+        route('what did it cost?', model)
 
-        assert 'how much is late?' in model.calls[0]
+        assert 'what did it cost?' in model.calls[0]
 
     def test_the_menu_is_in_the_prompt(self, fake_model):
         """The model chooses from a list it was shown. Without the list
         it would guess, and a guess is an invented panel."""
-        model = fake_model(plan('overdue'))
+        model = fake_model(plan('landed'))
 
-        routing.route('how much is late?', model=model)
+        route('what did it cost?', model)
 
-        for name in ('balance', 'overdue', 'by_supplier', 'by_month'):
+        for name in ('landed', 'by_component', 'by_carrier', 'by_month'):
             assert name in model.calls[0]
 
     def test_the_word_json_is_in_the_prompt(self, fake_model):
-        """DeepSeek refuses JSON mode unless the prompt says json. This
-        is their rule, not ours, and forgetting it fails at runtime."""
-        model = fake_model(plan('overdue'))
+        """DeepSeek refuses JSON mode unless the prompt says json."""
+        model = fake_model(plan('landed'))
 
-        routing.route('how much is late?', model=model)
+        route('what did it cost?', model)
 
         assert 'json' in model.calls[0].lower()
 
-    def test_no_rows_are_in_the_prompt(self, fake_model, owed):
+    def test_no_line_is_in_the_prompt(self, fake_model, lines):
         """Sending the data would let the model answer from it, and then
         the figure would be its opinion rather than a calculation."""
-        model = fake_model(plan('overdue'))
+        model = fake_model(plan('landed'))
 
-        routing.route('how much is late?', model=model, owed=owed)
+        route('what did it cost?', model)
 
-        assert 'NCL-2026-3001' not in model.calls[0]
-        assert '67450' not in model.calls[0]
+        assert 'B/L MRK7000001' not in model.calls[0]
+        assert '24659' not in model.calls[0]
 
 
 class TestWhatComesBack:
     def test_the_plan_names_panels(self, fake_model):
-        model = fake_model(plan('overdue', 'by_band'))
+        model = fake_model(plan('landed', 'by_component'))
 
-        routed = routing.route('how much is late?', model=model)
+        routed = route('what did it cost?', model)
 
-        assert routed.panels[:2] == ['overdue', 'by_band']
+        assert routed.panels[:2] == ['landed', 'by_component']
 
     def test_the_plan_keeps_the_question(self, fake_model):
-        model = fake_model(plan('overdue'))
+        routed = route('what did it cost?', fake_model(plan('landed')))
 
-        routed = routing.route('how much is late?', model=model)
-
-        assert routed.question == 'how much is late?'
+        assert routed.question == 'what did it cost?'
 
     def test_a_panel_the_model_invented_is_dropped(self, fake_model):
-        """The menu is the gate. A model that asks for `by_cost_centre`
-        gets the panels that do exist and nothing else."""
-        model = fake_model(plan('overdue', 'by_cost_centre'))
+        model = fake_model(plan('landed', 'by_cost_centre'))
 
-        routed = routing.route('how much is late?', model=model)
+        routed = route('what did it cost?', model)
 
-        assert routed.panels[0] == 'overdue'
+        assert routed.panels[0] == 'landed'
         assert 'by_cost_centre' not in routed.panels
 
     def test_a_dropped_panel_is_recorded_not_hidden(self, fake_model):
-        model = fake_model(plan('overdue', 'by_cost_centre'))
+        model = fake_model(plan('landed', 'by_cost_centre'))
 
-        routed = routing.route('how much is late?', model=model)
-
-        assert routed.ignored == ['by_cost_centre']
+        assert route('what did it cost?', model).ignored == ['by_cost_centre']
 
     def test_the_same_panel_twice_is_opened_once(self, fake_model):
-        model = fake_model(plan('overdue', 'overdue'))
+        model = fake_model(plan('landed', 'landed'))
 
-        routed = routing.route('how much is late?', model=model)
-
-        assert routed.panels.count('overdue') == 1
+        assert route('what did it cost?', model).panels.count('landed') == 1
 
     def test_the_order_the_model_gave_is_kept(self, fake_model):
-        """It read the question. Which panel it put first is the one
-        piece of judgement it is trusted with."""
-        model = fake_model(plan('by_month', 'overdue', 'by_supplier'))
+        model = fake_model(plan('by_month', 'landed', 'by_carrier'))
 
-        routed = routing.route('how much is late?', model=model)
+        routed = route('what did it cost?', model)
 
-        assert routed.panels[:3] == ['by_month', 'overdue',
-                                     'by_supplier']
+        assert routed.panels[:3] == ['by_month', 'landed', 'by_carrier']
 
 
 class TestSomebodyWhoDoesNotKnowTheNames:
-    """A reader asks about "the yellow line" and "the ring", because
-    that is what is in front of them. Nobody types by_issue_week. The
-    model is shown what each panel looks like so it can translate."""
+    """A reader asks about "the yellow line" and "the ring", because that
+    is what is in front of them."""
 
     def test_the_prompt_describes_what_each_panel_looks_like(self,
                                                              fake_model):
-        model = fake_model(plan('balance'))
+        model = fake_model(plan('landed'))
 
-        routing.route('what is the yellow line?', model=model)
+        route('what is the yellow line?', model)
 
         said = model.calls[0].lower()
         assert 'yellow' in said
-        assert 'ring' in said or 'donut' in said
-
-    def test_every_panel_on_the_menu_is_described(self):
-        import panels as menu
-
-        for name in menu.MENU:
-            assert name in routing.LOOKS_LIKE, name
-
-    def test_nothing_is_described_that_is_not_on_the_menu(self):
-        import panels as menu
-
-        for name in routing.LOOKS_LIKE:
-            assert name in menu.MENU, name
+        assert 'ring' in said
 
 
 class TestAnAnswerIsSeveralPanels:
-    """One panel is a restatement of the sentence. The point of opening
-    panels at all is to show the figure from more than one side."""
-
     def test_the_prompt_asks_for_three_to_five(self, fake_model):
-        model = fake_model(plan('balance'))
+        model = fake_model(plan('landed'))
 
-        routing.route('what do we owe?', model=model)
+        route('what did it cost?', model)
 
         assert 'three' in model.calls[0] and 'five' in model.calls[0]
 
     def test_one_panel_is_topped_up_to_three(self, fake_model):
-        model = fake_model(plan('by_supplier'))
-
-        routed = routing.route('who do we owe?', model=model)
+        routed = route('who moved it?', fake_model(plan('by_carrier')))
 
         assert len(routed.panels) >= 3
-
-    def test_the_model_s_own_choice_comes_first(self, fake_model):
-        """Its judgement about what the question was is the one thing
-        it is trusted with, so it is not shuffled."""
-        model = fake_model(plan('by_supplier'))
-
-        routed = routing.route('who do we owe?', model=model)
-
-        assert routed.panels[0] == 'by_supplier'
+        assert routed.panels[0] == 'by_carrier'
 
     def test_more_than_five_is_cut_to_five(self, fake_model):
-        model = fake_model(plan('balance', 'overdue', 'by_band',
-                                'by_supplier', 'by_month', 'by_item',
-                                'by_order'))
+        model = fake_model(plan(*cost_panels.MENU))
 
-        routed = routing.route('everything', model=model)
-
-        assert len(routed.panels) == 5
+        assert len(route('everything', model).panels) == 5
 
     def test_every_panel_added_is_on_the_menu(self, fake_model):
-        import panels as menu
-        model = fake_model(plan('by_order'))
-
-        routed = routing.route('which order?', model=model)
+        routed = route('which shipment?', fake_model(plan('by_shipment')))
 
         for name in routed.panels:
-            assert name in menu.MENU
+            assert name in cost_panels.MENU
 
     def test_nothing_is_added_twice(self, fake_model):
-        model = fake_model(plan('balance', 'overdue'))
-
-        routed = routing.route('what do we owe?', model=model)
+        routed = route('what did it cost?',
+                       fake_model(plan('landed', 'by_component')))
 
         assert len(set(routed.panels)) == len(routed.panels)
 
@@ -197,19 +158,14 @@ class TestAnAnswerIsSeveralPanels:
         """Three panels nobody asked for is worse than an honest no."""
         model = fake_model('not json', 'still not json')
 
-        routed = routing.route('what do we owe?', model=model)
-
-        assert routed.panels == []
+        assert route('what did it cost?', model).panels == []
 
 
 class TestSomethingThatIsNotAQuestion:
     def test_a_greeting_is_not_an_error(self, fake_model):
-        """Typing hi got back "The model answered without json panels,
-        so nothing opened." That is a sentence about the plumbing, and
-        no reader should ever see one."""
         model = fake_model(json.dumps({'panels': [], 'small_talk': True}))
 
-        routed = routing.route('hi', model=model)
+        routed = route('hi', model)
 
         assert routed.small_talk
         assert not routed.refusal
@@ -217,35 +173,31 @@ class TestSomethingThatIsNotAQuestion:
     def test_the_greeting_costs_one_call_and_no_more(self, fake_model):
         model = fake_model(json.dumps({'panels': [], 'small_talk': True}))
 
-        routing.route('hi', model=model)
+        route('hi', model)
 
         assert len(model.calls) == 1
 
     def test_the_prompt_tells_the_model_this_is_allowed(self, fake_model):
-        model = fake_model(plan('balance'))
+        model = fake_model(plan('landed'))
 
-        routing.route('hi', model=model)
+        route('hi', model)
 
         assert 'small_talk' in model.calls[0]
 
 
 class TestItTriesAgainBeforeGivingUp:
     def test_prose_gets_one_repair_attempt(self, fake_model):
-        """A model that forgets the format usually remembers when it is
-        shown its own answer and the shape again. Throwing the whole
-        turn away on the first slip is wasteful."""
-        model = fake_model('Sure! Here are your overdue accounts.',
-                           plan('overdue'))
+        model = fake_model('Sure! Here is your cost.', plan('landed'))
 
-        routed = routing.route('how much is late?', model=model)
+        routed = route('what did it cost?', model)
 
-        assert routed.panels[0] == 'overdue'
+        assert routed.panels[0] == 'landed'
         assert len(model.calls) == 2
 
     def test_the_repair_shows_the_model_what_it_said(self, fake_model):
-        model = fake_model('Sure!', plan('overdue'))
+        model = fake_model('Sure!', plan('landed'))
 
-        routing.route('how much is late?', model=model)
+        route('what did it cost?', model)
 
         assert 'Sure!' in model.calls[1]
 
@@ -253,78 +205,57 @@ class TestItTriesAgainBeforeGivingUp:
         """One retry, not a loop. Every attempt costs a second."""
         model = fake_model('Sure!', 'Still not json.')
 
-        routed = routing.route('how much is late?', model=model)
+        routed = route('what did it cost?', model)
 
         assert routed.refusal
         assert len(model.calls) == 2
 
 
 class TestWhenTheModelMisbehaves:
-    def test_a_reply_that_is_not_json_is_a_refusal(self, fake_model):
-        model = fake_model('Sure! Here are your overdue accounts.')
-
-        routed = routing.route('how much is late?', model=model)
-
-        assert routed.refusal
-
     def test_json_with_no_panels_is_a_refusal(self, fake_model):
         model = fake_model(json.dumps({'reason': 'I do not know'}))
 
-        routed = routing.route('how much is late?', model=model)
+        routed = route('what did it cost?', model)
 
         assert routed.refusal
+        assert 'landed cost' in routed.refusal
 
     def test_every_panel_invented_is_a_refusal(self, fake_model):
-        """One bad name out of three is a slip. Three out of three means
-        the model did not understand the menu, and opening nothing is
-        better than opening the wrong thing."""
         model = fake_model(plan('by_branch', 'by_cost_centre', 'by_payer'))
 
-        routed = routing.route('how much is late?', model=model)
+        routed = route('what did it cost?', model)
 
         assert routed.refusal
         assert routed.panels == []
 
     def test_a_model_that_raises_is_a_refusal_not_a_crash(self):
-        """The API goes down. The page has to say so and stay open."""
         def broken(prompt):
             raise ConnectionError('deepseek is unreachable')
 
-        routed = routing.route('how much is late?', model=broken)
+        routed = route('what did it cost?', broken)
 
-        assert routed.refusal
-        assert 'unreachable' in routed.refusal or 'reach' in routed.refusal
-
-    def test_a_refusal_opens_no_panels(self, fake_model):
-        model = fake_model('not json at all')
-
-        routed = routing.route('how much is late?', model=model)
-
-        assert routed.panels == []
+        assert 'unreachable' in routed.refusal
 
 
 class TestTheModelNeverComputes:
     def test_a_figure_in_the_reply_is_thrown_away(self, fake_model):
-        """Even a correct figure is thrown away. Trusting the right
-        answer teaches the code to trust the wrong one."""
+        """Even a correct figure is thrown away."""
         model = fake_model(json.dumps({
-            'panels': ['overdue'],
-            'overdue_total': '31750.00',
-            'answer': 'You owe 31,750.00 in overdue invoices.',
+            'panels': ['landed'],
+            'landed_total': '24659.00',
+            'answer': 'It cost 24,659.00.',
         }))
 
-        routed = routing.route('how much is late?', model=model)
+        routed = route('what did it cost?', model)
 
-        assert not hasattr(routed, 'overdue_total')
-        assert routed.panels[0] == 'overdue'
+        assert not hasattr(routed, 'landed_total')
+        assert routed.panels[0] == 'landed'
 
     def test_routing_does_not_import_the_figures(self):
-        """If this module could compute, one day it would. Keeping it
-        unable is cheaper than keeping it disciplined."""
-        source = routing.__file__
-
-        with open(source, encoding='utf-8') as text:
+        """If this module could compute, one day it would."""
+        with open(routing.__file__, encoding='utf-8') as text:
             body = text.read()
 
-        assert 'import metrics' not in body
-        assert 'from metrics' not in body
+        for module in ('cost', 'anomalies'):
+            assert f'import {module}' not in body
+            assert f'from {module}' not in body

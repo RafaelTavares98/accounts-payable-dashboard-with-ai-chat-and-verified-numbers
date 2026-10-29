@@ -13,34 +13,38 @@ import pytest
 HERE = Path(__file__).parent
 sys.path.insert(0, str(HERE / 'src'))
 
-#: The day every test pretends it is. Nothing in an invoice says whether it
-#: was paid, so overdue only means anything against a date somebody
-#: supplies. Supplying it here keeps the tests from aging.
+#: The day every test pretends it is. An answer says which day it was
+#: given on; supplying it here keeps the tests from aging.
 TODAY = date(2026, 6, 1)
 
 
 @pytest.fixture
 def fixtures():
-    """The folder holding the two small CSV files."""
+    """The folder holding the small hand-written files."""
     return HERE / 'tests' / 'fixtures'
 
 
 @pytest.fixture
-def rows(fixtures):
-    """The twelve invoices, loaded, with nothing filtered out yet."""
-    import payables
-    return payables.load(fixtures)
+def lines(fixtures):
+    """The four landed cost lines of tests/fixtures/cost, worked out by
+    hand: two parts on an ocean shipment, one on an air shipment, and
+    one whose freight is not billed yet."""
+    import cost
+    return cost.load(fixtures / 'cost')
 
 
 @pytest.fixture
-def owed(rows):
-    """The ten invoices that are actually owed.
+def real_lines():
+    """Every landed cost line project 01 wrote for the real run."""
+    import cost
+    return cost.load(HERE / 'data-live' / 'cost')
 
-    A superseded document was replaced and must never be paid. An
-    unreadable one is not a bill yet; it is a job for a person.
-    """
-    import payables
-    return payables.payable(rows)
+
+@pytest.fixture
+def anomaly_rows():
+    """Every invoice the checking model scored in the real run."""
+    import anomalies
+    return anomalies.load(HERE / 'data-live')
 
 
 @pytest.fixture

@@ -1,12 +1,11 @@
 """The one step the model is allowed to take.
 
 It reads the question and names panels. That is all. It does not see a row,
-it does not see a figure, and it does not do arithmetic.
+it does not see a figure, and it does not do arithmetic. Each view hands in
+its own Board: the menu, what each panel looks like, and what it is about.
 """
 
 import json
-
-import panels
 
 
 class Routed:
@@ -19,6 +18,22 @@ class Routed:
         self.ignored = ignored or []
         self.refusal = refusal
         self.small_talk = small_talk
+
+
+class Board:
+    """One view's menu, and the words the model is shown about it."""
+
+    def __init__(self, menu, looks, fill, about, holds):
+        self.menu = menu
+        #: What each panel looks like on screen, in the words a reader
+        #: would use. Nobody types by_component; they say "the ring".
+        self.looks = looks
+        #: The order panels are added in when the model names too few.
+        self.fill = fill
+        #: What a question must be about, said in the prompt.
+        self.about = about
+        #: What the data holds, said when a question is out of reach.
+        self.holds = holds
 
 
 def _said_before(history):
@@ -36,43 +51,20 @@ def _said_before(history):
     return f'This is what was said before:\n{lines}\n'
 
 
-#: What each panel looks like on screen, in the words a reader would
-#: use. Nobody types by_issue_week; they say "the yellow line". Without
-#: this the model is asked to match a question to a name it has only
-#: ever seen as a name.
-LOOKS_LIKE = {
-    'balance': 'four big figures: the total owed, how many documents, '
-               'the average document',
-    'overdue': 'four big figures about what is late: the amount, how '
-               'many, the share, the average days late',
-    'by_band': 'a ring, a donut, split into four ageing bands: 1 to 30, '
-               '31 to 60, 61 to 90 and over 90 days late',
-    'by_month': 'a line chart of money by week, with a bright blue line '
-                'for what is falling due and a yellow dotted line for '
-                'what arrived',
-    'by_supplier': 'a horizontal bar chart, one bar per supplier, '
-                   'biggest at the top',
-    'by_item': 'a horizontal bar chart, one bar per item bought, '
-               'biggest at the top',
-    'by_order': 'a table of purchase orders with a small bar in each '
-                'row',
-}
-
-
-def _what_is_on_screen():
+def _what_is_on_screen(board):
     return '\n'.join(f'- {name}: {looks}'
-                     for name, looks in LOOKS_LIKE.items())
+                     for name, looks in board.looks.items())
 
 
-def _prompt(question, history=None):
-    menu = ', '.join(panels.MENU)
+def _prompt(question, history, board):
+    menu = ', '.join(board.menu)
     return (
         _said_before(history) +
         'You are shown a fixed menu of dashboard panels. This is what '
         'each one looks like on the screen in front of the person:\n'
-        f'{_what_is_on_screen()}\n'
-        'They will describe what they see, not the names. "The yellow '
-        'line", "the ring", "the bars" are all panels above. '
+        f'{_what_is_on_screen(board)}\n'
+        'They will describe what they see, not the names. "The ring", '
+        '"the line", "the bars" are all panels above. '
         f'The names you may use are: {menu}. '
         'Read the question and answer in json, naming between three and '
         'five panels to open, most relevant first, and a short reason: '
@@ -80,14 +72,14 @@ def _prompt(question, history=None):
         'One panel only repeats the sentence; three to five show the '
         'figure from more than one side. '
         'If it is a greeting or anything else that is not a question '
-        'about the accounts, answer '
+        f'about {board.about}, answer '
         '{"panels": [], "small_talk": true} instead. '
         'Do not compute anything. Only pick from the menu. '
         f'Question: {question}'
     )
 
 
-def _repair(question, bad):
+def _repair(question, bad, board):
     """A model that forgets the format usually remembers when it is
     shown its own answer beside the shape again."""
     return (
@@ -95,29 +87,23 @@ def _repair(question, bad):
         f'{bad[:400]}\n'
         'Answer again, json only, nothing else, in this shape: '
         '{"panels": ["name", ...], "reason": "why"}. '
-        'The menu is: ' + ', '.join(panels.MENU) + '. '
+        'The menu is: ' + ', '.join(board.menu) + '. '
         f'Question: {question}'
     )
 
-
-#: The order panels are added in when the model names too few. The
-#: figure first, then what is late, then who and when: the questions a
-#: reader asks next, whatever they asked first.
-FILL_ORDER = ('balance', 'overdue', 'by_supplier', 'by_month',
-              'by_band', 'by_item', 'by_order')
 
 FEWEST = 3
 MOST = 5
 
 
-def _three_to_five(chosen):
+def _three_to_five(chosen, board):
     """The model's own picks, topped up to three and cut at five.
 
     One panel is the sentence again in a box. More than five and the
     overlay is a second dashboard nobody asked for.
     """
     panels_open = list(chosen[:MOST])
-    for name in FILL_ORDER:
+    for name in board.fill:
         if len(panels_open) >= FEWEST:
             break
         if name not in panels_open:
@@ -136,17 +122,17 @@ def _read(reply):
     return data
 
 
-def route(question, model, owed=None, history=None):
+def route(question, model, board, history=None):
     """Ask the model, and keep only what the menu allows.
 
     One retry when the reply is not json. Not a loop: every attempt
     costs a second of the reader's time.
     """
     try:
-        reply = model(_prompt(question, history))
+        reply = model(_prompt(question, history, board))
         data = _read(reply)
         if data is None:
-            reply = model(_repair(question, str(reply)))
+            reply = model(_repair(question, str(reply), board))
             data = _read(reply)
     except Exception as error:
         return Routed(question,
@@ -155,9 +141,8 @@ def route(question, model, owed=None, history=None):
     if data is None:
         return Routed(question,
                       refusal='I could not turn that into a question '
-                              'about the accounts. Try naming what you '
-                              'want to see: a total, a supplier, what is '
-                              'overdue.')
+                              f'about {board.about}. Try naming what you '
+                              'want to see.')
 
     names = data.get('panels')
     if not names:
@@ -165,17 +150,15 @@ def route(question, model, owed=None, history=None):
             return Routed(question, small_talk=True)
         return Routed(question,
                       refusal='That is not something this data can '
-                              'answer. It holds supplier invoices: '
-                              'totals, due dates, what is overdue, and '
-                              'what was bought.')
+                              f'answer. It holds {board.holds}.')
     kept, ignored = [], []
     for name in names:
-        if name in panels.MENU and name not in kept:
+        if name in board.menu and name not in kept:
             kept.append(name)
-        elif name not in panels.MENU and name not in ignored:
+        elif name not in board.menu and name not in ignored:
             ignored.append(name)
     if kept:
-        return Routed(question, panels=_three_to_five(kept),
+        return Routed(question, panels=_three_to_five(kept, board),
                       ignored=ignored)
     readable = ', '.join(name.replace('_', ' ') for name in ignored)
     return Routed(question, ignored=ignored,

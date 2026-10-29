@@ -1,0 +1,5 @@
+shipment_id,month,mode,origin,carrier,container,gross_weight_kg,freight_usd,fx,freight_brl,freight_per_kg_brl,inland_brl,broker_brl,duty_brl,status
+AWB 138-1,2026-05,air,Ningbo,DHI,LOOSE,400.00,400.00,5.0000,2000.00,5.0000,300.00,200.00,574.50,final
+B/L CSM7000009,2026-05,,,,,,0,5.5000,0.00,,0,0,0,provisional
+B/L MRK7000001,2026-04,ocean,Ningbo,MRK,40HC,1000,300.00,5.0000,1500.00,1.5000,4000.00,2000.00,1484.50,final
+B/L MRK7000002,,ocean,Ningbo,MRK,40HC,800,250.00,5.1000,1275.00,1.5938,0,0,0,provisional

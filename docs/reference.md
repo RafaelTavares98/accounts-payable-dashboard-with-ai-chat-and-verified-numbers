@@ -3,23 +3,26 @@
 [README](../README.md) · [Tutorial](tutorial.md) · [How-to](how-to.md) ·
 **Reference** · [Explanation](explanation.md)
 
-The facts. Commands, columns, endpoints, figures, panels and the exact
-order of one answer.
+The facts. Endpoints, columns, figures, panels and the exact order of one
+answer.
 
 ## The modules
 
 | File | What it does |
 |---|---|
-| `src/payables.py` | loads the two CSVs, joins lines by hash, keeps what is owed |
-| `src/filtering.py` | the filters, and the states open, overdue, credit |
-| `src/metrics.py` | every figure the page can show |
-| `src/panels.py` | the fixed menu of panels |
+| `src/cost.py` | reads the cost report, joins each line to its shipment and part, every cost figure |
+| `src/anomalies.py` | reads the scored invoices, every anomaly figure, whose error each is |
+| `src/panels.py` | what a panel is, shared by both menus |
+| `src/cost_panels.py` | the closed menu of the cost view |
+| `src/anomaly_panels.py` | the closed menu of the anomaly view |
 | `src/routing.py` | the one call that turns a question into panel names |
-| `src/answering.py` | the two calls, the check, and the refusals |
-| `src/suggestions.py` | the five chips and their sentences |
+| `src/answering.py` | the answer and the number guard, shared by both views |
+| `src/cost_answering.py` | the brief, the two calls, the refusals and the chips of the cost view |
+| `src/anomaly_answering.py` | the same for the anomaly view |
+| `src/plot_answers.py` | every figure the 24 plots can draw, and whether a question wants a picture at all |
 | `src/model.py` | the DeepSeek client, the only file that knows it exists |
-| `src/web.py` | the FastAPI surface, the documents and their PDFs |
-| `src/page.html` | the dashboard, the chat and the overlay, in one file |
+| `src/web.py` | the FastAPI surface |
+| `src/page.html` | the dashboard, its three views, the assistant and the overlay, in one file |
 | `src/static/echarts.min.js` | the chart library, served locally |
 | `check_links.py` | every link and anchor in the markdown, checked |
 
@@ -40,8 +43,8 @@ keyring entry `payables-panel` / `deepseek`, then `deepseek` /
 
 | Variable | What it sets |
 |---|---|
-| `PAYABLES_DATA` | the folder holding the two CSVs. Default `data/` |
-| `PAYABLES_TODAY` | the day the dashboard pretends it is. Default today |
+| `PAYABLES_DATA` | the data folder. Default `data-live/`, the real run. The cost report sits in its `cost/` |
+| `PAYABLES_TODAY` | the day each answer says it was given on. Default today |
 | `DEEPSEEK_API_KEY` | the model key. The keyring `payables-panel` is the fallback |
 
 ## The endpoints
@@ -49,97 +52,157 @@ keyring entry `payables-panel` / `deepseek`, then `deepseek` /
 | Endpoint | Returns |
 |---|---|
 | `GET /` | the dashboard page |
-| `GET /api/overview` | every figure, over the given filters |
-| `GET /api/documents` | every document behind the figures, by due date |
-| `GET /paper/{name}` | one invoice PDF, out of `data/pdf/` |
-| `GET /api/filters` | suppliers, states, and whether a key is connected |
-| `GET /api/suggestions` | the five chips |
-| `POST /api/chip` | one chip's answer, no model call |
-| `POST /api/ask` | a typed question's answer, two model calls |
+| `GET /api/cost/overview` | the week's five tiles, the issuers, the status split |
+| `GET /api/cost/invoices` | the invoices behind those figures |
+| `GET /api/cost/invoice-list` | one row per document, for the middle table |
+| `GET /api/cost/invoice-pdf/{name}` | the page a figure was read off |
+| `GET /api/cost/finance` | the month's five tiles, the monthly series, the dearest parts |
+| `GET /api/cost/shipments` | every shipment behind the figures, dearest first |
+| `GET /api/cost/filters` | carriers, statuses, and whether a key is connected |
+| `GET /api/cost/suggestions` | the four invoice chips |
+| `POST /api/cost/chip` | one chip's answer, no model call |
+| `POST /api/cost/ask` | a typed question's answer, one model call |
+| `GET /api/finance/suggestions` | the five landed cost chips |
+| `POST /api/finance/chip` | one chip's answer, no model call |
+| `POST /api/finance/ask` | a typed question's answer, two model calls |
+| `GET /api/anomalies/overview` | the week's five tiles and every anomaly figure |
+| `GET /api/anomalies/list` | every scored invoice, flagged first |
+| `GET /api/anomalies/filters` | suppliers, stages, and whether a key is connected |
+| `GET /api/anomalies/suggestions` | the five anomaly chips |
+| `POST /api/anomalies/chip` | one chip's answer, no model call |
+| `POST /api/anomalies/ask` | a typed question's answer, two model calls |
+| `GET /api/plot-figures` | every figure the 24 plots draw from |
+| `POST /api/plot-answer` | the plots one question is allowed to open |
 
-`/paper/{name}` refuses any name with a slash or not ending in `.pdf`,
-with a 400. A name not on file is a 404.
-
-`POST /api/ask` takes `question`, `filters` and `history`. Only the
+The `ask` endpoints take `question`, `filters` and `history`. Only the
 last six turns of `history` are used.
 
-`/api/overview`, `/api/documents`, `/api/chip` and `/api/ask` take the
-same filter keys:
-`supplier`, `since`, `until`, `order`, `shipment`, `state`. An unknown
-key is a 400. `state` is `open`, `overdue` or `credit`, never `paid`.
+The cost endpoints take the filter keys `carrier`, `mode`, `status`,
+`month` and `product`. The anomaly endpoints take `supplier` and `stage`.
+An unknown key is a 400.
 
-## The figures
+## The cost figures
 
-`metrics.FIGURES` is the closed menu. `compute(name, owed, today)`
-computes one by name.
+Every one is a function in `src/cost.py`, over a list of lines.
 
-| Name | Returns |
+| Function | Returns |
 |---|---|
-| `total_owed` | the sum of the documents owed, credit notes subtracting |
-| `count` | how many documents |
-| `ticket_average` | the average document |
-| `overdue_total` | how much is past its due date |
-| `overdue_count` | how many are past their due date |
-| `overdue_rate` | the share that is overdue, in percent |
-| `average_days_overdue` | the mean days late |
-| `oldest_overdue` | the document most late |
-| `overdue_buckets` | four bands: 1-30, 31-60, 61-90, over 90 days |
-| `by_supplier` | owed per supplier, biggest first |
-| `by_month` | owed per issue month, gaps filled |
-| `by_order` | owed per purchase order, freight out |
-| `by_item` | owed per line description |
-| `by_category` | owed per kind of item, read from the description |
-| `by_issue_week` | owed per week the invoice arrived |
-| `by_due_week` | owed per week the invoice falls due |
+| `landed_total` | the landed cost in reais |
+| `final_total` | the part whose shipment has every document |
+| `provisional_total` | the part still waiting for a document |
+| `provisional_share` | the provisional part, in percent, one place |
+| `credits_total` | IPI, PIS, COFINS and ICMS, kept beside the cost |
+| `shipment_count`, `line_count` | how many shipments and order lines |
+| `by_component` | the seven parts of the cost, biggest first |
+| `by_carrier` | the cost of what each carrier moved |
+| `by_mode` | by operation: air, ocean, or freight not billed yet |
+| `by_product` | the cost of each part |
+| `unit_cost` | cost per unit, weighted by quantity, four places |
+| `by_month` | final and provisional by the goods' month |
+| `by_shipment` | one row per shipment, dearest first |
+| `targets(folder)` | the desk's three targets and the documents for a person |
+
+The seven parts of a landed cost: goods, international freight, the truck
+to the Moty plant, the customs broker, import duty (II), AFRMM and Siscomex.
+How project 01 splits each one over the parts:
+[the rules](../../01-invoice-pipeline/docs/reference.md#cost).
+
+A shipment with no international freight invoice has no carrier and no
+operation yet. Its lines say `freight not billed yet`.
 
 Money is `Decimal` everywhere. A float never touches a total.
 
-## The panels
+## The cost panels
 
-`panels.MENU` is the closed menu the model picks from.
+`cost_panels.MENU` is the closed menu the model picks from.
 
-| Name | Kind | Title | Figures |
-|---|---|---|---|
-| `balance` | cards | Balance | total_owed, count, ticket_average |
-| `overdue` | cards | Overdue | overdue_total, overdue_count, overdue_rate, average_days_overdue |
-| `by_band` | bar | Overdue by band | overdue_buckets |
-| `by_supplier` | bar | Owed by supplier | by_supplier |
-| `by_month` | line | Owed by month | by_month |
-| `by_item` | bar | Owed by item | by_item |
-| `by_order` | table | Owed by order | by_order |
+| Name | Kind | Title |
+|---|---|---|
+| `landed` | cards | Landed cost |
+| `by_component` | bar | What the cost is made of |
+| `by_carrier` | bar | Cost by carrier |
+| `by_mode` | bar | Cost by operation |
+| `by_product` | bar | Cost by part |
+| `unit_cost` | bar | Cost per unit |
+| `by_month` | line | Cost by month |
+| `by_shipment` | table | Dearest shipments |
 
-A name off the menu is a `NoSuchPanel`. A figure a panel asks for must
-be on `FIGURES` or the tests fail.
+A name off the menu is a `NoSuchPanel`.
+
+## The anomaly figures
+
+Every one is a function in `src/anomalies.py`.
+
+| Function | Returns |
+|---|---|
+| `flagged_count`, `flagged_total`, `flag_rate`, `reviewed` | the headline |
+| `by_stage`, `by_check`, `by_supplier`, `by_week`, `worst` | where the flags sit |
+| `by_decision` | confirmed, pending and dismissed, all three always |
+| `client_errors` | confirmed flags only |
+| `our_errors(folder)` | documents the reader left for a person, from `exceptions.csv` |
+| `by_origin` | ours beside the client's, four figures |
+
+The anomaly menu adds `by_origin`, "Whose error", to `flags`, `by_stage`,
+`by_check`, `flagged_by_supplier`, `flags_by_week` and `worst_flags`.
 
 ## The chips
 
-Five, in order: the total, what is still open, which supplier is owed
-most, what is overdue, and how late on average. Each names its panels
-up front, so a click costs no model call and no key.
+Invoices, four: an overview of this week, of the targets, of the issuers,
+of the errors.
 
-## One typed answer, in order
+Finance, five: what the parts cost to land, what the cost is made of,
+which carrier moved the most, which part is dearest per unit, how much
+is still provisional.
 
-1. `routing.route` sends the question, the menu, what each panel looks
-   like, and the last six turns to `deepseek-flash`. The reply is json
-   naming panels. A reply that is not json gets one repair prompt.
+Anomalies, five: how many were flagged, whose errors they are, at which
+stage, which check finds the most, which to check first.
+
+Each names its topic or its panels up front, so a click costs no model
+call and no key.
+
+## The topics of the invoice view
+
+The invoice assistant does not route panels. The model is asked for one
+word, the name of a topic, and code writes the whole sentence from the
+desk's own figures. A reply that is not one of these is treated as
+"none".
+
+| Topic | Answers |
+|---|---|
+| `intake` | how many invoices came in |
+| `target` | whether the desk is on target, and what remains |
+| `issuer` | which issuer sent the most |
+| `attention` | which invoices need a look, revised or with a problem |
+| `supplier` | supplier or carrier errors found |
+| `automation` | the invoices the reader flagged |
+| `status` | how the invoices split by status |
+
+A question carrying an invoice number skips the model entirely: the row
+is looked up by its key.
+
+## One typed answer on the finance and anomaly views, in order
+
+1. `routing.route` sends the question, the view's menu, what each panel
+   looks like, and the last six turns to `deepseek-flash`. The reply is
+   json naming panels. A reply that is not json gets one repair prompt.
    A panel off the menu is dropped and recorded in `ignored`. All off
    the menu is a refusal.
-2. The picks are topped up to three and cut at five. One panel is the
-   sentence again in a box. Six is a second dashboard.
+2. One panel is opened, the first the model named, and none at all when
+   the question's answer is a single figure. `plot_answers.wants_a_plot`
+   decides which it is.
 3. A greeting is small talk. `deepseek-v4-pro` replies with no number
    at all, and any digit it writes is thrown away.
-4. `answering.answer` builds every panel and records every figure,
-   with its function and its row count.
-5. `answering.brief` writes the filtered slice as text: both weekly
-   series, every week-on-week move, the sharpest one, the top
-   suppliers, items and orders. All of it is computed.
-6. `deepseek-v4-pro` gets the figures, the brief and the question, and
-   writes the sentence. Every number in it is checked against the
-   figures and the brief. One that matches nothing means code writes
-   the sentence instead. The panels stay.
+4. `anomaly_answering.brief` writes the filtered rows as text: the
+   headline, whose error, the flags by stage, by check, by supplier and
+   by week, and the highest scores. All of it computed.
+5. `deepseek-v4-pro` gets the panel, the brief and the question, and
+   writes the sentence. Every number in it is checked against the panel
+   and the brief. One that matches nothing means code writes the
+   sentence instead. The panel stays.
 
-Two model calls per question, three with a repair. The prompts carry no
-rows, and the first prompt carries no figures.
+Two model calls per question there, three with a repair; one on the
+invoice view. The prompts carry no lines, and the first prompt carries
+no figures.
 
 ## The refusals
 
@@ -147,37 +210,49 @@ An answer is a refusal, a sentence ending in a period, when:
 
 - the model named panels the menu does not hold;
 - the model answered without json, or could not be reached;
-- the data lacks the column the question asks for;
+- the data lacks the column the question asks for, like a cost centre or
+  a payment date;
 - the filters left nothing to say;
-- a trend was asked over fewer than two documents.
+- a trend was asked over fewer than two lines.
 
 A refusal carries no sentence and opens no panels. The base view never
 needs the model, so it works with no key at all.
 
 ## The data files
 
-The two CSVs the page reads, as the invoice pipeline writes them:
+`data-live/cost/`, as project 01 writes it with `python run.py cost` and
+`refresh_live_data.py` copies in:
 
-- `invoices.csv`: `invoice_number`, `status`, `revises`, `issuer`,
-  `issue_date`, `due_date`, `subtotal`, `discount`, `grand_total`,
-  `order_number`, `shipment_id`, `line_count`, `decimal_mark`,
-  `date_order`, `source`, `sha256`, `first_seen`, `problems`.
-- `invoice_lines.csv`: `invoice_number`, `sha256`, `row`,
-  `description`, `quantity`, `unit_price`, `net`.
+- `landed_cost.csv`: `shipment_id`, `order_number`, `code`, `ncm`,
+  `quantity`, `fx`, `fx_source`, `goods_brl`, `freight_brl`,
+  `inland_brl`, `broker_brl`, `duty_brl`, `afrmm_brl`, `siscomex_brl`,
+  `credits_brl`, `status`, `landed_brl`, `unit_landed_brl`.
+- `operations.csv`: `shipment_id`, `month`, `mode`, `origin`, `carrier`,
+  and the shipment's freight, truck, broker and duties.
+- `exceptions.csv`: `invoice_number`, `origin`, `reason`.
+- `kpis.json`: `analysed_same_day`, `our_error_rate`,
+  `known_before_close` by month.
+- `items.csv` and `vendors.csv`: the desk's part and vendor names.
 
-Lines join on the sha256 hash, never on the number, because a revision
-shares its number with the document it replaces.
+`data-live/anomalies.csv`, as project 02 writes it with `python run.py watch`:
+`number`, `supplier`, `kind`, `issue_date`, `week`, `grand_total`,
+`score`, `check`, `stage`, `checks`, `flagged`, `origin`, `decision`.
+An older file without the last two still loads.
 
 ## The tests
 
-Twelve files, 306 tests. `test_look.py` opens the page in Chromium
-through Playwright and reads colour, size and overflow back out of it.
-The values it checks are in [the look](look.md). `tests/fixtures/` holds twelve hand-written
-rows whose figures can be checked by eye. No test touches the network.
-The order to make them pass is in `tests/README.md`.
+Twenty files, 367 tests. `test_look.py` opens the page in Chromium
+through Playwright and reads colour, size, the overlay and overflow back
+out of it, across all three views. The values it checks are in
+[the look](look.md). `tests/fixtures/` holds hand-written files whose
+figures can be checked by eye. No test touches the network.
 
 ## The demo numbers
 
-With the fixtures, on 2026-06-01: 10 documents owed, 67,450.00 total,
-31,750.00 overdue across 4 documents, an average of 31.5 days late.
-The real data holds 90 documents and 1,117,819.58.
+With the fixtures: 4 lines on 3 shipments, 24,659.00 landed, 1,100.00 of
+it provisional, 3,147.50 of credits kept apart.
+
+The real run, in `data-live/`: 1,003 invoices read between 2026-01-02
+and 2026-10-14, 3,940 lines on them, 22 left for a person. 309 cost
+lines on 112 shipments, 26,483,864.42 landed. 786 invoices scored, 163
+flagged, 5,905,553.98 between them.

@@ -1,0 +1,8 @@
+{
+  "analysed_same_day": "96.0",
+  "our_error_rate": "2.5",
+  "known_before_close": {
+    "2026-04": "88.0",
+    "2026-05": "100.0"
+  }
+}

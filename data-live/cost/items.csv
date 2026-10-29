@@ -1,0 +1,17 @@
+code,description,unit_weight_g,unit_m3,units_per_carton,carton_cm,carton_kg,carton_source,hs_code,ncm
+GB-030A,"Glass bottle, round, 30 ml, flint",58.0,0.0001230952380952380952380952381,168,40 x 47 x 11,10.9,"derived: 168 bottles of 31.5 x 86 mm, 12 x 14; colouredbottles.co.uk/products/30ml-clear-dropper-bottle",7010.90,7010.90.22
+GB-050A,"Glass bottle, round, 50 ml, flint",82.0,0.0001735802469135802469135802469,162,38 x 74 x 10,14.8,"derived: 162 bottles of 40 x 83 mm, 9 x 18; colouredbottles.co.uk/products/50ml-clear-glass-cosmetic-bottle-screw-neck",7010.90,7010.90.22
+GB-100B,"Glass bottle, cylinder, 100 ml, frosted",141.0,0.0003605333333333333333333333333,60,32 x 52 x 13,9.5,"derived: 60 bottles of 50 x 111 mm, 6 x 10, 60 a case; containerandpackaging.com/products/glass-cylinder-bottle/g952clf",7010.90,7010.90.22
+PB-200C,"PET bottle, 200 ml, clear",19.0,0.00043264,100,52 x 52 x 16,2.9,"derived: 100 bottles of 50.4 x 140 mm, 10 x 10; packari.com/en/PET-bottle-RIGOLETTO-200-ml-clear.html",3923.30,3923.30.00
+JA-050D,"Acrylic jar, 50 g, double wall",64.0,0.00021866,200,58 x 58 x 13,14.3,"derived: 200 jars of 56 x 56 mm, 10 x 10 x 2 layers; aussiesoapsupplies.com.au/jar-double-wall-50ml/",3923.10,3923.10.90
+TB-075E,"Aluminium tube, 75 ml, internally lacquered",23.0,0.00021021,300,49 x 39 x 33,8.1,"derived: 300 tubes of 31.2 x 185 mm lying, 15 x 2 x 10; environdec.com/library/epd11868",7612.10,7612.10.00
+CP-024F,"Screw cap, 24/410, matte black",4.6,0.0000293436,2500,57 x 33 x 39,12.5,"carton songmile.com/?p=3861; units derived: caps of 27 x 20 mm in bags, half the carton filled",3923.50,3923.50.00
+CP-FT20,"Flip-top cap, 20/410, white",5.1,0.0000293436,2500,57 x 33 x 39,13.8,carton songmile.com/?p=3861; units derived as CP-024F,3923.50,3923.50.00
+PM-024G,"Lotion pump, 24/410, 1.2 cc, silver collar",11.8,0.000080028,1000,54 x 38 x 39,14,"plastemart.com, listing PR-3009: 1,000 a carton, 54 x 38 x 39 cm, 14 kg gross",8424.89,8424.89.90
+SP-018H,"Fine mist sprayer, 18/415, 0.12 cc",8.4,0.00004750489510489510489510489510,1430,54 x 34 x 37,13,"plastemart.com, listing PR-3002: 1,430 a carton, 54 x 34 x 37 cm, 13 kg gross",8424.89,8424.89.90
+DR-030J,"Dropper assembly, 30 ml, graduated pipette",13.2,0.000080028,1000,54 x 38 x 39,14.2,"derived: packed like the 24/410 pump, plastemart.com PR-3009; droppers are of the same size",7010.90,7010.90.22
+LB-GL01,"Adhesive label, 4 colour, gloss laminate",0.9,0.0000015,20000,40 x 30 x 25,19,"derived: 10 rolls of 2,000 labels, 300 x 60 mm each",4821.10,4821.10.00
+LB-MT02,"Adhesive label, 2 colour, matte, textured",1.1,0.0000015,20000,40 x 30 x 25,23,"derived: 10 rolls of 2,000 labels, 300 x 60 mm each",4821.10,4821.10.00
+CT-F350,"Folding carton, 350 gsm, offset printed",12.5,0.000036288,1000,42 x 32 x 27,13.5,"derived: 1,000 cartons shipped flat, 200 x 150 mm, two stacks of 500 at 0.5 mm",4819.10,4819.10.00
+CT-R500,"Rigid gift box, 500 gsm, foil stamped",48.0,0.00099944,100,62 x 62 x 26,6.3,"derived: 100 rigid boxes of 120 x 120 x 60 mm, 5 x 5 x 4, they do not fold",4819.10,4819.10.00
+SH-C32K,"Shipper carton, double wall, 32 ECT",310.0,0.00140616,50,62 x 42 x 27,16,"derived: a bundle of 50 shippers flat, 600 x 400 mm, 5 mm each",4819.10,4819.10.00

@@ -53,7 +53,7 @@ build because no public repository has them.
 Work in the project folder. Everything below assumes:
 
 ```bash
-cd "C:\Users\tavar\OneDrive\Ambiente de Trabalho\contexts\over_employment\Portfolio\manual\02-payables-panel"
+cd "C:\Users\tavar\OneDrive\Ambiente de Trabalho\contexts\over_employment\Portfolio\manual\03-payables-panel"
 ```
 
 Run the whole suite between every step:
@@ -630,12 +630,12 @@ rewriting.
 
 ### The folder name
 
-`02-payables-panel` holds no mailbox. Rename it to
-`02-payables-panel`, which says what is inside. Every link that points at
+`03-payables-panel` holds no mailbox. Rename it to
+`03-payables-panel`, which says what is inside. Every link that points at
 it has to move with it:
 
 ```bash
-rg -n "02-payables-panel" "C:\Users\tavar\OneDrive\Ambiente de Trabalho\contexts\over_employment"
+rg -n "03-payables-panel" "C:\Users\tavar\OneDrive\Ambiente de Trabalho\contexts\over_employment"
 ```
 
 Rename last, after everything else passes, so a broken link is the only
